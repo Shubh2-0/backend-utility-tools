@@ -44,8 +44,23 @@ def call_gemini(api_key, prompt):
         print(f"[ERROR] Failed to generate comment from Gemini: {e}")
         return None
 
+def load_env(env_path):
+    config = {}
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    config[k.strip()] = v.strip()
+    return config
+
 def main():
-    gemini_key = os.environ.get("GEMINI_API_KEY")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    env_path = os.path.join(script_dir, ".env")
+    env = load_env(env_path)
+    
+    gemini_key = env.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
     if not gemini_key:
         print("[ERROR] Missing GEMINI_API_KEY environment variable.")
         return
