@@ -1,0 +1,37 @@
+name: DEV.to Auto-Engager Bot
+
+on:
+  schedule:
+    # Runs twice a day: 10:30 AM IST (5:00 AM UTC) and 10:30 PM IST (5:00 PM UTC)
+    - cron: '0 5,17 * * *'
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  engage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Auto-Engager
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+        run: python devto_engager.py
+
+      - name: Commit & Push processed list
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add processed_articles.txt
+          git diff --staged --quiet || git commit -m "chore: update processed DEV.to articles log"
+          git push
