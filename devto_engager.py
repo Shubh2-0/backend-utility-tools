@@ -61,7 +61,7 @@ def post_comment(devto_key, article_id, comment_body):
     payload = {
         "comment": {
             "body_markdown": comment_body,
-            "commentable_id": article_id,
+            "commentable_id": int(article_id),
             "commentable_type": "Article"
         }
     }
