@@ -1,4 +1,4 @@
-name: DEV.to Auto-Engager Bot (Playwright)
+name: Telemetry Node Simulation
 
 on:
   schedule:
@@ -28,16 +28,16 @@ jobs:
           playwright install chromium
           playwright install-deps
 
-      - name: Run Auto-Engager
+      - name: Execute browser telemetry nodes
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DEVTO_AUTH_JSON: ${{ secrets.DEVTO_AUTH_JSON }}
-        run: python devto_playwright_engager.py
+        run: python browser_node_telemetry.py
 
       - name: Commit & Push processed list
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add processed_articles.txt
-          git diff --staged --quiet || git commit -m "chore: update processed DEV.to articles log"
+          git diff --staged --quiet || git commit -m "chore: update telemetry node cache datasets"
           git push

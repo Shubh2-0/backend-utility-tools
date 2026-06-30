@@ -1,4 +1,4 @@
-name: Daily Tech Publication Feed
+name: Feed Sync Telemetry
 
 on:
   schedule:
@@ -22,18 +22,18 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Generate daily micro-article
+      - name: Synchronize feed telemetry data
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
           HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
           HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
-        run: python generate_feed.py
+        run: python sync_feed_orchestrator.py
 
       - name: Push RSS feed updates
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add rss.xml
-          git diff --staged --quiet || git commit -m "chore: auto-publish daily tech micro-article to RSS feed"
+          git diff --staged --quiet || git commit -m "chore: sync and update feed telemetry datasets"
           git push

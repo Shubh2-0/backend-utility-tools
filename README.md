@@ -1,12 +1,38 @@
-# Developer Publication Feed
+# 📊 Backend Telemetry & Feed Utility Tools
 
-This repository hosts a dynamically generated publication feed containing technical tips, micro-articles and best practices on backend development.
+A collection of utility tools designed to parse, synchronize, and execute telemetry telemetry data nodes, RSS feed orchestration, and automated browser connectivity profiling.
 
-## Content Coverage
-- **Spring Boot & Java:** Microservice architecture, transaction locking and security setups.
-- **Data Engineering:** Event-streaming workflows with Apache Kafka and dynamic Redis caching strategies.
-- **System Design:** Database query optimizations, Bloom Filters and high-throughput systems.
+---
 
-## Feed Endpoint
-The raw RSS feed is generated daily and is served publicly at:
-`https://Shubh2-0.github.io/shubh-feed/rss.xml`
+## ⚙️ Core Modules
+
+*   **`sync_feed_orchestrator.py`**: Handles structured RSS feed generation, validates XML telemetry formats, and updates publication history.
+*   **`browser_node_telemetry.py`**: Executes simulated browser node telemetry requests utilizing Playwright browser profiles to check endpoint latency, connection handshakes, and UI responsiveness.
+
+---
+
+## 🛠️ Stack & Technologies
+
+*   **Language**: Python 3.11
+*   **Emulation Engine**: Playwright
+*   **Orchestration**: GitHub Actions
+
+---
+
+## 🚀 Execution & Setup
+
+### 1. Install Dependencies
+```bash
+pip install playwright
+playwright install chromium
+```
+
+### 2. Local Telemetry Simulation
+```bash
+python browser_node_telemetry.py
+```
+
+### 3. Sync Feeds
+```bash
+python sync_feed_orchestrator.py
+```
