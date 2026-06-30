@@ -151,6 +151,65 @@ def post_to_devto(api_key, title, body, tags):
         print(f"[ERROR] Failed to publish directly to DEV.to: {e}")
         return False
 
+def post_to_hashnode(token, publication_id, title, body, tags):
+    url = "https://gql.hashnode.com"
+    
+    query = """
+    mutation PublishPost($input: PublishPostInput!) {
+      publishPost(input: $input) {
+        post {
+          id
+          url
+        }
+      }
+    }
+    """
+    
+    # Map simple tags to Hashnode tags structure
+    hashnode_tags = []
+    for tag in tags[:5]:
+        slug = "".join([c for c in tag if c.isalnum()]).lower()
+        if slug:
+            hashnode_tags.append({"name": tag, "slug": slug})
+            
+    payload = {
+        "query": query,
+        "variables": {
+            "input": {
+                "publicationId": publication_id,
+                "title": title,
+                "contentMarkdown": body,
+                "tags": hashnode_tags,
+                "disabledComments": False
+            }
+        }
+    }
+    
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}" if not token.startswith("Bearer ") else token
+    }
+    
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers=headers,
+        method="POST"
+    )
+    
+    try:
+        with urllib.request.urlopen(req, timeout=15) as response:
+            res_data = json.loads(response.read().decode("utf-8"))
+            if "errors" in res_data:
+                print(f"[ERROR] Hashnode GraphQL returned errors: {res_data['errors']}")
+                return False
+            post_url = res_data.get("data", {}).get("publishPost", {}).get("post", {}).get("url")
+            print(f"[SUCCESS] Published directly to Hashnode! URL: {post_url}")
+            return True
+    except Exception as e:
+        print(f"[ERROR] Failed to publish directly to Hashnode: {e}")
+        return False
+
 def main():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -192,6 +251,13 @@ def main():
     if devto_key:
         print("[*] Publishing directly to DEV.to via API...")
         post_to_devto(devto_key, title, body, tags)
+        
+    # 3. Publish to Hashnode directly if Token & Publication ID are set
+    hashnode_token = os.environ.get("HASHNODE_TOKEN")
+    hashnode_pub_id = os.environ.get("HASHNODE_PUBLICATION_ID")
+    if hashnode_token and hashnode_pub_id:
+        print("[*] Publishing directly to Hashnode via GraphQL API...")
+        post_to_hashnode(hashnode_token, hashnode_pub_id, title, body, tags)
 
 if __name__ == "__main__":
     main()
