@@ -1,4 +1,4 @@
-name: DEV.to Auto-Engager Bot
+name: DEV.to Auto-Engager Bot (Playwright)
 
 on:
   schedule:
@@ -22,11 +22,16 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install chromium
+          playwright install-deps
+
       - name: Run Auto-Engager
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
-        run: python devto_engager.py
+        run: python devto_playwright_engager.py
 
       - name: Commit & Push processed list
         run: |
