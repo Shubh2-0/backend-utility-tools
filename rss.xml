@@ -5,9 +5,37 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jun 2026 20:06:34 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 30 Jun 2026 20:26:51 GMT</lastBuildDate>
 
     <item>
+      <title>Non-Blocking API Calls with Spring WebClient</title>
+      <link>https://shubhambhati.is-a.dev/posts/non-blocking-api-calls-with-spring-webclient</link>
+      <description>Still using `RestTemplate` for external API calls in your Spring Boot app? You&apos;re likely blocking threads unnecessarily. When a thread waits for an external service, it&apos;s idle but held, limiting your concurrency.
+
+Switch to `WebClient`. It leverages non-blocking reactive streams, freeing your threads immediately after making a request. This significantly improves throughput under load, especially in microservice architectures where services call each other frequently.
+
+Here&apos;s a quick example:
+
+```java
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+// In a service class
+public Mono&lt;SomeResponse&gt; getExternalData(String id) {
+    WebClient client = WebClient.create(&quot;http://external-service.com&quot;);
+    return client.get()
+                 .uri(&quot;/api/data/{id}&quot;, id)
+                 .retrieve()
+                 .bodyToMono(SomeResponse.class);
+}
+```
+
+By returning a `Mono` or `Flux`, you&apos;re telling Spring and Reactor &quot;I&apos;ll get this data eventually, but don&apos;t wait on me.&quot; Your application can handle more requests with the same resources. It&apos;s a game-changer for API performance.</description>
+      <pubDate>Tue, 30 Jun 2026 20:26:51 GMT</pubDate>
+      <guid isPermaLink="false">non-blocking-api-calls-with-spring-webclient-1782851211</guid>
+    </item>
+
+<item>
       <title>Don't Fetch What You Don't Need</title>
       <link>https://shubhambhati.is-a.dev/posts/don-t-fetch-what-you-don-t-need</link>
       <description>Ever found yourself fetching a full entity from the database just to check if it exists? You might do `userRepository.findById(id).isPresent()` to confirm. While this works, it often pulls the entire row from your database, maps it to an object and then you just discard most of that work. That&apos;s a performance hit we can avoid.
