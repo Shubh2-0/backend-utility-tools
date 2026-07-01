@@ -5,9 +5,38 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Jun 2026 21:17:54 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 07:55:35 GMT</lastBuildDate>
 
     <item>
+      <title>Don't Block Your APIs: Go Async with CompletableFuture</title>
+      <link>https://shubhambhati.is-a.dev/posts/don-t-block-your-apis-go-async-with-completablefuture</link>
+      <description>You&apos;re building an API that needs to hit multiple external services or do heavy computation. If you&apos;re doing this sequentially within a single request thread, you&apos;re blocking your web server and wasting resources. Your API latency shoots up and throughput plummets.
+
+Instead, embrace asynchronous processing with `CompletableFuture`. Wrap those long-running operations in `CompletableFuture` and let your web thread return immediately, processing other requests. When all async tasks complete, assemble the results.
+
+Here&apos;s how a Spring `RestController` might use it:
+
+```java
+@GetMapping(&quot;/data&quot;)
+public CompletableFuture&lt;DataAggregate&gt; getData() {
+    CompletableFuture&lt;String&gt; userDetails = userService.fetchUserDetails();
+    CompletableFuture&lt;List&lt;Item&gt;&gt; inventoryItems = inventoryService.fetchItems();
+
+    return CompletableFuture.allOf(userDetails, inventoryItems)
+            .thenApply(ignored -&gt; {
+                String user = userDetails.join();
+                List&lt;Item&gt; items = inventoryItems.join();
+                return new DataAggregate(user, items);
+            });
+}
+```
+
+Remember to configure a dedicated `ThreadPoolExecutor` for these async tasks to prevent thread pool exhaustion and fine-tune your concurrency. Your API will thank you with improved responsiveness and higher throughput.</description>
+      <pubDate>Wed, 01 Jul 2026 07:55:35 GMT</pubDate>
+      <guid isPermaLink="false">don-t-block-your-apis-go-async-with-completablefuture-1782892535</guid>
+    </item>
+
+<item>
       <title>Beat the N+1 Query Beast in Spring Boot</title>
       <link>https://shubhambhati.is-a.dev/posts/beat-the-n-1-query-beast-in-spring-boot</link>
       <description>You&apos;ve got an API fetching a list of parent entities and for each parent you need to display some child data. The common mistake is to let Spring Data JPA fetch the parent list then lazily load children in a loop triggering N+1 queries. That&apos;s a performance killer.
