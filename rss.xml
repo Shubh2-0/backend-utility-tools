@@ -5,9 +5,34 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jul 2026 06:55:18 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jul 2026 06:48:24 GMT</lastBuildDate>
 
     <item>
+      <title>Crush N+1 Queries for Faster APIs</title>
+      <link>https://shubhambhati.is-a.dev/posts/crush-n-1-queries-for-faster-apis</link>
+      <description>Ever seen an API that should be fast but isn&apos;t? Check your database interactions. A common culprit is the N+1 query problem, especially with lazy-loaded collections in JPA. You load one parent entity, then N separate queries fire to fetch each of its child collections. Massive overhead.
+
+Imagine loading 100 `Order` entities, each with a lazy `List&lt;OrderItem&gt;`. That&apos;s 101 database queries for a single API call! Ouch.
+
+The fix is often simple: tell JPA to fetch related entities in one go. Use `JOIN FETCH` in your Spring Data JPA repository methods.
+
+```java
+public interface OrderRepository extends JpaRepository&lt;Order, Long&gt; {
+    @Query(&quot;SELECT o FROM Order o JOIN FETCH o.items WHERE o.id = :orderId&quot;)
+    Optional&lt;Order&gt; findByIdWithItems(@Param(&quot;orderId&quot;) Long orderId);
+
+    // Or for all orders with items:
+    @Query(&quot;SELECT DISTINCT o FROM Order o JOIN FETCH o.items&quot;)
+    List&lt;Order&gt; findAllWithItems();
+}
+```
+
+This transforms N+1 queries into a single, efficient join. Your database will thank you and your API performance will soar. Don&apos;t let lazy loading make your APIs lazy.</description>
+      <pubDate>Fri, 03 Jul 2026 06:48:24 GMT</pubDate>
+      <guid isPermaLink="false">crush-n-1-queries-for-faster-apis-1783061304</guid>
+    </item>
+
+<item>
       <title>Optimize Read-Heavy API Performance</title>
       <link>https://shubhambhati.is-a.dev/posts/optimize-read-heavy-api-performance</link>
       <description>Building read-heavy APIs? Don&apos;t let your ORM do unnecessary work. By default, `@Transactional` implies a write-capable session. For operations that only fetch data, you&apos;re paying for dirty checking and other write-related overhead you simply don&apos;t need.
