@@ -5,9 +5,37 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Jul 2026 06:48:24 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 04 Jul 2026 06:35:22 GMT</lastBuildDate>
 
     <item>
+      <title>Idempotent APIs: Your Secret Weapon</title>
+      <link>https://shubhambhati.is-a.dev/posts/idempotent-apis-your-secret-weapon</link>
+      <description>Dealing with network retries or flaky clients often means processing the same request multiple times. If your API isn&apos;t idempotent, you&apos;re creating duplicate data or unintended side effects.
+
+A common pitfall is complex application-level checks. The simplest, most robust solution? Let your database do the heavy lifting. Introduce an `idempotencyKey` in your request payload and persist it in your database table with a unique constraint.
+
+Here&apos;s how a Spring Boot entity might look:
+
+```java
+@Entity
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String idempotencyKey;
+
+    // other order details
+}
+```
+
+When a request with an existing `idempotencyKey` comes in again, PostgreSQL will throw a `DataIntegrityViolationException`. Your service catches this, returning a success status (e.g., 200 OK or 202 Accepted) indicating the operation was already processed. This offloads the state management to your reliable data store and simplifies your service logic significantly. No more race conditions trying to check then insert.</description>
+      <pubDate>Sat, 04 Jul 2026 06:35:22 GMT</pubDate>
+      <guid isPermaLink="false">idempotent-apis-your-secret-weapon-1783146922</guid>
+    </item>
+
+<item>
       <title>Crush N+1 Queries for Faster APIs</title>
       <link>https://shubhambhati.is-a.dev/posts/crush-n-1-queries-for-faster-apis</link>
       <description>Ever seen an API that should be fast but isn&apos;t? Check your database interactions. A common culprit is the N+1 query problem, especially with lazy-loaded collections in JPA. You load one parent entity, then N separate queries fire to fetch each of its child collections. Massive overhead.
