@@ -5,9 +5,40 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Jul 2026 06:35:22 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jul 2026 06:55:16 GMT</lastBuildDate>
 
     <item>
+      <title>Boost API Speed with Smart Spring Boot Caching</title>
+      <link>https://shubhambhati.is-a.dev/posts/boost-api-speed-with-smart-spring-boot-caching</link>
+      <description>Tired of slow API responses hitting your database for the same data repeatedly? It&apos;s a common bottleneck. Instead of always fetching from the primary store, let&apos;s put Redis to work for blazing fast reads.
+
+Spring Boot makes this incredibly simple. Just enable caching with `@EnableCaching` on your configuration class and then mark methods that produce frequently accessed but slow-to-retrieve data with `@Cacheable`.
+
+```java
+@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Cacheable(value = &quot;products&quot;, key = &quot;#id&quot;)
+    public Product getProductById(Long id) {
+        System.out.println(&quot;Fetching product from DB: &quot; + id); // Simulates DB call
+        return productRepository.findById(id)
+                                .orElseThrow(() -&gt; new NotFoundException(&quot;Product not found&quot;));
+    }
+}
+```
+
+The first call for a given `id` goes to the database and stores the result in Redis under the `products` cache. Subsequent calls for that same `id` hit the cache directly, bypassing the database entirely. Remember to configure your `CacheManager` for Redis. This dramatically cuts down latency for read-heavy operations, giving your users a snappier experience without complex code.</description>
+      <pubDate>Sun, 05 Jul 2026 06:55:16 GMT</pubDate>
+      <guid isPermaLink="false">boost-api-speed-with-smart-spring-boot-caching-1783234516</guid>
+    </item>
+
+<item>
       <title>Idempotent APIs: Your Secret Weapon</title>
       <link>https://shubhambhati.is-a.dev/posts/idempotent-apis-your-secret-weapon</link>
       <description>Dealing with network retries or flaky clients often means processing the same request multiple times. If your API isn&apos;t idempotent, you&apos;re creating duplicate data or unintended side effects.
@@ -244,37 +275,6 @@ public class ProductService {
 The first time `getProductDetails(1)` is called, your service logic executes and the result is stored in the `products` cache. Any subsequent calls for `getProductDetails(1)` will retrieve the `Product` directly from Redis, completely bypassing your service method. Remember to configure Redis in `application.properties`. It&apos;s a fundamental move for scalable backend systems.</description>
       <pubDate>Tue, 30 Jun 2026 20:05:05 GMT</pubDate>
       <guid isPermaLink="false">turbocharge-apis-with-spring-boot-redis-caching-1782849905</guid>
-    </item>
-
-<item>
-      <title>Turbocharge Read APIs with `@Cacheable` and Redis</title>
-      <link>https://shubhambhati.is-a.dev/posts/turbocharge-read-apis-with-cacheable-and-redis</link>
-      <description>Don&apos;t let your database be the bottleneck for frequently accessed data. If your Spring Boot API constantly fetches &quot;hot&quot; information like product catalogs or popular articles from PostgreSQL, you&apos;re needlessly burning resources. Caching is your immediate win here.
-
-Spring&apos;s `@Cacheable` annotation provides a powerful, declarative way to cache method results. Pair it with Redis as your distributed cache store and watch your API performance soar.
-
-```java
-@Service
-public class ProductService {
-
-    private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    @Cacheable(value = &quot;products&quot;, key = &quot;#categoryId&quot;)
-    public List&lt;Product&gt; getProductsByCategory(Long categoryId) {
-        // This line only executes if cache misses
-        System.out.println(&quot;Fetching products from DB for category: &quot; + categoryId);
-        return productRepository.findByCategoryId(categoryId);
-    }
-}
-```
-
-With a properly configured `RedisCacheManager` in Spring, this simple annotation ensures `getProductsByCategory` executes its logic only once per `categoryId` until the cache expires. Subsequent calls retrieve data directly from Redis, drastically cutting database load and shaving milliseconds off your response times. Efficient and effective.</description>
-      <pubDate>Tue, 30 Jun 2026 18:58:23 GMT</pubDate>
-      <guid isPermaLink="false">turbocharge-read-apis-with-cacheable-and-redis-1782845903</guid>
     </item>
   </channel>
 </rss>
