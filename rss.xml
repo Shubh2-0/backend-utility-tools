@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Jul 2026 06:55:16 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 06 Jul 2026 08:04:01 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Your N+1 Queries From Killing Performance</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-your-n-1-queries-from-killing-performance</link>
+      <description>You know that dreaded N+1 query problem, right? When you fetch a list of `Orders` and then lazily load each `Customer` inside a loop? That&apos;s your database taking a hit, turning one query into N+1 for N orders. Performance tanks, especially under load.
+
+Instead of letting JPA make a separate query for every associated entity, explicitly tell it to fetch everything at once. Use a `FETCH JOIN` in your JPQL or leverage an `@EntityGraph`. It&apos;s a simple change with a massive performance win.
+
+```java
+// Avoid N+1 for customer details
+@Query(&quot;SELECT o FROM Order o JOIN FETCH o.customer&quot;)
+List&lt;Order&gt; findAllOrdersWithCustomers();
+```
+
+This single query now retrieves all `Order` and `Customer` data in one go. Less round trips to the database, faster responses. Always profile your queries and watch that network tab.</description>
+      <pubDate>Mon, 06 Jul 2026 08:04:01 GMT</pubDate>
+      <guid isPermaLink="false">stop-your-n-1-queries-from-killing-performance-1783325041</guid>
+    </item>
+
+<item>
       <title>Boost API Speed with Smart Spring Boot Caching</title>
       <link>https://shubhambhati.is-a.dev/posts/boost-api-speed-with-smart-spring-boot-caching</link>
       <description>Tired of slow API responses hitting your database for the same data repeatedly? It&apos;s a common bottleneck. Instead of always fetching from the primary store, let&apos;s put Redis to work for blazing fast reads.
@@ -249,32 +267,6 @@ if (userRepository.existsById(userId)) {
 This `existsById` call translates to a `SELECT COUNT(*)` query at the database level, which is significantly lighter than a full `SELECT *`. It reduces data transfer, object creation and database load, making your APIs snappier. Small change, big impact.</description>
       <pubDate>Tue, 30 Jun 2026 20:06:34 GMT</pubDate>
       <guid isPermaLink="false">don-t-fetch-what-you-don-t-need-1782849994</guid>
-    </item>
-
-<item>
-      <title>Turbocharge APIs with Spring Boot Redis Caching</title>
-      <link>https://shubhambhati.is-a.dev/posts/turbocharge-apis-with-spring-boot-redis-caching</link>
-      <description>You build APIs. Many fetch data that doesn&apos;t change every microsecond. Hitting the database for every request is often a performance bottleneck and a waste of resources. This is where Redis caching becomes your best friend. Spring Boot makes it ridiculously easy.
-
-First, enable caching with `@EnableCaching` on your main application class. Then, for any method whose return value you want to cache, just slap on `@Cacheable`.
-
-```java
-@Service
-public class ProductService {
-
-    @Cacheable(value = &quot;products&quot;, key = &quot;#productId&quot;)
-    public Product getProductDetails(Long productId) {
-        // Simulating a costly database fetch
-        System.out.println(&quot;Fetching product from DB for ID: &quot; + productId);
-        try { Thread.sleep(400); } catch (InterruptedException e) {}
-        return new Product(productId, &quot;Awesome Gadget &quot; + productId);
-    }
-}
-```
-
-The first time `getProductDetails(1)` is called, your service logic executes and the result is stored in the `products` cache. Any subsequent calls for `getProductDetails(1)` will retrieve the `Product` directly from Redis, completely bypassing your service method. Remember to configure Redis in `application.properties`. It&apos;s a fundamental move for scalable backend systems.</description>
-      <pubDate>Tue, 30 Jun 2026 20:05:05 GMT</pubDate>
-      <guid isPermaLink="false">turbocharge-apis-with-spring-boot-redis-caching-1782849905</guid>
     </item>
   </channel>
 </rss>
