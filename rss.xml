@@ -5,9 +5,41 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Jul 2026 07:02:17 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 07:03:18 GMT</lastBuildDate>
 
     <item>
+      <title>Smarter Environment-Specific Beans</title>
+      <link>https://shubhambhati.is-a.dev/posts/smarter-environment-specific-beans</link>
+      <description>Ever found yourself commenting out local-only configurations or using cumbersome if-else blocks for different environments? There’s a cleaner way: Spring’s `@Profile` annotation.
+
+It lets you define beans that are *only* active when a specific profile is enabled. This is fantastic for things like mocking external services locally or using a different message broker for development versus production.
+
+Imagine you need a local-only data source or a specific `RestTemplate` configuration for your integration tests:
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Profile(&quot;dev&quot;)
+    @Bean
+    public MyDevService devService() {
+        return new MyDevServiceImpl(&quot;localhost:8080&quot;);
+    }
+
+    @Profile(&quot;prod&quot;)
+    @Bean
+    public MyProdService prodService() {
+        return new MyProdServiceImpl(&quot;prod.api.example.com&quot;);
+    }
+}
+```
+
+Now, when you run your app with `-Dspring.profiles.active=dev`, only `devService` loads. For production, use `prod` and `prodService` takes over. No messy conditional logic in your code. Just distinct, well-defined configurations for each environment. Keep your builds clean and deployments predictable.</description>
+      <pubDate>Thu, 09 Jul 2026 07:03:18 GMT</pubDate>
+      <guid isPermaLink="false">smarter-environment-specific-beans-1783580598</guid>
+    </item>
+
+<item>
       <title>Your `@Transactional` Internal Call Is a Lie</title>
       <link>https://shubhambhati.is-a.dev/posts/your-transactional-internal-call-is-a-lie</link>
       <description>Got a Spring service? You write a `@Transactional` method. Inside it, you call another private or protected method also annotated `@Transactional`. You expect separate transaction behavior or isolation. Here&apos;s the kicker: it often won&apos;t happen.
@@ -246,34 +278,6 @@ lineItemRepository.save(newItem); // Only now is the Order ID part of the INSERT
 This tiny optimization significantly reduces redundant queries and improves performance in high-volume write operations. Keep your database calls lean.</description>
       <pubDate>Tue, 30 Jun 2026 20:28:45 GMT</pubDate>
       <guid isPermaLink="false">optimize-jpa-relationships-with-getreferencebyid-1782851325</guid>
-    </item>
-
-<item>
-      <title>Non-Blocking API Calls with Spring WebClient</title>
-      <link>https://shubhambhati.is-a.dev/posts/non-blocking-api-calls-with-spring-webclient</link>
-      <description>Still using `RestTemplate` for external API calls in your Spring Boot app? You&apos;re likely blocking threads unnecessarily. When a thread waits for an external service, it&apos;s idle but held, limiting your concurrency.
-
-Switch to `WebClient`. It leverages non-blocking reactive streams, freeing your threads immediately after making a request. This significantly improves throughput under load, especially in microservice architectures where services call each other frequently.
-
-Here&apos;s a quick example:
-
-```java
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-
-// In a service class
-public Mono&lt;SomeResponse&gt; getExternalData(String id) {
-    WebClient client = WebClient.create(&quot;http://external-service.com&quot;);
-    return client.get()
-                 .uri(&quot;/api/data/{id}&quot;, id)
-                 .retrieve()
-                 .bodyToMono(SomeResponse.class);
-}
-```
-
-By returning a `Mono` or `Flux`, you&apos;re telling Spring and Reactor &quot;I&apos;ll get this data eventually, but don&apos;t wait on me.&quot; Your application can handle more requests with the same resources. It&apos;s a game-changer for API performance.</description>
-      <pubDate>Tue, 30 Jun 2026 20:26:51 GMT</pubDate>
-      <guid isPermaLink="false">non-blocking-api-calls-with-spring-webclient-1782851211</guid>
     </item>
   </channel>
 </rss>
