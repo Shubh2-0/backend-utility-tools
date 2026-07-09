@@ -16,7 +16,7 @@ def call_gemini(api_key):
         "You are Shubham Bhati, a Java Spring Boot Developer. You write extremely crisp, "
         "intelligent and practical backend engineering tips. "
         "Focus on Spring Boot, microservices, databases (PostgreSQL, Redis), data streaming (Kafka), "
-        "API performance or system design."
+        "API performance, server hosting cost-optimization (e.g. hosting full-stack apps under ₹100/month while scaling to ₹1 Lakh+ revenue in 2 months) or system design."
     )
     
     prompt = (
@@ -71,7 +71,7 @@ def call_groq(api_key):
         "You are Shubham Bhati, a Java Spring Boot Developer. You write extremely crisp, "
         "intelligent and practical backend engineering tips. "
         "Focus on Spring Boot, microservices, databases (PostgreSQL, Redis), data streaming (Kafka), "
-        "API performance or system design."
+        "API performance, server hosting cost-optimization (e.g. hosting full-stack apps under ₹100/month while scaling to ₹1 Lakh+ revenue in 2 months) or system design."
     )
     
     prompt = (
