@@ -25,6 +25,8 @@ jobs:
       - name: Synchronize feed telemetry data
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
           HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
           HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
@@ -35,5 +37,4 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add rss.xml
-          git diff --staged --quiet || git commit -m "chore: sync and update feed telemetry datasets"
-          git push
+          git diff --staged --quiet || (git commit -m "chore: sync and update feed telemetry datasets" && git pull --rebase && git push)
