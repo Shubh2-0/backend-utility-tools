@@ -10,7 +10,7 @@ def strip_oxford_comma(text):
     return _OXFORD_COMMA_RE.sub(' and', text)
 
 def call_gemini(api_key):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+    models = ["gemini-3.5-flash", "gemini-2.0-flash", "gemini-2.5-flash-lite", "gemini-flash-latest", "gemini-pro-latest"]
     
     system_instruction = (
         "You are Shubham Bhati, a Java Spring Boot Developer. You write extremely crisp, "
@@ -39,21 +39,34 @@ def call_gemini(api_key):
         }]
     }
     
-    req = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
-    
-    try:
-        with urllib.request.urlopen(req, timeout=15) as response:
-            res_data = json.loads(response.read().decode("utf-8"))
-            raw_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
-            return strip_oxford_comma(raw_text)
-    except Exception as e:
-        print(f"[ERROR] Failed to fetch content from Gemini: {e}")
-        return None
+    for model_name in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
+        
+        try:
+            print(f"[*] Trying to generate content using model: {model_name}...")
+            with urllib.request.urlopen(req, timeout=15) as response:
+                res_data = json.loads(response.read().decode("utf-8"))
+                raw_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                print(f"[SUCCESS] Content generated successfully using {model_name}!")
+                return strip_oxford_comma(raw_text)
+        except Exception as e:
+            print(f"[WARNING] Failed to fetch content from Gemini with model {model_name}: {e}")
+            if hasattr(e, "read"):
+                try:
+                    err_details = json.loads(e.read().decode("utf-8"))
+                    print(f"    Details: {err_details.get('error', {}).get('message')}")
+                except Exception:
+                    pass
+            continue
+            
+    print("[ERROR] All fallback models failed to generate content.")
+    return None
 
 def build_rss_item(title, body):
     pub_date = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
