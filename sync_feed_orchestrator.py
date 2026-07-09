@@ -49,24 +49,91 @@ def call_gemini(api_key):
         )
         
         try:
-            print(f"[*] Trying to generate content using model: {model_name}...")
+            print(f"  [*] Trying model: {model_name}...")
             with urllib.request.urlopen(req, timeout=15) as response:
                 res_data = json.loads(response.read().decode("utf-8"))
                 raw_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
-                print(f"[SUCCESS] Content generated successfully using {model_name}!")
+                print(f"  [SUCCESS] Generated using {model_name}!")
                 return strip_oxford_comma(raw_text)
         except Exception as e:
-            print(f"[WARNING] Failed to fetch content from Gemini with model {model_name}: {e}")
-            if hasattr(e, "read"):
-                try:
-                    err_details = json.loads(e.read().decode("utf-8"))
-                    print(f"    Details: {err_details.get('error', {}).get('message')}")
-                except Exception:
-                    pass
-            continue
+            # Silence details unless debugging to keep logs neat
+            pass
             
-    print("[ERROR] All fallback models failed to generate content.")
     return None
+
+def call_groq(api_key):
+    url = "https://api.groq.com/openai/v1/chat/completions"
+    
+    system_instruction = (
+        "You are Shubham Bhati, a Java Spring Boot Developer. You write extremely crisp, "
+        "intelligent, and practical backend engineering tips. "
+        "Focus on Spring Boot, microservices, databases (PostgreSQL, Redis), data streaming (Kafka), "
+        "API performance, or system design."
+    )
+    
+    prompt = (
+        "Write a short, engaging technical backend tip or micro-article. "
+        "Requirements:\n"
+        "1. Write strictly in a human-like, conversational tone (no 'Dear readers' or 'In this post').\n"
+        "2. Include a specific Java/Spring Boot code snippet or system design explanation where relevant.\n"
+        "3. Do NOT use hashtags, emojis, or Oxford commas (never put a comma before 'and').\n"
+        "4. Avoid formal lectures. Keep it short (under 200 words).\n"
+        "5. Title the post on the first line starting with 'Title: [Title]'.\n"
+        "6. Provide 3-4 lowercase tags on the second line starting with 'Tags: tag1, tag2, tag3'.\n"
+        "7. The rest should be the body content."
+    )
+    
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7
+    }
+    
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+            "User-Agent": "Mozilla/5.0"
+        },
+        method="POST"
+    )
+    
+    try:
+        print("  [*] Trying Groq (llama-3.3-70b-versatile)...")
+        with urllib.request.urlopen(req, timeout=15) as response:
+            res_data = json.loads(response.read().decode("utf-8"))
+            raw_text = res_data["choices"][0]["message"]["content"].strip()
+            print("  [SUCCESS] Generated using Groq!")
+            return strip_oxford_comma(raw_text)
+    except Exception as e:
+        print(f"  [ERROR] Groq generation failed: {e}")
+        return None
+
+def generate_content(gemini_keys_str, groq_key_str):
+    gemini_keys = [k.strip() for k in gemini_keys_str.split(",") if k.strip()] if gemini_keys_str else []
+    
+    # 1. Try Gemini keys first (with fallbacks)
+    for i, api_key in enumerate(gemini_keys):
+        print(f"[*] Attempting Gemini generation with Key #{i+1}...")
+        res = call_gemini(api_key)
+        if res:
+            return res
+            
+    # 2. Try Groq as fallback
+    if groq_key_str:
+        print("[*] All Gemini options failed or rate-limited. Falling back to Groq...")
+        res = call_groq(groq_key_str)
+        if res:
+            return res
+            
+    print("[ERROR] All content generation attempts failed (Gemini and Groq).")
+    return None
+
 
 def build_rss_item(title, body):
     pub_date = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -224,13 +291,15 @@ def post_to_hashnode(token, publication_id, title, body, tags):
         return False
 
 def main():
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        print("[ERROR] GEMINI_API_KEY variable is missing. Exiting.")
+    gemini_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY")
+    groq_key = os.environ.get("GROQ_API_KEY")
+    
+    if not gemini_keys and not groq_key:
+        print("[ERROR] Both GEMINI_API_KEYS and GROQ_API_KEY are missing. Exiting.")
         return
         
     print("[*] Generating new daily article content...")
-    raw_content = call_gemini(api_key)
+    raw_content = generate_content(gemini_keys, groq_key)
     if not raw_content:
         return
         
