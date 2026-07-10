@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jul 2026 07:03:18 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2026 07:02:56 GMT</lastBuildDate>
 
     <item>
+      <title>Spring Boot Database Connection Pooling</title>
+      <link>https://shubhambhati.is-a.dev/posts/spring-boot-database-connection-pooling</link>
+      <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a huge difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. Spring Boot makes this easy with the HikariCP library. We just need to add the dependency to our pom.xml file and configure the connection pool properties. For example, we can set the minimum and maximum pool size like this: 
+@Bean 
+public DataSource dataSource() { 
+    return DataSourceBuilder.create() 
+        .driverClassName(&quot;org.postgresql.Driver&quot;) 
+        .url(&quot;jdbc:postgresql://localhost:5432/mydb&quot;) 
+        .username(&quot;myuser&quot;) 
+        .password(&quot;mypassword&quot;) 
+        .build(); 
+} 
+Then we can configure the pool size in our application.properties file: spring.datasource.hikari.minimumPoolSize=5 and spring.datasource.hikari.maximumPoolSize=15. This way, our application doesn&apos;t run out of connections when handling a large number of requests.</description>
+      <pubDate>Fri, 10 Jul 2026 07:02:56 GMT</pubDate>
+      <guid isPermaLink="false">spring-boot-database-connection-pooling-1783666976</guid>
+    </item>
+
+<item>
       <title>Smarter Environment-Specific Beans</title>
       <link>https://shubhambhati.is-a.dev/posts/smarter-environment-specific-beans</link>
       <description>Ever found yourself commenting out local-only configurations or using cumbersome if-else blocks for different environments? There’s a cleaner way: Spring’s `@Profile` annotation.
@@ -252,32 +270,6 @@ List&lt;Parent&gt; findAllWithChildren();
 This single `SELECT` query grabs all parents *and* their associated children in one shot hydrating your entities properly. For read-heavy operations especially when exposing nested data via DTOs this is a game-changer. Avoids multiple database round trips keeping your API fast and your database happy.</description>
       <pubDate>Tue, 30 Jun 2026 21:17:54 GMT</pubDate>
       <guid isPermaLink="false">beat-the-n-1-query-beast-in-spring-boot-1782854274</guid>
-    </item>
-
-<item>
-      <title>Optimize JPA Relationships with getReferenceById</title>
-      <link>https://shubhambhati.is-a.dev/posts/optimize-jpa-relationships-with-getreferencebyid</link>
-      <description>When building relationships in JPA, how do you link a child entity to an existing parent without needlessly hitting the database for the parent&apos;s full data? Don&apos;t reach for `findById` if you only have the parent&apos;s ID.
-
-`repository.findById(id)` *always* fetches the entity from the database. If you just need to set a foreign key, like when creating a `LineItem` and linking it to an `Order`, this is an unnecessary read.
-
-Instead, use `repository.getReferenceById(id)`. This method returns a proxy object, an entity reference, without executing a SELECT query. The database is only hit if you access a field on that proxy *other than its ID*.
-
-```java
-// Assuming Order exists with ID 123
-Order orderRef = orderRepository.getReferenceById(123L);
-
-LineItem newItem = new LineItem();
-newItem.setName(&quot;Awesome Widget&quot;);
-newItem.setPrice(BigDecimal.valueOf(29.99));
-newItem.setOrder(orderRef); // Associates without loading the full Order entity
-
-lineItemRepository.save(newItem); // Only now is the Order ID part of the INSERT
-```
-
-This tiny optimization significantly reduces redundant queries and improves performance in high-volume write operations. Keep your database calls lean.</description>
-      <pubDate>Tue, 30 Jun 2026 20:28:45 GMT</pubDate>
-      <guid isPermaLink="false">optimize-jpa-relationships-with-getreferencebyid-1782851325</guid>
     </item>
   </channel>
 </rss>
