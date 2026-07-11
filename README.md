@@ -36,3 +36,9 @@ python browser_node_telemetry.py
 ```bash
 python sync_feed_orchestrator.py
 ```
+
+---
+
+## 👤 Author
+*   **Shubham Bhati** (Java Backend Engineer) - [LinkedIn](https://www.linkedin.com/in/bhatishubham) | [Portfolio](https://shubhambhati.is-a.dev)
+
