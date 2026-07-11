@@ -1,3 +1,4 @@
 # Processed articles list
 
 1_postgres_concurrency_locking.md
+2_redis_caching_strategies.md
