@@ -5,9 +5,30 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jul 2026 20:29:27 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jul 2026 21:24:07 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
+      <description>If you are running Spring Boot, PostgreSQL and Redis on a 512MB RAM VPS to keep costs under ₹100/month, the default HikariCP connection pool will crash your system. Spring Boot defaults to 10 connections. Add database memory overhead and your tiny server instantly runs out of memory.
+
+For early-stage apps making money, you don&apos;t need 10 active connections. A pool size of 2 or 3 can easily handle dozens of concurrent users because database operations finish in milliseconds.
+
+Limit your pool size in `application.properties`:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
+spring.datasource.hikari.idle-timeout=10000
+spring.datasource.hikari.max-lifetime=30000
+```
+
+This simple change keeps your memory footprint low. We scaled a production app to ₹1 Lakh revenue using just 3 connections on a cheap VPS. Stop overpaying for cloud databases when a tiny VPS can do the job.</description>
+      <pubDate>Sat, 11 Jul 2026 21:24:07 GMT</pubDate>
+      <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1783805047</guid>
+    </item>
+
+<item>
       <title>Spring Boot Validation: Don't Reinvent the Wheel</title>
       <link>https://shubhambhati.is-a.dev/posts/spring-boot-validation-don-t-reinvent-the-wheel</link>
       <description>You&apos;re building a new API endpoint and need to validate incoming request data. Most of us grab a bunch of `if` statements. Stop right there. Spring Boot&apos;s got your back with JSR 380 (Jakarta Bean Validation).
@@ -249,40 +270,6 @@ public interface OrderRepository extends JpaRepository&lt;Order, Long&gt; {
 This transforms N+1 queries into a single, efficient join. Your database will thank you and your API performance will soar. Don&apos;t let lazy loading make your APIs lazy.</description>
       <pubDate>Fri, 03 Jul 2026 06:48:24 GMT</pubDate>
       <guid isPermaLink="false">crush-n-1-queries-for-faster-apis-1783061304</guid>
-    </item>
-
-<item>
-      <title>Optimize Read-Heavy API Performance</title>
-      <link>https://shubhambhati.is-a.dev/posts/optimize-read-heavy-api-performance</link>
-      <description>Building read-heavy APIs? Don&apos;t let your ORM do unnecessary work. By default, `@Transactional` implies a write-capable session. For operations that only fetch data, you&apos;re paying for dirty checking and other write-related overhead you simply don&apos;t need.
-
-Marking your service methods with `@Transactional(readOnly = true)` tells Spring and your JPA provider (like Hibernate) that the session is strictly for reads. This allows Hibernate to perform critical optimizations: it won&apos;t flush changes to the database, won&apos;t hold onto entities for dirty checking and can potentially use a read-only JDBC connection if configured.
-
-It&apos;s a small change with a noticeable performance gain, especially under heavy load.
-
-```java
-@Service
-public class ProductService {
-
-    @Transactional(readOnly = true)
-    public List&lt;ProductDTO&gt; getAllProducts() {
-        // Fetch products, map to DTOs
-        return productRepository.findAll().stream()
-               .map(ProductDTO::fromEntity)
-               .toList();
-    }
-
-    @Transactional
-    public Product createProduct(Product product) {
-        // Persist new product
-        return productRepository.save(product);
-    }
-}
-```
-
-This simple tweak keeps your read paths lean and efficient.</description>
-      <pubDate>Thu, 02 Jul 2026 06:55:18 GMT</pubDate>
-      <guid isPermaLink="false">optimize-read-heavy-api-performance-1782975318</guid>
     </item>
   </channel>
 </rss>
