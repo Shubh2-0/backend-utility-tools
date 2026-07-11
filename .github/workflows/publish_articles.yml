@@ -1,0 +1,39 @@
+name: Publish Portfolio Articles
+
+on:
+  push:
+    paths:
+      - 'articles/**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Publish articles to Dev.to
+        run: python -u publish_portfolio_articles.py
+        env:
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          EMAIL_SMTP_SERVER: ${{ secrets.EMAIL_SMTP_SERVER }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+
+      - name: Commit tracking state updates
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add processed_articles.txt
+          git diff --staged --quiet || (git commit -m "chore: sync published articles tracking state" && git pull --rebase && git push)
