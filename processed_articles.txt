@@ -1,1 +1,3 @@
 # Processed articles list
+
+1_postgres_concurrency_locking.md
