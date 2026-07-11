@@ -5,9 +5,47 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jul 2026 05:58:20 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jul 2026 20:29:27 GMT</lastBuildDate>
 
     <item>
+      <title>Spring Boot Validation: Don't Reinvent the Wheel</title>
+      <link>https://shubhambhati.is-a.dev/posts/spring-boot-validation-don-t-reinvent-the-wheel</link>
+      <description>You&apos;re building a new API endpoint and need to validate incoming request data. Most of us grab a bunch of `if` statements. Stop right there. Spring Boot&apos;s got your back with JSR 380 (Jakarta Bean Validation).
+
+Just add the `spring-boot-starter-validation` dependency. Then, annotate your DTO with `@Valid` and your fields with constraints like `@NotNull` `@Size(min=2 max=10)` or `@Email`. Spring Boot automatically handles validation errors, returning a `400 Bad Request` with details. It&apos;s way cleaner and more maintainable.
+
+```java
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class UserRequest {
+    @NotBlank
+    @Size(min = 2 max = 50)
+    private String name;
+
+    @NotBlank
+    @Email
+    private String email;
+
+    // Getters and Setters
+}
+```
+
+Then in your controller:
+
+```java
+@PostMapping(&quot;/users&quot;)
+public ResponseEntity&lt;?&gt; createUser(@Valid @RequestBody UserRequest request) {
+    // ... your logic
+    return ResponseEntity.ok(&quot;User created&quot;);
+}
+```</description>
+      <pubDate>Sat, 11 Jul 2026 20:29:27 GMT</pubDate>
+      <guid isPermaLink="false">spring-boot-validation-don-t-reinvent-the-wheel-1783801767</guid>
+    </item>
+
+<item>
       <title>Stop Manual JSON Parsing in Spring Boot</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-manual-json-parsing-in-spring-boot</link>
       <description>You&apos;re probably still writing boilerplate code to parse JSON requests in your Spring Boot controllers. It&apos;s 2024 folks! Spring Boot&apos;s `@RequestBody` annotation handles this beautifully out of the box. Just define your Java object and let Spring do the heavy lifting.
@@ -245,35 +283,6 @@ public class ProductService {
 This simple tweak keeps your read paths lean and efficient.</description>
       <pubDate>Thu, 02 Jul 2026 06:55:18 GMT</pubDate>
       <guid isPermaLink="false">optimize-read-heavy-api-performance-1782975318</guid>
-    </item>
-
-<item>
-      <title>Don't Block Your APIs: Go Async with CompletableFuture</title>
-      <link>https://shubhambhati.is-a.dev/posts/don-t-block-your-apis-go-async-with-completablefuture</link>
-      <description>You&apos;re building an API that needs to hit multiple external services or do heavy computation. If you&apos;re doing this sequentially within a single request thread, you&apos;re blocking your web server and wasting resources. Your API latency shoots up and throughput plummets.
-
-Instead, embrace asynchronous processing with `CompletableFuture`. Wrap those long-running operations in `CompletableFuture` and let your web thread return immediately, processing other requests. When all async tasks complete, assemble the results.
-
-Here&apos;s how a Spring `RestController` might use it:
-
-```java
-@GetMapping(&quot;/data&quot;)
-public CompletableFuture&lt;DataAggregate&gt; getData() {
-    CompletableFuture&lt;String&gt; userDetails = userService.fetchUserDetails();
-    CompletableFuture&lt;List&lt;Item&gt;&gt; inventoryItems = inventoryService.fetchItems();
-
-    return CompletableFuture.allOf(userDetails, inventoryItems)
-            .thenApply(ignored -&gt; {
-                String user = userDetails.join();
-                List&lt;Item&gt; items = inventoryItems.join();
-                return new DataAggregate(user, items);
-            });
-}
-```
-
-Remember to configure a dedicated `ThreadPoolExecutor` for these async tasks to prevent thread pool exhaustion and fine-tune your concurrency. Your API will thank you with improved responsiveness and higher throughput.</description>
-      <pubDate>Wed, 01 Jul 2026 07:55:35 GMT</pubDate>
-      <guid isPermaLink="false">don-t-block-your-apis-go-async-with-completablefuture-1782892535</guid>
     </item>
   </channel>
 </rss>
