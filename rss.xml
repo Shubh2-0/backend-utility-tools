@@ -5,9 +5,30 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Jul 2026 07:02:56 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jul 2026 05:58:20 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Manual JSON Parsing in Spring Boot</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-manual-json-parsing-in-spring-boot</link>
+      <description>You&apos;re probably still writing boilerplate code to parse JSON requests in your Spring Boot controllers. It&apos;s 2024 folks! Spring Boot&apos;s `@RequestBody` annotation handles this beautifully out of the box. Just define your Java object and let Spring do the heavy lifting.
+
+Consider this:
+
+```java
+@PostMapping(&quot;/users&quot;)
+public ResponseEntity&lt;User&gt; createUser(@RequestBody User newUser) {
+    // newUser object is already populated from the JSON request body
+    User savedUser = userService.save(newUser);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+}
+```
+
+This not only cleans up your code but also improves performance slightly by avoiding manual deserialization overhead. Don&apos;t reinvent the wheel.</description>
+      <pubDate>Sat, 11 Jul 2026 05:58:20 GMT</pubDate>
+      <guid isPermaLink="false">stop-manual-json-parsing-in-spring-boot-1783749500</guid>
+    </item>
+
+<item>
       <title>Spring Boot Database Connection Pooling</title>
       <link>https://shubhambhati.is-a.dev/posts/spring-boot-database-connection-pooling</link>
       <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a huge difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. Spring Boot makes this easy with the HikariCP library. We just need to add the dependency to our pom.xml file and configure the connection pool properties. For example, we can set the minimum and maximum pool size like this: 
@@ -253,23 +274,6 @@ public CompletableFuture&lt;DataAggregate&gt; getData() {
 Remember to configure a dedicated `ThreadPoolExecutor` for these async tasks to prevent thread pool exhaustion and fine-tune your concurrency. Your API will thank you with improved responsiveness and higher throughput.</description>
       <pubDate>Wed, 01 Jul 2026 07:55:35 GMT</pubDate>
       <guid isPermaLink="false">don-t-block-your-apis-go-async-with-completablefuture-1782892535</guid>
-    </item>
-
-<item>
-      <title>Beat the N+1 Query Beast in Spring Boot</title>
-      <link>https://shubhambhati.is-a.dev/posts/beat-the-n-1-query-beast-in-spring-boot</link>
-      <description>You&apos;ve got an API fetching a list of parent entities and for each parent you need to display some child data. The common mistake is to let Spring Data JPA fetch the parent list then lazily load children in a loop triggering N+1 queries. That&apos;s a performance killer.
-
-Instead of `List&lt;Parent&gt; findAll();` use a dedicated query to fetch everything upfront.
-
-```java
-@Query(&quot;SELECT p FROM Parent p JOIN FETCH p.children&quot;)
-List&lt;Parent&gt; findAllWithChildren();
-```
-
-This single `SELECT` query grabs all parents *and* their associated children in one shot hydrating your entities properly. For read-heavy operations especially when exposing nested data via DTOs this is a game-changer. Avoids multiple database round trips keeping your API fast and your database happy.</description>
-      <pubDate>Tue, 30 Jun 2026 21:17:54 GMT</pubDate>
-      <guid isPermaLink="false">beat-the-n-1-query-beast-in-spring-boot-1782854274</guid>
     </item>
   </channel>
 </rss>
