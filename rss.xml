@@ -5,9 +5,39 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 11 Jul 2026 21:24:07 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jul 2026 06:18:45 GMT</lastBuildDate>
 
     <item>
+      <title>Redis as a Spring Boot Session Store: Speed Up Your Apps</title>
+      <link>https://shubhambhati.is-a.dev/posts/redis-as-a-spring-boot-session-store-speed-up-your-apps</link>
+      <description>You&apos;re building a Spring Boot app and notice session management is a bit sluggish. Why not offload that to Redis? It&apos;s incredibly fast and way cheaper than keeping it in-memory or on a relational DB. Here&apos;s the quick setup:
+
+First, add the Spring Data Redis dependency:
+```xml
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+```
+Then, configure your `application.properties` or `application.yml`:
+```properties
+spring.redis.host=localhost
+spring.redis.port=6379
+```
+Now, enable RedisHttpSession in your main application class:
+```java
+@SpringBootApplication
+@EnableRedisHttpSession
+public class YourAppApplication {
+    // ...
+}
+```
+That&apos;s it. Spring Boot will automatically use Redis for session storage. Your users will thank you for the snappier experience and you&apos;ll save on server resources.</description>
+      <pubDate>Sun, 12 Jul 2026 06:18:45 GMT</pubDate>
+      <guid isPermaLink="false">redis-as-a-spring-boot-session-store-speed-up-your-apps-1783837125</guid>
+    </item>
+
+<item>
       <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
       <description>If you are running Spring Boot, PostgreSQL and Redis on a 512MB RAM VPS to keep costs under ₹100/month, the default HikariCP connection pool will crash your system. Spring Boot defaults to 10 connections. Add database memory overhead and your tiny server instantly runs out of memory.
@@ -245,31 +275,6 @@ public class Order {
 When a request with an existing `idempotencyKey` comes in again, PostgreSQL will throw a `DataIntegrityViolationException`. Your service catches this, returning a success status (e.g., 200 OK or 202 Accepted) indicating the operation was already processed. This offloads the state management to your reliable data store and simplifies your service logic significantly. No more race conditions trying to check then insert.</description>
       <pubDate>Sat, 04 Jul 2026 06:35:22 GMT</pubDate>
       <guid isPermaLink="false">idempotent-apis-your-secret-weapon-1783146922</guid>
-    </item>
-
-<item>
-      <title>Crush N+1 Queries for Faster APIs</title>
-      <link>https://shubhambhati.is-a.dev/posts/crush-n-1-queries-for-faster-apis</link>
-      <description>Ever seen an API that should be fast but isn&apos;t? Check your database interactions. A common culprit is the N+1 query problem, especially with lazy-loaded collections in JPA. You load one parent entity, then N separate queries fire to fetch each of its child collections. Massive overhead.
-
-Imagine loading 100 `Order` entities, each with a lazy `List&lt;OrderItem&gt;`. That&apos;s 101 database queries for a single API call! Ouch.
-
-The fix is often simple: tell JPA to fetch related entities in one go. Use `JOIN FETCH` in your Spring Data JPA repository methods.
-
-```java
-public interface OrderRepository extends JpaRepository&lt;Order, Long&gt; {
-    @Query(&quot;SELECT o FROM Order o JOIN FETCH o.items WHERE o.id = :orderId&quot;)
-    Optional&lt;Order&gt; findByIdWithItems(@Param(&quot;orderId&quot;) Long orderId);
-
-    // Or for all orders with items:
-    @Query(&quot;SELECT DISTINCT o FROM Order o JOIN FETCH o.items&quot;)
-    List&lt;Order&gt; findAllWithItems();
-}
-```
-
-This transforms N+1 queries into a single, efficient join. Your database will thank you and your API performance will soar. Don&apos;t let lazy loading make your APIs lazy.</description>
-      <pubDate>Fri, 03 Jul 2026 06:48:24 GMT</pubDate>
-      <guid isPermaLink="false">crush-n-1-queries-for-faster-apis-1783061304</guid>
     </item>
   </channel>
 </rss>
