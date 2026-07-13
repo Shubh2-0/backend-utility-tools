@@ -5,9 +5,42 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Jul 2026 06:18:45 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 13 Jul 2026 06:39:12 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Holding DB Connections Hostage</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-holding-db-connections-hostage</link>
+      <description>We often throw `@Transactional` on Spring Boot service methods without thinking. If your method queries PostgreSQL, calls an external API and updates Redis, you hold that HikariCP database connection for the entire API call duration. On cheap servers, this kills performance fast.
+
+HikariCP defaults to 10 connections. If 10 users hit a slow external API, your app freezes. Keep transactions tight.
+
+```java
+// Bad: Connection held during slow API call
+@Transactional
+public void checkout(OrderDto dto) {
+    Order order = repo.findById(dto.id());
+    paymentService.charge(order); // Slow
+    order.setStatus(PAID);
+    repo.save(order);
+}
+
+// Good: Connection held only for DB write
+public void checkout(OrderDto dto) {
+    Order order = repo.findById(dto.id());
+    paymentService.charge(order);
+    updateStatus(order.getId());
+}
+
+@Transactional
+public void updateStatus(Long id) {
+    repo.updateStatus(id, PAID);
+}
+```</description>
+      <pubDate>Mon, 13 Jul 2026 06:39:12 GMT</pubDate>
+      <guid isPermaLink="false">stop-holding-db-connections-hostage-1783924752</guid>
+    </item>
+
+<item>
       <title>Redis as a Spring Boot Session Store: Speed Up Your Apps</title>
       <link>https://shubhambhati.is-a.dev/posts/redis-as-a-spring-boot-session-store-speed-up-your-apps</link>
       <description>You&apos;re building a Spring Boot app and notice session management is a bit sluggish. Why not offload that to Redis? It&apos;s incredibly fast and way cheaper than keeping it in-memory or on a relational DB. Here&apos;s the quick setup:
@@ -247,34 +280,6 @@ public class ProductService {
 The first call for a given `id` goes to the database and stores the result in Redis under the `products` cache. Subsequent calls for that same `id` hit the cache directly, bypassing the database entirely. Remember to configure your `CacheManager` for Redis. This dramatically cuts down latency for read-heavy operations, giving your users a snappier experience without complex code.</description>
       <pubDate>Sun, 05 Jul 2026 06:55:16 GMT</pubDate>
       <guid isPermaLink="false">boost-api-speed-with-smart-spring-boot-caching-1783234516</guid>
-    </item>
-
-<item>
-      <title>Idempotent APIs: Your Secret Weapon</title>
-      <link>https://shubhambhati.is-a.dev/posts/idempotent-apis-your-secret-weapon</link>
-      <description>Dealing with network retries or flaky clients often means processing the same request multiple times. If your API isn&apos;t idempotent, you&apos;re creating duplicate data or unintended side effects.
-
-A common pitfall is complex application-level checks. The simplest, most robust solution? Let your database do the heavy lifting. Introduce an `idempotencyKey` in your request payload and persist it in your database table with a unique constraint.
-
-Here&apos;s how a Spring Boot entity might look:
-
-```java
-@Entity
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    private String idempotencyKey;
-
-    // other order details
-}
-```
-
-When a request with an existing `idempotencyKey` comes in again, PostgreSQL will throw a `DataIntegrityViolationException`. Your service catches this, returning a success status (e.g., 200 OK or 202 Accepted) indicating the operation was already processed. This offloads the state management to your reliable data store and simplifies your service logic significantly. No more race conditions trying to check then insert.</description>
-      <pubDate>Sat, 04 Jul 2026 06:35:22 GMT</pubDate>
-      <guid isPermaLink="false">idempotent-apis-your-secret-weapon-1783146922</guid>
     </item>
   </channel>
 </rss>
