@@ -1,0 +1,28 @@
+# Security & Environment Credentials
+.env
+*.env
+*.key
+*.pem
+secrets/
+*.db
+users.db
+
+# Cache & Local Files (Ignore state & token stores)
+*.json
+!publish_manifest.json
+!package.json
+!package-lock.json
+*.log
+daily_digest.md
+sync_cache.json
+interacted_posts.txt
+
+# Python & Node Runtime
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+node_modules/
+dist/
+build/
