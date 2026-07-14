@@ -90,6 +90,39 @@ Draft Comment:
             print(f"[Warning] Model {m_name} failed: {e}")
     return None
 
+def is_english_hindi_only(text):
+    """
+    Strict language guard: Accept issues only in English, Hindi (Devanagari script)
+    or Hinglish (mix of both). Reject any foreign scripts.
+
+    Allowed Unicode ranges:
+        - Basic Latin (ASCII): U+0000 - U+007F  (English, numbers, punctuation)
+        - Latin-1 Supplement: U+0080 - U+00FF   (accented English chars)
+        - Devanagari: U+0900 - U+097F            (Hindi script)
+        - Common emoji / symbols are also fine
+
+    Blocked examples:
+        - CJK (Chinese, Japanese, Korean): U+4E00-U+9FFF etc.
+        - Arabic: U+0600-U+06FF
+        - Cyrillic (Russian): U+0400-U+04FF
+        - Thai: U+0E00-U+0E7F
+        - Hebrew: U+0590-U+05FF
+    """
+    import re
+    if not text or not text.strip():
+        return True  # empty is fine, don't block
+
+    # These are the ONLY allowed character ranges
+    allowed_pattern = re.compile(
+        r'^[\u0000-\u00FF'        # Basic Latin + Latin-1 (English, punctuation, numbers)
+        r'\u0900-\u097F'          # Devanagari (Hindi)
+        r'\u200B-\u200D\uFEFF'   # Zero-width space / BOM (safe)
+        r'\s\n\r\t]*$'
+    )
+    # Check entire text against allowed-only pattern
+    return bool(allowed_pattern.match(text))
+
+
 def fetch_open_issues(token):
     headers = {
         "Accept": "application/vnd.github.v3+json",
@@ -336,11 +369,10 @@ def run_outreach_cycle():
         title = issue.get("title", "")
         body = issue.get("body", "") or ""
         
-        # Verify title and body are in English (reject Chinese, Japanese, Korean, or foreign script ranges)
-        import re
-        cjk_pattern = re.compile(r'[\u4e00-\u9fff\uac00-\ud7af\u3040-\u30ff]')
-        if cjk_pattern.search(title) or cjk_pattern.search(body):
-            print(f"[Info] Skipping issue {url} due to non-English or CJK characters.")
+        # Strict Language Guard: Only process issues written in English, Hindi (Devanagari) or Hinglish.
+        # All other foreign scripts (Arabic, Chinese, Japanese, Korean, Cyrillic etc.) are rejected.
+        if not is_english_hindi_only(title) or not is_english_hindi_only(body):
+            print(f"[Info] Skipping issue {url} — not in English/Hindi/Hinglish. Language guard active.")
             continue
             
         repo_url = issue.get("repository_url", "")
