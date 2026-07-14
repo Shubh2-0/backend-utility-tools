@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TechBrand Control Center</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+        .auth-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .auth-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .auth-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .auth-header p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .form-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .form-control:focus {
+            border-color: var(--accent-color);
+        }
+        .auth-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .auth-footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <span class="material-symbols-outlined logo-icon">dashboard_customize</span>
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage your automation platform</p>
+            </div>
+            
+            <!-- Dynamic Success alert -->
+            <div id="success-alert" class="alert-success" style="display: none;">
+                Registration successful! Please log in below.
+            </div>
+
+            <form action="/login" method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="username_or_email">Username or Email</label>
+                    <input type="text" id="username_or_email" name="username_or_email" class="form-control" placeholder="Enter your credentials" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" style="padding: 0.85rem; border-radius: 10px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">login</span> Log In
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Secured Control Center. Authorized Access Only.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check url params for registration success
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('registered') === 'true') {
+            document.getElementById('success-alert').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

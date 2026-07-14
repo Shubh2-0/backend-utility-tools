@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+comment_log.json
+daily_comment_count.json
+session_log.txt
+ig_session.json
+bot_state.json
