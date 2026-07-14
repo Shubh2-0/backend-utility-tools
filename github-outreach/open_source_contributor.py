@@ -11,19 +11,23 @@ import google.generativeai as genai
 
 # Configuration
 CACHE_FILE = "contribution_cache.json"
-MAX_DAILY_COMMENTS = 2
+MAX_DAILY_COMMENTS = 5
 
 API_BASE = "https://api.github.com"
 ROUTE_SEARCH = "search/issues"
 
-# Target search queries for Java / Spring Boot / Backend
+# Target search queries for Java / Spring Boot / Microservices / Distributed Systems
 TARGET_QUERIES = [
     'is:issue language:java state:open "good first issue" security',
     'is:issue language:java state:open "help wanted" spring',
     'is:issue language:java state:open "spring security"',
     'is:issue language:java state:open "kafka" event',
     'is:issue language:java state:open "redis" cache',
-    'is:issue language:java state:open "microservices" gateway'
+    'is:issue language:java state:open "microservices" gateway',
+    'is:issue language:java state:open "postgresql" locking',
+    'is:issue language:java state:open "hibernate" query',
+    'is:issue language:java state:open "performance" optimization',
+    'is:issue language:java state:open "rest api" controller'
 ]
 
 def load_cache():
