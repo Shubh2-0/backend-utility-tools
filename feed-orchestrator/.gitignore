@@ -1,0 +1,8 @@
+.env
+auth.json
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+scratch/
+

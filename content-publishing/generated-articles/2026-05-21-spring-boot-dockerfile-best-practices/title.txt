@@ -1,0 +1,1 @@
+Spring Boot Dockerfile Best Practices: Smaller, Faster, Safer Images

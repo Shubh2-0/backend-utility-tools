@@ -1,0 +1,1 @@
+Lombok vs Java Records: When to Use Which in 2026
