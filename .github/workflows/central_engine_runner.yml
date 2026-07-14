@@ -42,4 +42,4 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python content-publishing/auto-post.py content-publishing/devto-articles/01-spring-boot-common-mistakes || python content-publishing/free-content-bot.py --dry-run
+          cd content-publishing && python free-content-bot.py --dry-run
