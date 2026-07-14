@@ -1,5 +1,0 @@
-instagrapi>=2.8.2
-python-dotenv==1.0.0
-pyotp==2.9.0
-Pillow>=8.1.1
-google-genai>=1.0.0

@@ -5,9 +5,9 @@ Unified, high-security repository for local automation modules, workflows, and t
 ## Structure
 - `github-outreach/`: Open-source issue contribution and reachout scripts with language filtering (CJK/Non-English exclusion).
 - `dashboard/`: FastAPI control dashboard for monitoring automation metrics.
-- `instagram-automation/`: Instagram local comment management utilities.
+- `linkedin-automation-paused/`: Paused/offline LinkedIn references (No active GitHub Actions workflows).
 
 ## Security Policies
 - All API tokens and credentials MUST be supplied strictly via environment variables (`.env`).
 - No hardcoded secrets, contact info, or tokens are allowed in source tracking.
-- Workflows on external platforms (e.g. LinkedIn) are strictly disabled to prevent unintended interactions.
+- External account workflows are strictly disabled.
