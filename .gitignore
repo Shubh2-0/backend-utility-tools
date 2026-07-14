@@ -1,8 +1,10 @@
+target/
+*.class
+.mvn/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
 .env
-auth.json
-__pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-scratch/
-
+*.log
