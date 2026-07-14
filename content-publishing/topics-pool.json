@@ -1,0 +1,545 @@
+{
+  "_comment": "SEO topic bank for Shubham Bhati. 40 topics covering Java/Spring/MySQL/Microservices/AI. Each topic has SEO keywords, search intent, image queries. Generator picks one per week and produces a 1500+ word article.",
+  "topics": [
+    {
+      "slug": "spring-boot-rest-api-best-practices-2026",
+      "title": "Spring Boot REST API Best Practices in 2026: A Production Guide",
+      "primary_keyword": "spring boot rest api best practices",
+      "secondary_keywords": ["spring boot tutorial", "rest api design", "java backend"],
+      "search_intent": "Developers searching how to build production-grade REST APIs in Spring Boot",
+      "image_query": "java,programming,code",
+      "tags": ["java", "springboot", "restapi", "backend"]
+    },
+    {
+      "slug": "java-microservices-architecture-guide",
+      "title": "Java Microservices Architecture: A Complete Guide for 2026",
+      "primary_keyword": "java microservices architecture",
+      "secondary_keywords": ["spring cloud", "microservices design patterns", "distributed systems"],
+      "search_intent": "Engineers learning to design microservices in Java/Spring",
+      "image_query": "microservices,cloud,architecture",
+      "tags": ["microservices", "java", "springboot", "architecture"]
+    },
+    {
+      "slug": "mysql-performance-optimization-spring-boot",
+      "title": "MySQL Performance Optimization for Spring Boot Applications",
+      "primary_keyword": "mysql performance optimization",
+      "secondary_keywords": ["mysql indexing", "spring data jpa", "query optimization"],
+      "search_intent": "Backend engineers debugging slow MySQL queries in production",
+      "image_query": "database,sql,server",
+      "tags": ["mysql", "database", "performance", "springboot"]
+    },
+    {
+      "slug": "ai-integration-spring-boot-openai",
+      "title": "How to Integrate AI into Spring Boot Applications (with OpenAI)",
+      "primary_keyword": "ai integration spring boot",
+      "secondary_keywords": ["openai java", "ai backend", "llm integration"],
+      "search_intent": "Java developers adding AI/LLM features to existing apps",
+      "image_query": "artificial,intelligence,technology",
+      "tags": ["ai", "java", "springboot", "openai"]
+    },
+    {
+      "slug": "spring-security-jwt-tutorial",
+      "title": "Spring Security with JWT: The Complete 2026 Tutorial",
+      "primary_keyword": "spring security jwt tutorial",
+      "secondary_keywords": ["jwt authentication", "spring boot security", "oauth2"],
+      "search_intent": "Developers implementing token auth in Spring Boot",
+      "image_query": "security,lock,cyber",
+      "tags": ["springsecurity", "jwt", "java", "backend"]
+    },
+    {
+      "slug": "java-21-features-production-guide",
+      "title": "Java 21 Features Every Backend Engineer Should Know",
+      "primary_keyword": "java 21 features",
+      "secondary_keywords": ["virtual threads", "pattern matching", "sealed classes"],
+      "search_intent": "Java developers upgrading from Java 17 to 21",
+      "image_query": "java,code,programming",
+      "tags": ["java", "java21", "backend", "tutorial"]
+    },
+    {
+      "slug": "spring-boot-microservices-docker-deployment",
+      "title": "Deploying Spring Boot Microservices with Docker: Step-by-Step",
+      "primary_keyword": "spring boot docker deployment",
+      "secondary_keywords": ["dockerize spring boot", "kubernetes spring", "container deployment"],
+      "search_intent": "Engineers learning to containerize Spring Boot apps",
+      "image_query": "docker,container,devops",
+      "tags": ["docker", "springboot", "devops", "microservices"]
+    },
+    {
+      "slug": "spring-data-jpa-advanced-queries",
+      "title": "Spring Data JPA Advanced Queries: Specifications, Projections, and Native SQL",
+      "primary_keyword": "spring data jpa advanced queries",
+      "secondary_keywords": ["jpa specifications", "jpa projections", "hibernate queries"],
+      "search_intent": "Devs going beyond basic CRUD in Spring Data JPA",
+      "image_query": "database,coding,sql",
+      "tags": ["jpa", "hibernate", "springboot", "mysql"]
+    },
+    {
+      "slug": "rest-api-versioning-strategies",
+      "title": "REST API Versioning Strategies: URL, Header, or Media Type?",
+      "primary_keyword": "rest api versioning",
+      "secondary_keywords": ["api versioning best practices", "url versioning", "header versioning"],
+      "search_intent": "API designers choosing a versioning approach",
+      "image_query": "api,web,development",
+      "tags": ["restapi", "api", "backend", "architecture"]
+    },
+    {
+      "slug": "mysql-indexing-explained-developers",
+      "title": "MySQL Indexing Explained: A Practical Guide for Backend Developers",
+      "primary_keyword": "mysql indexing explained",
+      "secondary_keywords": ["mysql index types", "btree index", "composite index"],
+      "search_intent": "Engineers debugging slow MySQL queries and learning indexes",
+      "image_query": "database,server,sql",
+      "tags": ["mysql", "database", "performance", "backend"]
+    },
+    {
+      "slug": "spring-cloud-gateway-tutorial",
+      "title": "Spring Cloud Gateway Tutorial: Build a Microservices API Gateway",
+      "primary_keyword": "spring cloud gateway tutorial",
+      "secondary_keywords": ["api gateway", "spring cloud", "microservices routing"],
+      "search_intent": "Engineers building API gateways for microservices",
+      "image_query": "network,cloud,gateway",
+      "tags": ["springcloud", "microservices", "gateway", "java"]
+    },
+    {
+      "slug": "java-multithreading-virtual-threads",
+      "title": "Java Multithreading in 2026: Virtual Threads vs Platform Threads",
+      "primary_keyword": "java virtual threads",
+      "secondary_keywords": ["java multithreading", "project loom", "concurrent java"],
+      "search_intent": "Developers learning the new threading model in Java 21",
+      "image_query": "java,threads,concurrency",
+      "tags": ["java", "concurrency", "java21", "backend"]
+    },
+    {
+      "slug": "rabbitmq-spring-boot-tutorial",
+      "title": "RabbitMQ with Spring Boot: A Complete Messaging Tutorial",
+      "primary_keyword": "rabbitmq spring boot tutorial",
+      "secondary_keywords": ["spring amqp", "message queue", "event driven architecture"],
+      "search_intent": "Engineers adding async messaging to Spring apps",
+      "image_query": "messaging,queue,microservices",
+      "tags": ["rabbitmq", "springboot", "messaging", "microservices"]
+    },
+    {
+      "slug": "redis-caching-spring-boot",
+      "title": "Redis Caching with Spring Boot: Patterns That Scale to Production",
+      "primary_keyword": "redis caching spring boot",
+      "secondary_keywords": ["spring cache", "redis cache", "caching patterns"],
+      "search_intent": "Backend engineers adding Redis cache to Spring apps",
+      "image_query": "cache,redis,database",
+      "tags": ["redis", "springboot", "caching", "performance"]
+    },
+    {
+      "slug": "kafka-vs-rabbitmq-microservices",
+      "title": "Kafka vs RabbitMQ for Microservices: Which One Should You Choose?",
+      "primary_keyword": "kafka vs rabbitmq",
+      "secondary_keywords": ["message broker comparison", "event streaming", "microservices messaging"],
+      "search_intent": "Architects choosing a message broker for microservices",
+      "image_query": "messaging,event,streaming",
+      "tags": ["kafka", "rabbitmq", "microservices", "architecture"]
+    },
+    {
+      "slug": "spring-boot-testing-strategies",
+      "title": "Spring Boot Testing Strategies: Unit, Integration, and Contract Tests",
+      "primary_keyword": "spring boot testing",
+      "secondary_keywords": ["junit 5", "testcontainers", "spring boot test"],
+      "search_intent": "Developers improving test coverage in Spring Boot apps",
+      "image_query": "testing,code,quality",
+      "tags": ["testing", "springboot", "junit", "java"]
+    },
+    {
+      "slug": "ai-chatbot-java-spring-boot",
+      "title": "Building an AI Chatbot in Java with Spring Boot and LLMs",
+      "primary_keyword": "ai chatbot java spring boot",
+      "secondary_keywords": ["spring ai", "java llm", "chatbot tutorial"],
+      "search_intent": "Java developers building chatbot features with AI",
+      "image_query": "chatbot,ai,robot",
+      "tags": ["ai", "java", "springboot", "llm"]
+    },
+    {
+      "slug": "saga-pattern-distributed-transactions",
+      "title": "Saga Pattern: Handling Distributed Transactions in Microservices",
+      "primary_keyword": "saga pattern microservices",
+      "secondary_keywords": ["distributed transactions", "two phase commit", "eventual consistency"],
+      "search_intent": "Engineers handling consistency across microservices",
+      "image_query": "distributed,system,architecture",
+      "tags": ["microservices", "architecture", "patterns", "backend"]
+    },
+    {
+      "slug": "circuit-breaker-resilience4j-spring",
+      "title": "Resilience4j Circuit Breaker in Spring Boot: A Practical Tutorial",
+      "primary_keyword": "resilience4j circuit breaker",
+      "secondary_keywords": ["circuit breaker pattern", "spring resilience", "fault tolerance"],
+      "search_intent": "Engineers making microservices fault-tolerant",
+      "image_query": "network,reliability,system",
+      "tags": ["resilience4j", "springboot", "microservices", "patterns"]
+    },
+    {
+      "slug": "spring-boot-actuator-monitoring",
+      "title": "Spring Boot Actuator: Production-Grade Monitoring and Health Checks",
+      "primary_keyword": "spring boot actuator",
+      "secondary_keywords": ["spring monitoring", "prometheus integration", "health check"],
+      "search_intent": "DevOps engineers monitoring Spring Boot in production",
+      "image_query": "monitoring,dashboard,metrics",
+      "tags": ["springboot", "monitoring", "actuator", "devops"]
+    },
+    {
+      "slug": "mysql-vs-postgresql-spring-boot",
+      "title": "MySQL vs PostgreSQL for Spring Boot: Which One Should You Pick?",
+      "primary_keyword": "mysql vs postgresql spring boot",
+      "secondary_keywords": ["database comparison", "spring data", "rdbms choice"],
+      "search_intent": "Developers choosing a database for Spring Boot apps",
+      "image_query": "database,sql,server",
+      "tags": ["mysql", "postgresql", "database", "springboot"]
+    },
+    {
+      "slug": "rest-api-error-handling-spring-boot",
+      "title": "REST API Error Handling in Spring Boot: A Complete Guide",
+      "primary_keyword": "spring boot error handling",
+      "secondary_keywords": ["controller advice", "exception handling", "problem details"],
+      "search_intent": "Developers building robust error responses in REST APIs",
+      "image_query": "error,debugging,code",
+      "tags": ["springboot", "restapi", "java", "backend"]
+    },
+    {
+      "slug": "spring-boot-openai-integration",
+      "title": "Calling OpenAI from Spring Boot: A Production-Ready Integration",
+      "primary_keyword": "spring boot openai integration",
+      "secondary_keywords": ["spring ai", "chatgpt java", "openai api java"],
+      "search_intent": "Developers wiring OpenAI into Java backend",
+      "image_query": "ai,openai,api",
+      "tags": ["openai", "ai", "springboot", "java"]
+    },
+    {
+      "slug": "spring-boot-dockerfile-best-practices",
+      "title": "Spring Boot Dockerfile Best Practices: Smaller, Faster, Safer Images",
+      "primary_keyword": "spring boot dockerfile",
+      "secondary_keywords": ["docker layers", "multi-stage build", "spring boot docker"],
+      "search_intent": "Devs optimizing Docker images for Spring apps",
+      "image_query": "docker,container,deployment",
+      "tags": ["docker", "springboot", "devops", "java"]
+    },
+    {
+      "slug": "spring-boot-kafka-integration",
+      "title": "Spring Boot + Kafka: Building Event-Driven Microservices",
+      "primary_keyword": "spring boot kafka",
+      "secondary_keywords": ["event driven architecture", "kafka tutorial", "spring kafka"],
+      "search_intent": "Engineers building event-driven systems with Kafka",
+      "image_query": "kafka,streaming,events",
+      "tags": ["kafka", "springboot", "microservices", "events"]
+    },
+    {
+      "slug": "java-hibernate-n-plus-1-problem",
+      "title": "Solving the Hibernate N+1 Problem in Spring Data JPA",
+      "primary_keyword": "hibernate n+1 problem",
+      "secondary_keywords": ["jpa fetch types", "hibernate performance", "lazy loading"],
+      "search_intent": "Devs debugging slow JPA queries from N+1 selects",
+      "image_query": "database,performance,debugging",
+      "tags": ["hibernate", "jpa", "performance", "mysql"]
+    },
+    {
+      "slug": "spring-boot-graphql-tutorial",
+      "title": "GraphQL with Spring Boot: A Hands-On Tutorial for REST Developers",
+      "primary_keyword": "graphql spring boot tutorial",
+      "secondary_keywords": ["graphql java", "spring graphql", "api alternatives"],
+      "search_intent": "REST developers exploring GraphQL alternatives",
+      "image_query": "graphql,api,web",
+      "tags": ["graphql", "springboot", "java", "api"]
+    },
+    {
+      "slug": "spring-boot-aws-deployment",
+      "title": "Deploying Spring Boot Apps to AWS: ECS, Lambda, or Elastic Beanstalk?",
+      "primary_keyword": "spring boot aws deployment",
+      "secondary_keywords": ["aws ecs java", "lambda java", "beanstalk spring boot"],
+      "search_intent": "Engineers choosing AWS deployment for Spring apps",
+      "image_query": "aws,cloud,deployment",
+      "tags": ["aws", "springboot", "devops", "cloud"]
+    },
+    {
+      "slug": "lombok-vs-java-records",
+      "title": "Lombok vs Java Records: When to Use Which in 2026",
+      "primary_keyword": "lombok vs java records",
+      "secondary_keywords": ["java records tutorial", "lombok annotations", "java boilerplate"],
+      "search_intent": "Java devs choosing between Lombok and modern Java records",
+      "image_query": "java,code,programming",
+      "tags": ["java", "lombok", "records", "java21"]
+    },
+    {
+      "slug": "spring-boot-api-rate-limiting",
+      "title": "Rate Limiting in Spring Boot REST APIs: Bucket4j + Redis",
+      "primary_keyword": "spring boot rate limiting",
+      "secondary_keywords": ["bucket4j tutorial", "api throttling", "redis rate limit"],
+      "search_intent": "Devs protecting APIs from abuse",
+      "image_query": "api,security,traffic",
+      "tags": ["springboot", "restapi", "redis", "security"]
+    },
+    {
+      "slug": "mysql-transactions-isolation-levels",
+      "title": "MySQL Transactions and Isolation Levels: A Backend Engineer's Guide",
+      "primary_keyword": "mysql transaction isolation levels",
+      "secondary_keywords": ["acid transactions", "mysql locking", "concurrent reads"],
+      "search_intent": "Engineers debugging concurrency issues in MySQL",
+      "image_query": "database,transactions,sql",
+      "tags": ["mysql", "database", "transactions", "backend"]
+    },
+    {
+      "slug": "service-discovery-eureka-spring-cloud",
+      "title": "Service Discovery with Eureka and Spring Cloud: A Hands-On Tutorial",
+      "primary_keyword": "spring cloud eureka tutorial",
+      "secondary_keywords": ["service discovery", "spring cloud netflix", "microservices registry"],
+      "search_intent": "Engineers wiring service discovery in microservices",
+      "image_query": "microservices,network,discovery",
+      "tags": ["eureka", "springcloud", "microservices", "java"]
+    },
+    {
+      "slug": "spring-boot-async-completablefuture",
+      "title": "Asynchronous Programming in Spring Boot with CompletableFuture",
+      "primary_keyword": "spring boot async completablefuture",
+      "secondary_keywords": ["java async", "spring async annotation", "thread pool"],
+      "search_intent": "Devs writing async non-blocking Spring code",
+      "image_query": "async,programming,java",
+      "tags": ["java", "springboot", "async", "concurrency"]
+    },
+    {
+      "slug": "openapi-swagger-spring-boot",
+      "title": "API Documentation with OpenAPI 3 and Swagger in Spring Boot",
+      "primary_keyword": "openapi swagger spring boot",
+      "secondary_keywords": ["api documentation", "springdoc", "swagger ui"],
+      "search_intent": "Developers documenting their REST APIs",
+      "image_query": "api,documentation,swagger",
+      "tags": ["openapi", "swagger", "springboot", "restapi"]
+    },
+    {
+      "slug": "java-stream-api-cheatsheet",
+      "title": "Java Stream API Cheatsheet: 20 Patterns Every Backend Dev Must Know",
+      "primary_keyword": "java stream api cheatsheet",
+      "secondary_keywords": ["java 8 streams", "functional java", "stream operations"],
+      "search_intent": "Java devs mastering functional stream operations",
+      "image_query": "java,functional,programming",
+      "tags": ["java", "streams", "functional", "tutorial"]
+    },
+    {
+      "slug": "microservices-design-patterns-2026",
+      "title": "10 Essential Microservices Design Patterns for Java Engineers in 2026",
+      "primary_keyword": "microservices design patterns",
+      "secondary_keywords": ["circuit breaker", "saga pattern", "api gateway pattern"],
+      "search_intent": "Architects studying microservices patterns",
+      "image_query": "microservices,architecture,patterns",
+      "tags": ["microservices", "architecture", "patterns", "java"]
+    },
+    {
+      "slug": "spring-boot-mongodb-tutorial",
+      "title": "Spring Boot with MongoDB: A NoSQL Tutorial for Java Backend Developers",
+      "primary_keyword": "spring boot mongodb tutorial",
+      "secondary_keywords": ["spring data mongo", "nosql java", "mongodb integration"],
+      "search_intent": "Java devs integrating MongoDB with Spring",
+      "image_query": "mongodb,nosql,database",
+      "tags": ["mongodb", "springboot", "nosql", "java"]
+    },
+    {
+      "slug": "ai-resume-parser-java-spring-boot",
+      "title": "Building an AI-Powered Resume Parser in Spring Boot",
+      "primary_keyword": "ai resume parser java",
+      "secondary_keywords": ["nlp java", "openai resume", "ai backend tutorial"],
+      "search_intent": "Devs building AI document parsing features",
+      "image_query": "ai,document,technology",
+      "tags": ["ai", "springboot", "nlp", "java"]
+    },
+    {
+      "slug": "spring-boot-elasticsearch-tutorial",
+      "title": "Spring Boot + Elasticsearch: Full-Text Search for Your REST API",
+      "primary_keyword": "spring boot elasticsearch tutorial",
+      "secondary_keywords": ["elastic search java", "full text search", "spring data elasticsearch"],
+      "search_intent": "Backend engineers adding search to Spring apps",
+      "image_query": "search,elasticsearch,data",
+      "tags": ["elasticsearch", "springboot", "search", "java"]
+    },
+    {
+      "slug": "java-spring-boot-interview-questions-2026",
+      "title": "Top 25 Java Spring Boot Interview Questions for 2026 (With Answers)",
+      "primary_keyword": "java spring boot interview questions",
+      "secondary_keywords": ["spring interview", "java backend interview", "tech interview"],
+      "search_intent": "Job seekers prepping for Java backend interviews",
+      "image_query": "interview,career,technology",
+      "tags": ["interview", "springboot", "java", "career"]
+    },
+    {
+      "slug": "spring-boot-3-2-new-features",
+      "title": "Spring Boot 3.2 New Features Every Backend Engineer Should Use",
+      "primary_keyword": "spring boot 3.2 features",
+      "secondary_keywords": ["spring framework 6", "virtual threads spring", "spring boot upgrade"],
+      "search_intent": "Engineers upgrading from Spring Boot 3.1 to 3.2",
+      "image_query": "spring,java,coding",
+      "tags": ["springboot", "java", "tutorial", "backend"]
+    },
+    {
+      "slug": "ai-powered-search-spring-boot-elasticsearch",
+      "title": "Building an AI-Powered Search with Spring Boot, Elasticsearch and Embeddings",
+      "primary_keyword": "ai powered search spring boot",
+      "secondary_keywords": ["semantic search java", "embeddings spring", "vector search elasticsearch"],
+      "search_intent": "Developers adding semantic search to Spring apps",
+      "image_query": "ai,search,technology",
+      "tags": ["ai", "springboot", "elasticsearch", "search"]
+    },
+    {
+      "slug": "java-streams-vs-loops-performance",
+      "title": "Java Streams vs Traditional Loops: A Real Performance Benchmark",
+      "primary_keyword": "java streams performance",
+      "secondary_keywords": ["stream vs for loop", "jmh benchmark", "java performance tuning"],
+      "search_intent": "Java devs comparing performance of stream vs imperative code",
+      "image_query": "java,performance,benchmark",
+      "tags": ["java", "performance", "streams", "tutorial"]
+    },
+    {
+      "slug": "spring-boot-pagination-best-practices",
+      "title": "Pagination in Spring Boot REST APIs: Offset, Cursor, and Keyset Patterns",
+      "primary_keyword": "spring boot pagination",
+      "secondary_keywords": ["jpa pagination", "cursor based pagination", "rest api pagination"],
+      "search_intent": "Devs building paginated list endpoints",
+      "image_query": "data,api,pagination",
+      "tags": ["springboot", "restapi", "jpa", "backend"]
+    },
+    {
+      "slug": "mysql-deadlock-debugging-spring-boot",
+      "title": "Debugging MySQL Deadlocks in a Spring Boot Production Application",
+      "primary_keyword": "mysql deadlock debugging",
+      "secondary_keywords": ["innodb locking", "spring transaction deadlock", "mysql locks"],
+      "search_intent": "Engineers debugging deadlock errors in production",
+      "image_query": "database,debugging,error",
+      "tags": ["mysql", "debugging", "springboot", "transactions"]
+    },
+    {
+      "slug": "spring-boot-grpc-tutorial",
+      "title": "gRPC with Spring Boot: A Practical Tutorial for Java Engineers",
+      "primary_keyword": "spring boot grpc tutorial",
+      "secondary_keywords": ["grpc java", "protobuf spring", "microservices grpc"],
+      "search_intent": "Engineers adding gRPC to Spring Boot microservices",
+      "image_query": "grpc,microservices,network",
+      "tags": ["grpc", "springboot", "microservices", "java"]
+    },
+    {
+      "slug": "spring-boot-multi-tenant-saas",
+      "title": "Multi-Tenant SaaS Architecture in Spring Boot: Schema vs Database vs Discriminator",
+      "primary_keyword": "spring boot multi tenant",
+      "secondary_keywords": ["saas architecture java", "tenant isolation", "spring data multi tenant"],
+      "search_intent": "Engineers designing multi-tenant SaaS apps",
+      "image_query": "saas,cloud,architecture",
+      "tags": ["springboot", "saas", "architecture", "java"]
+    },
+    {
+      "slug": "openai-streaming-spring-boot-sse",
+      "title": "Streaming OpenAI Responses in Spring Boot with Server-Sent Events",
+      "primary_keyword": "openai streaming spring boot",
+      "secondary_keywords": ["sse spring boot", "streaming chat api", "real time ai"],
+      "search_intent": "Devs adding streaming chat to AI features",
+      "image_query": "streaming,ai,real-time",
+      "tags": ["ai", "openai", "springboot", "sse"]
+    },
+    {
+      "slug": "spring-batch-tutorial-2026",
+      "title": "Spring Batch in 2026: A Complete Guide for Bulk Processing in Java",
+      "primary_keyword": "spring batch tutorial",
+      "secondary_keywords": ["bulk processing java", "etl spring", "scheduled jobs spring"],
+      "search_intent": "Engineers running ETL or large batch jobs",
+      "image_query": "batch,processing,data",
+      "tags": ["springbatch", "java", "tutorial", "backend"]
+    },
+    {
+      "slug": "spring-cloud-config-tutorial",
+      "title": "Centralized Configuration with Spring Cloud Config Server",
+      "primary_keyword": "spring cloud config tutorial",
+      "secondary_keywords": ["config server", "microservices config", "spring cloud"],
+      "search_intent": "Engineers managing config across microservices",
+      "image_query": "config,microservices,cloud",
+      "tags": ["springcloud", "config", "microservices", "java"]
+    },
+    {
+      "slug": "redis-streams-spring-boot",
+      "title": "Redis Streams in Spring Boot: A Lightweight Alternative to Kafka",
+      "primary_keyword": "redis streams spring boot",
+      "secondary_keywords": ["spring data redis streams", "event streaming java", "redis vs kafka"],
+      "search_intent": "Engineers picking event streaming tech",
+      "image_query": "redis,streaming,events",
+      "tags": ["redis", "streams", "springboot", "events"]
+    },
+    {
+      "slug": "spring-boot-postgresql-jsonb",
+      "title": "Storing JSON in PostgreSQL with Spring Boot JPA: A Practical Guide",
+      "primary_keyword": "postgresql jsonb spring boot",
+      "secondary_keywords": ["jsonb jpa", "spring data postgres", "json column type"],
+      "search_intent": "Devs storing flexible JSON in relational databases",
+      "image_query": "postgresql,database,json",
+      "tags": ["postgresql", "springboot", "jpa", "database"]
+    },
+    {
+      "slug": "spring-boot-feature-flags-launchdarkly",
+      "title": "Feature Flags in Spring Boot: Open-Source Patterns That Scale",
+      "primary_keyword": "spring boot feature flags",
+      "secondary_keywords": ["feature toggle java", "togglz spring", "ff4j"],
+      "search_intent": "Engineers rolling out features safely with flags",
+      "image_query": "feature,flags,deployment",
+      "tags": ["springboot", "feature-flags", "java", "devops"]
+    },
+    {
+      "slug": "rest-api-pagination-vs-graphql",
+      "title": "REST Pagination vs GraphQL Cursor Pagination: A Spring Boot Comparison",
+      "primary_keyword": "rest vs graphql pagination",
+      "secondary_keywords": ["cursor pagination graphql", "spring graphql tutorial", "api design"],
+      "search_intent": "API designers choosing pagination approach",
+      "image_query": "api,graphql,rest",
+      "tags": ["graphql", "restapi", "springboot", "api"]
+    },
+    {
+      "slug": "spring-boot-circuit-breaker-vs-retry",
+      "title": "Resilience4j Circuit Breaker vs Retry vs Bulkhead: Which Pattern When?",
+      "primary_keyword": "resilience4j patterns",
+      "secondary_keywords": ["circuit breaker vs retry", "bulkhead pattern", "spring resilience"],
+      "search_intent": "Engineers choosing the right resilience pattern",
+      "image_query": "reliability,patterns,distributed",
+      "tags": ["resilience4j", "springboot", "patterns", "microservices"]
+    },
+    {
+      "slug": "spring-boot-prometheus-grafana",
+      "title": "Spring Boot Observability: Prometheus + Grafana Dashboard from Scratch",
+      "primary_keyword": "spring boot prometheus grafana",
+      "secondary_keywords": ["micrometer prometheus", "spring boot metrics", "grafana dashboard java"],
+      "search_intent": "DevOps engineers building monitoring stacks",
+      "image_query": "monitoring,grafana,dashboard",
+      "tags": ["prometheus", "grafana", "springboot", "devops"]
+    },
+    {
+      "slug": "spring-boot-aws-s3-tutorial",
+      "title": "Working with AWS S3 in Spring Boot: Upload, Download, Presigned URLs",
+      "primary_keyword": "spring boot aws s3",
+      "secondary_keywords": ["s3 sdk java", "spring cloud aws", "file upload s3"],
+      "search_intent": "Engineers integrating S3 storage with Spring apps",
+      "image_query": "aws,s3,cloud-storage",
+      "tags": ["aws", "s3", "springboot", "cloud"]
+    },
+    {
+      "slug": "spring-boot-kubernetes-deployment",
+      "title": "Deploying Spring Boot Microservices on Kubernetes: A Step-by-Step Guide",
+      "primary_keyword": "spring boot kubernetes deployment",
+      "secondary_keywords": ["k8s spring boot", "helm chart java", "kubernetes microservices"],
+      "search_intent": "Engineers deploying Spring apps to Kubernetes",
+      "image_query": "kubernetes,containers,devops",
+      "tags": ["kubernetes", "springboot", "devops", "microservices"]
+    },
+    {
+      "slug": "java-21-virtual-threads-spring-boot",
+      "title": "Using Java 21 Virtual Threads in Spring Boot: A Production Walkthrough",
+      "primary_keyword": "virtual threads spring boot",
+      "secondary_keywords": ["project loom java", "spring boot 3.2 virtual threads", "java concurrency 2026"],
+      "search_intent": "Engineers adopting virtual threads in production",
+      "image_query": "java,concurrency,threads",
+      "tags": ["java21", "springboot", "concurrency", "virtual-threads"]
+    },
+    {
+      "slug": "java-spring-boot-clean-architecture",
+      "title": "Clean Architecture with Spring Boot: From Theory to Production",
+      "primary_keyword": "clean architecture spring boot",
+      "secondary_keywords": ["hexagonal architecture java", "ports and adapters", "domain driven design"],
+      "search_intent": "Engineers structuring large Spring codebases cleanly",
+      "image_query": "architecture,code,design",
+      "tags": ["architecture", "springboot", "java", "ddd"]
+    }
+  ]
+}

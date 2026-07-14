@@ -10,6 +10,7 @@ users.db
 # Cache & Local Files (Ignore state & token stores)
 *.json
 !publish_manifest.json
+!topics-pool.json
 !package.json
 !package-lock.json
 *.log
