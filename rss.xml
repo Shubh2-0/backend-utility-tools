@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jul 2026 06:39:12 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 14 Jul 2026 05:53:48 GMT</lastBuildDate>
 
     <item>
+      <title>Spring Boot Security: Don't Expose That Sensitive Property</title>
+      <link>https://shubhambhati.is-a.dev/posts/spring-boot-security-don-t-expose-that-sensitive-property</link>
+      <description>Ever found yourself accidentally committing sensitive keys or passwords to your Git repo? It&apos;s a common slip-up. In Spring Boot, the easiest way to avoid this for things like API keys or database credentials is to keep them out of your main `application.properties` or `application.yml`.
+
+Instead, use environment variables. Spring Boot automatically picks them up. For example, if you have a property `app.external.api.key`, you can set an environment variable named `APP_EXTERNAL_API_KEY`.
+
+Your `application.properties` would still declare it:
+
+```properties
+app.external.api.key=${EXTERNAL_API_KEY:default_fallback_key}
+```
+
+This way, your code is clean, your repo is safe and you can manage your secrets per environment (dev staging prod) without touching the codebase.</description>
+      <pubDate>Tue, 14 Jul 2026 05:53:48 GMT</pubDate>
+      <guid isPermaLink="false">spring-boot-security-don-t-expose-that-sensitive-property-1784008428</guid>
+    </item>
+
+<item>
       <title>Stop Holding DB Connections Hostage</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-holding-db-connections-hostage</link>
       <description>We often throw `@Transactional` on Spring Boot service methods without thinking. If your method queries PostgreSQL, calls an external API and updates Redis, you hold that HikariCP database connection for the entire API call duration. On cheap servers, this kills performance fast.
@@ -249,37 +267,6 @@ List&lt;Order&gt; findAllOrdersWithCustomers();
 This single query now retrieves all `Order` and `Customer` data in one go. Less round trips to the database, faster responses. Always profile your queries and watch that network tab.</description>
       <pubDate>Mon, 06 Jul 2026 08:04:01 GMT</pubDate>
       <guid isPermaLink="false">stop-your-n-1-queries-from-killing-performance-1783325041</guid>
-    </item>
-
-<item>
-      <title>Boost API Speed with Smart Spring Boot Caching</title>
-      <link>https://shubhambhati.is-a.dev/posts/boost-api-speed-with-smart-spring-boot-caching</link>
-      <description>Tired of slow API responses hitting your database for the same data repeatedly? It&apos;s a common bottleneck. Instead of always fetching from the primary store, let&apos;s put Redis to work for blazing fast reads.
-
-Spring Boot makes this incredibly simple. Just enable caching with `@EnableCaching` on your configuration class and then mark methods that produce frequently accessed but slow-to-retrieve data with `@Cacheable`.
-
-```java
-@Service
-public class ProductService {
-
-    private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    @Cacheable(value = &quot;products&quot;, key = &quot;#id&quot;)
-    public Product getProductById(Long id) {
-        System.out.println(&quot;Fetching product from DB: &quot; + id); // Simulates DB call
-        return productRepository.findById(id)
-                                .orElseThrow(() -&gt; new NotFoundException(&quot;Product not found&quot;));
-    }
-}
-```
-
-The first call for a given `id` goes to the database and stores the result in Redis under the `products` cache. Subsequent calls for that same `id` hit the cache directly, bypassing the database entirely. Remember to configure your `CacheManager` for Redis. This dramatically cuts down latency for read-heavy operations, giving your users a snappier experience without complex code.</description>
-      <pubDate>Sun, 05 Jul 2026 06:55:16 GMT</pubDate>
-      <guid isPermaLink="false">boost-api-speed-with-smart-spring-boot-caching-1783234516</guid>
     </item>
   </channel>
 </rss>
