@@ -1,12 +1,12 @@
-name: Central Engine Runner
+name: 2. Tech Content & Blog Publisher
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * *' # Runs daily at 9:00 AM UTC (2:30 PM IST)
+    - cron: '0 12 * * *' # Daily at 12:00 PM UTC (5:30 PM IST)
 
 jobs:
-  outreach-and-content:
+  publish-content:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -20,20 +20,9 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pydantic fastapi jinja2 google-generativeai
+          pip install requests pydantic
 
-      - name: Run Open Source GitHub Outreach
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-        run: |
-          python github-outreach/open_source_contributor.py
-
-      - name: Run Tech Content & Blog Auto-Publisher
+      - name: Run Blog Auto-Publisher
         env:
           DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
           DEV_TO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
