@@ -141,11 +141,14 @@ def generate_content(gemini_keys_str, groq_key_str):
     return None
 
 
-def build_rss_item(title, body):
+def build_rss_item(title, body, post_url=None):
     pub_date = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
-    # Generate a deterministic unique link for the post item
     slug = re.sub(r'[^a-zA-Z0-9]+', '-', title.lower()).strip('-')
-    link = f"https://shubhambhati.is-a.dev/posts/{slug}"
+    
+    if post_url:
+        link = post_url
+    else:
+        link = "https://dev.to/shubhambhati"
     
     # HTML escape the body text to make RSS valid XML
     escaped_body = body.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("'", "&apos;")
@@ -231,11 +234,12 @@ def post_to_devto(api_key, title, body, tags):
     try:
         with urllib.request.urlopen(req, timeout=15) as response:
             res_data = json.loads(response.read().decode("utf-8"))
-            print(f"[SUCCESS] Published directly to DEV.to! URL: {res_data.get('url')}")
-            return True
+            live_url = res_data.get("url")
+            print(f"[SUCCESS] Published directly to DEV.to! URL: {live_url}")
+            return live_url
     except Exception as e:
         print(f"[ERROR] Failed to publish directly to DEV.to: {e}")
-        return False
+        return None
 
 def post_to_hashnode(token, publication_id, title, body, tags):
     url = "https://gql.hashnode.com"
@@ -288,13 +292,13 @@ def post_to_hashnode(token, publication_id, title, body, tags):
             res_data = json.loads(response.read().decode("utf-8"))
             if "errors" in res_data:
                 print(f"[ERROR] Hashnode GraphQL returned errors: {res_data['errors']}")
-                return False
+                return None
             post_url = res_data.get("data", {}).get("publishPost", {}).get("post", {}).get("url")
             print(f"[SUCCESS] Published directly to Hashnode! URL: {post_url}")
-            return True
+            return post_url
     except Exception as e:
         print(f"[ERROR] Failed to publish directly to Hashnode: {e}")
-        return False
+        return None
 
 def main():
     gemini_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY")
@@ -330,22 +334,26 @@ def main():
     print(f"[*] Tags: {tags}")
     print(f"[*] Body Length: {len(body)} chars")
     
-    # 1. Update RSS feed
-    new_item = build_rss_item(title, body)
-    update_rss_feed(new_item)
+    live_post_url = None
     
-    # 2. Publish to DEV.to directly if API Key is set
+    # 1. Publish to DEV.to directly if API Key is set
     devto_key = os.environ.get("DEVTO_API_KEY")
     if devto_key:
         print("[*] Publishing directly to DEV.to via API...")
-        post_to_devto(devto_key, title, body, tags)
+        live_post_url = post_to_devto(devto_key, title, body, tags)
         
-    # 3. Publish to Hashnode directly if Token & Publication ID are set
+    # 2. Publish to Hashnode directly if Token & Publication ID are set
     hashnode_token = os.environ.get("HASHNODE_TOKEN")
     hashnode_pub_id = os.environ.get("HASHNODE_PUBLICATION_ID")
     if hashnode_token and hashnode_pub_id:
         print("[*] Publishing directly to Hashnode via GraphQL API...")
-        post_to_hashnode(hashnode_token, hashnode_pub_id, title, body, tags)
+        h_url = post_to_hashnode(hashnode_token, hashnode_pub_id, title, body, tags)
+        if not live_post_url and h_url:
+            live_post_url = h_url
+
+    # 3. Update RSS feed with valid live link
+    new_item = build_rss_item(title, body, live_post_url)
+    update_rss_feed(new_item)
 
 if __name__ == "__main__":
     main()

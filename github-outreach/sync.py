@@ -12,8 +12,10 @@ except ImportError:
     pass
 
 TOKEN = os.environ["GH_TOKEN"]
-MAX_SYNC = int(os.environ.get("MAX_FOLLOW", 30))  # Max connection nodes to sync per run
+MAX_SYNC = int(os.environ.get("MAX_FOLLOW", 15))  # Max connection nodes to sync per run (safe & fast)
 DATA_FILE = "sync_cache.json"
+MAX_PAGES_SCAN = 5
+MAX_EXECUTION_SECONDS = 300
 
 # Target user profiles to sync connection graphs from
 TARGET_USERS = [
@@ -309,7 +311,12 @@ def synchronize_network_nodes():
     target_count = random.randint(int(MAX_SYNC * 0.8), int(MAX_SYNC * 1.1))
     print(f"Determined safety cap for this cycle: {target_count} follows.")
 
-    while synced < target_count and consecutive_empty_pages < 3:
+    start_time = time.time()
+    while synced < target_count and consecutive_empty_pages < 3 and page <= MAX_PAGES_SCAN:
+        if time.time() - start_time > MAX_EXECUTION_SECONDS:
+            print(f"  [Timeout Guard] Maximum execution time ({MAX_EXECUTION_SECONDS}s) reached. Saving state and exiting cycle.")
+            break
+
         url = f"{API_BASE}/{ROUTE_USERS}/{target_node}/followers?per_page=50&page={page}"
         resp = github_request("GET", url)
 
@@ -402,8 +409,8 @@ def synchronize_network_nodes():
             else:
                 print(f"Failed to sync node {username}")
 
-            # Sleep to prevent high load / rate limit (human-like randomized intervals)
-            wait = random.randint(25, 60)
+            # Sleep to prevent high load / rate limit
+            wait = random.randint(12, 25)
             print(f"  Throttling: waiting {wait}s...")
             time.sleep(wait)
 
