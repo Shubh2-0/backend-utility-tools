@@ -5,9 +5,30 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Jul 2026 05:53:48 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 05:54:27 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Using Spring Boot Defaults on Cheap ₹100 VMs</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-using-spring-boot-defaults-on-cheap-100-vms</link>
+      <description>When you run Spring Boot on a cheap 1GB RAM virtual machine, default configurations will crash your app. By default, HikariCP sets the maximum connection pool size to 10. If you don&apos;t change this, multiple microservices running on the same cheap machine will quickly exhaust PostgreSQL connections and memory.
+
+For a tiny VPS, a pool size of 2 or 3 is plenty to handle hundreds of concurrent requests. 
+
+Update your `application.properties`:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
+spring.datasource.hikari.idle-timeout=10000
+spring.datasource.hikari.leak-detection-threshold=2000
+```
+
+This tweak prevents PostgreSQL from choking on idle connections, keeps your total memory footprint under 300MB and saves you from paying for expensive server upgrades.</description>
+      <pubDate>Wed, 15 Jul 2026 05:54:27 GMT</pubDate>
+      <guid isPermaLink="false">stop-using-spring-boot-defaults-on-cheap-100-vms-1784094867</guid>
+    </item>
+
+<item>
       <title>Spring Boot Security: Don't Expose That Sensitive Property</title>
       <link>https://shubhambhati.is-a.dev/posts/spring-boot-security-don-t-expose-that-sensitive-property</link>
       <description>Ever found yourself accidentally committing sensitive keys or passwords to your Git repo? It&apos;s a common slip-up. In Spring Boot, the easiest way to avoid this for things like API keys or database credentials is to keep them out of your main `application.properties` or `application.yml`.
@@ -249,24 +270,6 @@ Here, `updateInventory` will *not* get its own `REQUIRES_NEW` transaction. It&ap
 To correctly isolate transactions for such logic, extract it into a separate, Spring-managed component and inject it. Call the method on the *injected* component. Understand Spring&apos;s proxy mechanics; they&apos;re key.</description>
       <pubDate>Tue, 07 Jul 2026 07:02:17 GMT</pubDate>
       <guid isPermaLink="false">your-transactional-internal-call-is-a-lie-1783407737</guid>
-    </item>
-
-<item>
-      <title>Stop Your N+1 Queries From Killing Performance</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-your-n-1-queries-from-killing-performance</link>
-      <description>You know that dreaded N+1 query problem, right? When you fetch a list of `Orders` and then lazily load each `Customer` inside a loop? That&apos;s your database taking a hit, turning one query into N+1 for N orders. Performance tanks, especially under load.
-
-Instead of letting JPA make a separate query for every associated entity, explicitly tell it to fetch everything at once. Use a `FETCH JOIN` in your JPQL or leverage an `@EntityGraph`. It&apos;s a simple change with a massive performance win.
-
-```java
-// Avoid N+1 for customer details
-@Query(&quot;SELECT o FROM Order o JOIN FETCH o.customer&quot;)
-List&lt;Order&gt; findAllOrdersWithCustomers();
-```
-
-This single query now retrieves all `Order` and `Customer` data in one go. Less round trips to the database, faster responses. Always profile your queries and watch that network tab.</description>
-      <pubDate>Mon, 06 Jul 2026 08:04:01 GMT</pubDate>
-      <guid isPermaLink="false">stop-your-n-1-queries-from-killing-performance-1783325041</guid>
     </item>
   </channel>
 </rss>
