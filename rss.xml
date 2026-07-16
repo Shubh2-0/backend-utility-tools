@@ -5,9 +5,26 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Jul 2026 05:54:27 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2026 06:00:24 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Spring Boot App Performance</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
+      <description>When building high-traffic Spring Boot apps, we&apos;ve found that database queries can be a major bottleneck. To mitigate this, we can use Redis as a caching layer. We can store frequently accessed data in Redis and reduce the load on our PostgreSQL database. 
+
+For example, we can use the `@Cacheable` annotation in Spring Boot to cache the result of a method. Here&apos;s a sample code snippet: 
+```java
+@Cacheable(&quot;users&quot;)
+public List&lt;User&gt; getUsers() {
+    return userRepository.findAll();
+}
+```
+This way, we don&apos;t need to query the database every time we need to fetch the list of users. We can&apos;t stress enough how much of a performance boost this can give our app. By implementing caching, we can significantly improve our app&apos;s response time and reduce the load on our database.</description>
+      <pubDate>Thu, 16 Jul 2026 06:00:24 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-spring-boot-app-performance-1784181624</guid>
+    </item>
+
+<item>
       <title>Stop Using Spring Boot Defaults on Cheap ₹100 VMs</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-using-spring-boot-defaults-on-cheap-100-vms</link>
       <description>When you run Spring Boot on a cheap 1GB RAM virtual machine, default configurations will crash your app. By default, HikariCP sets the maximum connection pool size to 10. If you don&apos;t change this, multiple microservices running on the same cheap machine will quickly exhaust PostgreSQL connections and memory.
@@ -237,39 +254,6 @@ public class AppConfig {
 Now, when you run your app with `-Dspring.profiles.active=dev`, only `devService` loads. For production, use `prod` and `prodService` takes over. No messy conditional logic in your code. Just distinct, well-defined configurations for each environment. Keep your builds clean and deployments predictable.</description>
       <pubDate>Thu, 09 Jul 2026 07:03:18 GMT</pubDate>
       <guid isPermaLink="false">smarter-environment-specific-beans-1783580598</guid>
-    </item>
-
-<item>
-      <title>Your `@Transactional` Internal Call Is a Lie</title>
-      <link>https://shubhambhati.is-a.dev/posts/your-transactional-internal-call-is-a-lie</link>
-      <description>Got a Spring service? You write a `@Transactional` method. Inside it, you call another private or protected method also annotated `@Transactional`. You expect separate transaction behavior or isolation. Here&apos;s the kicker: it often won&apos;t happen.
-
-Spring&apos;s `@Transactional` magic relies on AOP proxies. When you call a method on a proxied bean from *outside*, the proxy intercepts it applying the transaction logic. But an internal call, like `this.myPrivateTransactionalMethod()`, bypasses the proxy entirely. This means the inner method&apos;s `@Transactional` annotation is simply ignored. It runs within the *caller&apos;s* transaction context or with no transaction at all if the caller wasn&apos;t transactional.
-
-Consider this:
-
-```java
-@Service
-public class OrderService {
-
-    @Transactional
-    public void placeOrder(Order order) {
-        // save order
-        this.updateInventory(order.getItems()); // internal call
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void updateInventory(List&lt;Item&gt; items) {
-        // update inventory counts
-    }
-}
-```
-
-Here, `updateInventory` will *not* get its own `REQUIRES_NEW` transaction. It&apos;s bound to `placeOrder`&apos;s transaction. If `updateInventory` fails, both operations roll back. The `REQUIRES_NEW` is effectively moot.
-
-To correctly isolate transactions for such logic, extract it into a separate, Spring-managed component and inject it. Call the method on the *injected* component. Understand Spring&apos;s proxy mechanics; they&apos;re key.</description>
-      <pubDate>Tue, 07 Jul 2026 07:02:17 GMT</pubDate>
-      <guid isPermaLink="false">your-transactional-internal-call-is-a-lie-1783407737</guid>
     </item>
   </channel>
 </rss>
