@@ -3,7 +3,7 @@ name: 4. GitHub Growth & Follower Sync Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0,12 * * *' # 2x daily at 5:30 AM IST & 5:30 PM IST (00:00 UTC & 12:00 UTC)
+    - cron: '0 0,8,16 * * *' # 3x daily at 5:30 AM, 1:30 PM, 9:30 PM IST (00:00, 08:00, 16:00 UTC)
 
 jobs:
   run-follower-sync:
@@ -29,6 +29,7 @@ jobs:
       - name: Run GitHub Follower Sync & Growth Engine
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          MAX_FOLLOW: 20
         run: |
           python github-outreach/sync.py
 
