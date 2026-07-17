@@ -3,7 +3,7 @@ name: 4. GitHub Growth & Follower Sync Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Daily at Midnight UTC (5:30 AM IST)
+    - cron: '0 0,12 * * *' # 2x daily at 5:30 AM IST & 5:30 PM IST (00:00 UTC & 12:00 UTC)
 
 jobs:
   run-follower-sync:

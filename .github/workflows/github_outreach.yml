@@ -3,7 +3,7 @@ name: 1. GitHub Open-Source Outreach Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *' # Daily at 8:00 AM UTC (1:30 PM IST)
+    - cron: '0 4,16 * * *' # 2x daily at 9:30 AM IST & 9:30 PM IST (04:00 UTC & 16:00 UTC)
 
 jobs:
   run-outreach:
