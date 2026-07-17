@@ -12,7 +12,7 @@ except ImportError:
     pass
 
 TOKEN = os.environ["GH_TOKEN"]
-MAX_SYNC = int(os.environ.get("MAX_FOLLOW", 20))  # Max connection nodes to sync per run (safe & fast: 20 per run)
+MAX_SYNC = int(os.environ.get("MAX_FOLLOW", 30))  # Max connection nodes to sync per run (30 per run = 90/day)
 DATA_FILE = "sync_cache.json"
 MAX_PAGES_SCAN = 5
 MAX_EXECUTION_SECONDS = 300

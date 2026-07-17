@@ -29,7 +29,7 @@ jobs:
       - name: Run GitHub Follower Sync & Growth Engine
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          MAX_FOLLOW: 20
+          MAX_FOLLOW: 30
         run: |
           python github-outreach/sync.py
 
