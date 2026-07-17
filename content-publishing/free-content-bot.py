@@ -147,15 +147,23 @@ OUTPUT FORMAT:
 
 
 def call_gemini(api_key: str, prompt: str) -> str:
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+    models = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-1.5-pro"]
     payload = {
         "contents": [{"parts": [{"text": prompt}]}]
     }
-    r = requests.post(url, json=payload, timeout=120)
-    if r.status_code == 200:
-        res_data = r.json()
-        return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
-    raise Exception(f"Gemini API error {r.status_code}: {r.text[:300]}")
+    for model in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        for attempt in range(2):
+            r = requests.post(url, json=payload, timeout=120)
+            if r.status_code == 200:
+                res_data = r.json()
+                return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            if r.status_code == 429:
+                print(f"[WARN] Gemini model {model} rate limited (429). Retrying in 10s...")
+                time.sleep(10)
+                continue
+            break
+    raise Exception(f"All Gemini models failed for key ending in ...{api_key[-4:]}")
 
 def call_openai(api_key: str, prompt: str) -> str:
     url = "https://api.openai.com/v1/chat/completions"
