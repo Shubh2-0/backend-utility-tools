@@ -92,57 +92,28 @@ def unsplash_image(query: str, width: int = 1200, height: int = 630, seed: int |
 
 
 def build_prompt(topic: dict) -> str:
-    return f"""You are writing a long-form SEO blog post for a Java/Spring Boot backend
-developer audience. The author is Shubham Bhati, a Backend Engineer with 3+ years
-of production experience.
+    return f"""You are writing a crisp, high-impact technical blog post for a Java/Spring Boot backend developer audience.
+Author: Shubham Bhati, Backend Engineer (Java 17, Spring Boot, Microservices).
 
 TOPIC: {topic['title']}
 PRIMARY KEYWORD: {topic['primary_keyword']}
 SECONDARY KEYWORDS: {', '.join(topic['secondary_keywords'])}
 SEARCH INTENT: {topic['search_intent']}
 
-WRITE A FULL MARKDOWN ARTICLE WITH THIS STRUCTURE:
-
-1. **Intro paragraph** (80-120 words) — hook the reader with a real production
-   problem. Mention the primary keyword naturally in the first 100 words.
-
-2. **Table of Contents** (markdown bullet list with anchor links to the H2s
-   you'll write below).
-
-3. **6-8 H2 sections** (## headings). Each section:
-   - 200-350 words
-   - At least ONE code example in ```java ... ``` or ```sql ... ``` or
-     ```yaml ... ``` fences (4-15 lines, runnable-looking)
-   - Concrete numbers, version-specific notes, "in production we saw..."
-     anecdotes
-   - Sprinkle secondary keywords naturally — no stuffing
-
-4. **Common Mistakes** H2 — bullet list of 5 pitfalls
-
-5. **FAQ** H2 — 4 questions with 2-3 sentence answers each (use H3 for
-   each question — these get picked up by Google's People-Also-Ask)
-
-6. **Conclusion** (100-150 words) — recap and one call to action
+WRITE A MARKDOWN ARTICLE WITH THIS STRUCTURE:
+1. **Intro paragraph** (80-100 words) — hook the reader with a production problem. Mention primary keyword naturally.
+2. **3-4 H2 sections** (## headings). Each section:
+   - 150-200 words
+   - Include clear Java/Spring Boot code snippets (```java ... ```) or configs (```yaml ... ```)
+   - Real-world production notes (e.g., HikariCP connection pooling, latency p99, memory footprint)
+3. **Common Pitfalls** H2 — bullet list of 3-4 common mistakes
+4. **Conclusion** (50-80 words) — brief summary and wrap-up
 
 CONTENT RULES:
-- Total length: 600-800 words (concise, high-impact technical post)
-- Conversational but technical voice (first person plural "we" works well)
-- NO em-dashes, NO words: "leverage", "synergy", "delve", "moreover", "robust",
-  "in today's fast-paced world", "embark on", "harness"
-- DO use: practical examples, version numbers (Java 21, Spring Boot 3.2), real
-  metrics ("reduced p99 from 800ms to 120ms"), trade-offs
-- DO link out 2-3 times to authoritative sources (Spring docs, Oracle docs,
-  Baeldung, official Java tutorials) — use markdown link syntax
-- For code: write real Java/Spring code that compiles, not pseudocode
-- Tone: like a senior engineer mentoring a mid-level dev. Confident, opinionated,
-  but never condescending.
-
-OUTPUT FORMAT:
-- Return ONLY the markdown body. NO title at the top (it'll be added separately).
-- Start directly with the intro paragraph.
-- Do NOT wrap the output in ```markdown fences.
-- Do NOT include images — they'll be inserted later.
-- Do NOT include the author bio or "About the author" — added separately.
+- Total length: 600-800 words
+- Conversational, direct developer voice
+- NO Oxford commas (write "Spring Boot, Kafka and Redis")
+- FORBIDDEN words: leverage, synergy, delve, moreover, robust, paradigm, ecosystem, seamless, game-changer, indeed, additionally, furthermore, thus, hence, consequently
 """
 
 
@@ -154,15 +125,15 @@ def call_gemini(api_key: str, prompt: str) -> str:
     for model in models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         try:
-            r = requests.post(url, json=payload, timeout=60)
+            r = requests.post(url, json=payload, timeout=120)
             if r.status_code == 200:
                 res_data = r.json()
                 text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
                 print(f"[SUCCESS] Generated content via Gemini ({model})!")
                 return text
             if r.status_code == 429:
-                print(f"[WARN] Gemini model {model} rate limited (429). Waiting 15s before next model...")
-                time.sleep(15)
+                print(f"[WARN] Gemini model {model} rate limited (429). Waiting 10s before next model...")
+                time.sleep(10)
                 continue
         except Exception as e:
             print(f"[WARN] Model {model} failed: {e}")
