@@ -146,6 +146,29 @@ OUTPUT FORMAT:
 """
 
 
+def call_gemini(api_key: str, prompt: str) -> str:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}]
+    }
+    r = requests.post(url, json=payload, timeout=120)
+    if r.status_code == 200:
+        res_data = r.json()
+        return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    raise Exception(f"Gemini API error {r.status_code}: {r.text[:300]}")
+
+def call_openai(api_key: str, prompt: str) -> str:
+    url = "https://api.openai.com/v1/chat/completions"
+    payload = {
+        "model": "gpt-4o-mini",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7
+    }
+    r = requests.post(url, headers={"Authorization": f"Bearer {api_key}"}, json=payload, timeout=120)
+    if r.status_code == 200:
+        return r.json()["choices"][0]["message"]["content"].strip()
+    raise Exception(f"OpenAI API error {r.status_code}: {r.text[:300]}")
+
 def call_groq(api_key: str, prompt: str, max_tokens: int = 4000) -> str:
     payload = {
         "model": GROQ_MODEL,
@@ -171,8 +194,34 @@ def call_groq(api_key: str, prompt: str, max_tokens: int = 4000) -> str:
             print(f"[WARN] Groq returned {r.status_code}. Retrying in {wait}s...")
             time.sleep(wait)
             continue
-        raise SystemExit(f"Groq API error {r.status_code}: {r.text[:400]}")
-    raise SystemExit("Groq API failed after 3 retries.")
+        raise Exception(f"Groq API error {r.status_code}: {r.text[:400]}")
+    raise Exception("Groq API failed after 3 retries.")
+
+def generate_article_content(prompt: str) -> str:
+    groq_key = os.environ.get("GROQ_API_KEY")
+    if groq_key:
+        try:
+            return call_groq(groq_key, prompt)
+        except Exception as e:
+            print(f"[WARN] Groq failed: {e}. Trying Gemini...")
+
+    gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEYS")
+    if gemini_key:
+        keys = [k.strip() for k in gemini_key.split(",") if k.strip()]
+        for k in keys:
+            try:
+                return call_gemini(k, prompt)
+            except Exception as e:
+                print(f"[WARN] Gemini key failed: {e}")
+
+    openai_key = os.environ.get("OPENAI_API_KEY")
+    if openai_key:
+        try:
+            return call_openai(openai_key, prompt)
+        except Exception as e:
+            print(f"[WARN] OpenAI failed: {e}")
+
+    raise SystemExit("[ERROR] All content generation attempts failed (Groq, Gemini, OpenAI). Missing API keys or rate limited.")
 
 
 def assemble_article(topic: dict, body: str) -> str:
@@ -291,15 +340,8 @@ def main():
         print(build_prompt(topic))
         return
 
-    groq_key = os.environ.get("GROQ_API_KEY")
-    if not groq_key:
-        raise SystemExit(
-            "GROQ_API_KEY not set. Get one free (no credit card) at "
-            "https://console.groq.com/keys"
-        )
-
-    print("[1/3] Generating article via Groq (Llama 3.3 70B)...")
-    body = call_groq(groq_key, build_prompt(topic))
+    print("[1/3] Generating article via Groq / Gemini / OpenAI...")
+    body = generate_article_content(build_prompt(topic))
     print(f"      Generated {len(body.split())} words.\n")
 
     article = assemble_article(topic, body)
