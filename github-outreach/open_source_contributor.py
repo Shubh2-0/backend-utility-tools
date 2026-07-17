@@ -79,7 +79,7 @@ Issue Description: {body}
 
 Draft Comment:
 """
-    fallback_models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest"]
+    fallback_models = ["gemini-2.0-flash", "gemini-flash-latest"]
     for m_name in fallback_models:
         try:
             m = genai.GenerativeModel(m_name)
