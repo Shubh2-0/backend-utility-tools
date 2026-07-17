@@ -79,7 +79,7 @@ Issue Description: {body}
 
 Draft Comment:
 """
-    fallback_models = ["gemini-3.5-flash", "gemini-2.0-flash", "gemini-flash-latest"]
+    fallback_models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest"]
     for m_name in fallback_models:
         try:
             m = genai.GenerativeModel(m_name)
@@ -88,6 +88,35 @@ Draft Comment:
                 return response.text.strip().replace('"', '')
         except Exception as e:
             print(f"[Warning] Model {m_name} failed: {e}")
+
+    # Fallback to Groq if set
+    groq_key = os.environ.get("GROQ_API_KEY")
+    if groq_key:
+        try:
+            import urllib.request
+            url = "https://api.groq.com/openai/v1/chat/completions"
+            payload = {
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.7
+            }
+            req = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {groq_key}"
+                },
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                res_data = json.loads(resp.read().decode("utf-8"))
+                text = res_data["choices"][0]["message"]["content"].strip()
+                print("[SUCCESS] Outreach comment generated via Groq fallback!")
+                return text.replace('"', '')
+        except Exception as e:
+            print(f"[Warning] Groq fallback failed: {e}")
+
     return None
 
 def is_english_hindi_only(text):
