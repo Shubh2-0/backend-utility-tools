@@ -9,7 +9,7 @@
 
     <item>
       <title>Spring Boot Security: Don't Expose That Sensitive Property</title>
-      <link>https://dev.to/shubhambhati/spring-boot-security-don-t-expose-that-sensitive-property</link>
+      <link>https://dev.to/shubham_bhati/spring-boot-security-don-t-expose-that-sensitive-property</link>
       <description>Ever found yourself accidentally committing sensitive keys or passwords to your Git repo? It&apos;s a common slip-up. In Spring Boot, the easiest way to avoid this for things like API keys or database credentials is to keep them out of your main `application.properties` or `application.yml`.
 
 Instead, use environment variables. Spring Boot automatically picks them up. For example, if you have a property `app.external.api.key`, you can set an environment variable named `APP_EXTERNAL_API_KEY`.
@@ -27,7 +27,7 @@ This way, your code is clean, your repo is safe and you can manage your secrets 
 
 <item>
       <title>Stop Holding DB Connections Hostage</title>
-      <link>https://dev.to/shubhambhati/stop-holding-db-connections-hostage</link>
+      <link>https://dev.to/shubham_bhati/stop-holding-db-connections-hostage</link>
       <description>We often throw `@Transactional` on Spring Boot service methods without thinking. If your method queries PostgreSQL, calls an external API and updates Redis, you hold that HikariCP database connection for the entire API call duration. On cheap servers, this kills performance fast.
 
 HikariCP defaults to 10 connections. If 10 users hit a slow external API, your app freezes. Keep transactions tight.
@@ -60,7 +60,7 @@ public void updateStatus(Long id) {
 
 <item>
       <title>Redis as a Spring Boot Session Store: Speed Up Your Apps</title>
-      <link>https://dev.to/shubhambhati/redis-as-a-spring-boot-session-store-speed-up-your-apps</link>
+      <link>https://dev.to/shubham_bhati/redis-as-a-spring-boot-session-store-speed-up-your-apps</link>
       <description>You&apos;re building a Spring Boot app and notice session management is a bit sluggish. Why not offload that to Redis? It&apos;s incredibly fast and way cheaper than keeping it in-memory or on a relational DB. Here&apos;s the quick setup:
 
 First, add the Spring Data Redis dependency:
@@ -90,7 +90,7 @@ That&apos;s it. Spring Boot will automatically use Redis for session storage. Yo
 
 <item>
       <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
-      <link>https://dev.to/shubhambhati/stop-letting-hikaricp-kill-your-cheap-vps</link>
+      <link>https://dev.to/shubham_bhati/stop-letting-hikaricp-kill-your-cheap-vps</link>
       <description>If you are running Spring Boot, PostgreSQL and Redis on a 512MB RAM VPS to keep costs under ₹100/month, the default HikariCP connection pool will crash your system. Spring Boot defaults to 10 connections. Add database memory overhead and your tiny server instantly runs out of memory.
 
 For early-stage apps making money, you don&apos;t need 10 active connections. A pool size of 2 or 3 can easily handle dozens of concurrent users because database operations finish in milliseconds.
@@ -111,7 +111,7 @@ This simple change keeps your memory footprint low. We scaled a production app t
 
 <item>
       <title>Spring Boot Validation: Don't Reinvent the Wheel</title>
-      <link>https://dev.to/shubhambhati/spring-boot-validation-don-t-reinvent-the-wheel</link>
+      <link>https://dev.to/shubham_bhati/spring-boot-validation-don-t-reinvent-the-wheel</link>
       <description>You&apos;re building a new API endpoint and need to validate incoming request data. Most of us grab a bunch of `if` statements. Stop right there. Spring Boot&apos;s got your back with JSR 380 (Jakarta Bean Validation).
 
 Just add the `spring-boot-starter-validation` dependency. Then, annotate your DTO with `@Valid` and your fields with constraints like `@NotNull` `@Size(min=2 max=10)` or `@Email`. Spring Boot automatically handles validation errors, returning a `400 Bad Request` with details. It&apos;s way cleaner and more maintainable.
@@ -149,7 +149,7 @@ public ResponseEntity&lt;?&gt; createUser(@Valid @RequestBody UserRequest reques
 
 <item>
       <title>Stop Manual JSON Parsing in Spring Boot</title>
-      <link>https://dev.to/shubhambhati/stop-manual-json-parsing-in-spring-boot</link>
+      <link>https://dev.to/shubham_bhati/stop-manual-json-parsing-in-spring-boot</link>
       <description>You&apos;re probably still writing boilerplate code to parse JSON requests in your Spring Boot controllers. It&apos;s 2024 folks! Spring Boot&apos;s `@RequestBody` annotation handles this beautifully out of the box. Just define your Java object and let Spring do the heavy lifting.
 
 Consider this:
@@ -170,7 +170,7 @@ This not only cleans up your code but also improves performance slightly by avoi
 
 <item>
       <title>Spring Boot Database Connection Pooling</title>
-      <link>https://dev.to/shubhambhati/spring-boot-database-connection-pooling</link>
+      <link>https://dev.to/shubham_bhati/spring-boot-database-connection-pooling</link>
       <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a huge difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. Spring Boot makes this easy with the HikariCP library. We just need to add the dependency to our pom.xml file and configure the connection pool properties. For example, we can set the minimum and maximum pool size like this: 
 @Bean 
 public DataSource dataSource() { 
@@ -188,7 +188,7 @@ Then we can configure the pool size in our application.properties file: spring.d
 
 <item>
       <title>Smarter Environment-Specific Beans</title>
-      <link>https://dev.to/shubhambhati/smarter-environment-specific-beans</link>
+      <link>https://dev.to/shubham_bhati/smarter-environment-specific-beans</link>
       <description>Ever found yourself commenting out local-only configurations or using cumbersome if-else blocks for different environments? There’s a cleaner way: Spring’s `@Profile` annotation.
 
 It lets you define beans that are *only* active when a specific profile is enabled. This is fantastic for things like mocking external services locally or using a different message broker for development versus production.

@@ -148,7 +148,7 @@ def build_rss_item(title, body, post_url=None):
     if post_url:
         link = post_url
     else:
-        link = "https://dev.to/shubhambhati"
+        link = "https://dev.to/shubham_bhati"
     
     # HTML escape the body text to make RSS valid XML
     escaped_body = body.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("'", "&apos;")
