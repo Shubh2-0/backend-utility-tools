@@ -102,25 +102,81 @@ def call_gemini(api_key, title, body_snippet):
     return None
 
 
+def call_openai(api_key, title, body_snippet):
+    url = "https://api.openai.com/v1/chat/completions"
+    system_instruction = (
+        "You are Shubham Bhati, a Java Spring Boot Engineer. "
+        "Write a short, insightful backend developer comment on this post."
+    )
+    prompt = (
+        f"Article Title: {title}\n"
+        f"Article Excerpt: {body_snippet[:800]}\n\n"
+        "Write a short developer comment (40-70 words).\n"
+        "Rules:\n"
+        "1. Direct engineer tone.\n"
+        "2. NO intro fluff like 'Great post!'.\n"
+        "3. NO Oxford commas.\n"
+        "4. NO AI buzzwords.\n"
+        "5. Use natural contractions.\n"
+        "6. Return ONLY the comment text."
+    )
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 150
+    }
+    try:
+        r = requests.post(url, headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}, json=payload, timeout=20)
+        if r.status_code == 200:
+            text = r.json()["choices"][0]["message"]["content"].strip()
+            return strip_oxford_comma(text)
+    except Exception as e:
+        print(f"[WARN] OpenAI failed: {e}")
+    return None
+
+
 def generate_comment(title, body_snippet):
+    # Try Groq first (fastest, free)
     groq_key = os.environ.get("GROQ_API_KEY")
     if groq_key:
         try:
             res = call_groq(groq_key, title, body_snippet)
             if res:
+                print("  [LLM] Comment generated via Groq.")
                 return res
         except Exception as e:
             print(f"[WARN] Groq failed: {e}")
 
-    gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEYS", "").split(",")[0]
+    # Try Gemini (free tier)
+    gemini_key = os.environ.get("GEMINI_API_KEY") or ""
+    if not gemini_key:
+        keys_str = os.environ.get("GEMINI_API_KEYS", "")
+        gemini_key = keys_str.split(",")[0].strip() if keys_str else ""
     if gemini_key:
         try:
             res = call_gemini(gemini_key, title, body_snippet)
             if res:
+                print("  [LLM] Comment generated via Gemini.")
                 return res
         except Exception as e:
             print(f"[WARN] Gemini failed: {e}")
 
+    # Try OpenAI as final fallback
+    openai_key = os.environ.get("OPENAI_API_KEY")
+    if openai_key:
+        try:
+            res = call_openai(openai_key, title, body_snippet)
+            if res:
+                print("  [LLM] Comment generated via OpenAI.")
+                return res
+        except Exception as e:
+            print(f"[WARN] OpenAI fallback failed: {e}")
+
+    print("  [WARN] All LLM providers failed or no API keys set.")
     return None
 
 
