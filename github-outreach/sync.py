@@ -41,7 +41,8 @@ ROUTE_STARRED = "user/starred"
 
 headers = {
     "Authorization": f"token {TOKEN}",
-    "Accept": "application/vnd.github.v3+json"
+    "Accept": "application/vnd.github.v3+json",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 }
 
 
@@ -332,6 +333,7 @@ def synchronize_network_nodes():
             continue
         
         consecutive_empty_pages = 0
+        random.shuffle(users)  # Organic non-linear candidate sequence
 
         for user in users:
             if synced >= target_count:
@@ -409,10 +411,15 @@ def synchronize_network_nodes():
             else:
                 print(f"Failed to sync node {username}")
 
-            # Sleep to prevent high load / rate limit
-            wait = random.randint(12, 25)
-            print(f"  Throttling: waiting {wait}s...")
-            time.sleep(wait)
+            # Human-like sleep & micro coffee break jitter
+            wait = random.uniform(15, 30)
+            if random.random() < 0.15 and synced > 3:  # 15% chance of human coffee break pause
+                pause = random.uniform(40, 75)
+                print(f"  [Human Pause Jitter] Taking a micro coffee-break ({pause:.1f}s)...")
+                time.sleep(pause)
+            else:
+                print(f"  Throttling: waiting {wait:.1f}s...")
+                time.sleep(wait)
 
         page += 1
 
