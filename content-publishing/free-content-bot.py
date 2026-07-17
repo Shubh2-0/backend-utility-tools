@@ -147,22 +147,25 @@ OUTPUT FORMAT:
 
 
 def call_gemini(api_key: str, prompt: str) -> str:
-    models = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-1.5-pro"]
+    models = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-1.5-flash", "gemini-pro-latest"]
     payload = {
         "contents": [{"parts": [{"text": prompt}]}]
     }
     for model in models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-        for attempt in range(2):
-            r = requests.post(url, json=payload, timeout=120)
+        try:
+            r = requests.post(url, json=payload, timeout=60)
             if r.status_code == 200:
                 res_data = r.json()
-                return res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                print(f"[SUCCESS] Generated content via Gemini ({model})!")
+                return text
             if r.status_code == 429:
-                print(f"[WARN] Gemini model {model} rate limited (429). Retrying in 10s...")
-                time.sleep(10)
+                print(f"[WARN] Gemini model {model} rate limited (429). Trying next model...")
                 continue
-            break
+        except Exception as e:
+            print(f"[WARN] Model {model} failed: {e}")
+            continue
     raise Exception(f"All Gemini models failed for key ending in ...{api_key[-4:]}")
 
 def call_openai(api_key: str, prompt: str) -> str:
