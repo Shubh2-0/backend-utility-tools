@@ -53,7 +53,7 @@ async def main() -> int:
 
     # Exit non-zero only if EVERY portal with creds failed
     had_any_ok = any(v == "OK" for v in results.values())
-    had_any_creds = any(os.getenv(f"{p.upper()}_EMAIL") for p, _ in PORTALS)
+    had_any_creds = any(os.getenv(f"{p.upper()}_EMAIL") or os.getenv(f"{p.upper()}_USERNAME") for p, _ in PORTALS)
     if had_any_creds and not had_any_ok:
         return 1
     return 0
