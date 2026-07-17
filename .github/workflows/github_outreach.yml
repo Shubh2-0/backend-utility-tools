@@ -25,6 +25,8 @@ jobs:
       - name: Run Open Source GitHub Outreach Bot
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
