@@ -1,10 +1,11 @@
-name: 3. Job Portals Profile Updater (Manual Only)
+name: 3. Job Portals Profile Updater (DISABLED)
 
 on:
   workflow_dispatch:
 
 jobs:
   update-job-profiles:
+    if: false # Disabled per user request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
