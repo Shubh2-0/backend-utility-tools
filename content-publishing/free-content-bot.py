@@ -299,7 +299,10 @@ def post_to_hashnode(token: str, publication_id: str, title: str, body: str, tag
     )
     if r.status_code != 200:
         return {"ok": False, "error": f"HTTP {r.status_code}: {r.text[:300]}"}
-    j = r.json()
+    try:
+        j = r.json()
+    except Exception:
+        return {"ok": False, "error": f"Hashnode returned non-JSON response: {r.text[:200]}"}
     if "errors" in j:
         return {"ok": False, "error": str(j["errors"])[:300]}
     post = j.get("data", {}).get("publishPost", {}).get("post", {})
