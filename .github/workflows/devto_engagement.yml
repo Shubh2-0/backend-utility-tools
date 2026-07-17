@@ -1,0 +1,43 @@
+name: 5. DEV.to AI Post React & Comment Bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 14 * * *' # Daily 8:00 PM IST (14:30 UTC)
+
+jobs:
+  devto-engagement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run DEV.to AI React & Comment Engine
+        env:
+          DEV_TO_API_KEY: ${{ secrets.DEV_TO_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+        run: |
+          python content-publishing/devto_engagement_bot.py
+
+      - name: Save Cache State
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add content-publishing/devto_engagement_cache.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "chore(devto): update devto engagement cache state [skip ci]" && git push origin master)
