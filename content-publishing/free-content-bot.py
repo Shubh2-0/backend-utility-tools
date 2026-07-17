@@ -125,7 +125,7 @@ WRITE A FULL MARKDOWN ARTICLE WITH THIS STRUCTURE:
 6. **Conclusion** (100-150 words) — recap and one call to action
 
 CONTENT RULES:
-- Total length: 1500-2200 words
+- Total length: 600-800 words (concise, high-impact technical post)
 - Conversational but technical voice (first person plural "we" works well)
 - NO em-dashes, NO words: "leverage", "synergy", "delve", "moreover", "robust",
   "in today's fast-paced world", "embark on", "harness"
@@ -147,7 +147,7 @@ OUTPUT FORMAT:
 
 
 def call_gemini(api_key: str, prompt: str) -> str:
-    models = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-1.5-flash", "gemini-pro-latest"]
+    models = ["gemini-2.0-flash", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-1.5-flash"]
     payload = {
         "contents": [{"parts": [{"text": prompt}]}]
     }
@@ -161,7 +161,8 @@ def call_gemini(api_key: str, prompt: str) -> str:
                 print(f"[SUCCESS] Generated content via Gemini ({model})!")
                 return text
             if r.status_code == 429:
-                print(f"[WARN] Gemini model {model} rate limited (429). Trying next model...")
+                print(f"[WARN] Gemini model {model} rate limited (429). Waiting 15s before next model...")
+                time.sleep(15)
                 continue
         except Exception as e:
             print(f"[WARN] Model {model} failed: {e}")
