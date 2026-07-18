@@ -5,9 +5,29 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2026 06:00:38 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2026 05:46:17 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Letting Spring Boot Devour Your Cheap VPS RAM</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-letting-spring-boot-devour-your-cheap-vps-ram</link>
+      <description>Running Spring Boot on a $1 VPS (around ₹80/month) seems impossible because the JVM is notoriously memory-hungry. By default, it will happily eat up all your RAM and trigger the OS out-of-memory killer.
+
+You don&apos;t need a heavy instance to run your MVP. You can easily squeeze Spring Boot, PostgreSQL and Redis into a single 512MB RAM machine by tuning your JVM garbage collector and thread limits.
+
+Stop using default settings. Pass these flags when starting your jar:
+
+```bash
+java -XX:+UseSerialGC -Xss256k -XX:MaxRAMPercentage=50.0 -jar app.jar
+```
+
+Using `SerialGC` instead of `G1GC` drastically reduces memory overhead for single-core VPS hosting. Lowering the thread stack size (`-Xss`) to 256k saves massive amounts of RAM because you don&apos;t need the default 1MB per thread for typical web apps. 
+
+This simple configuration keeps your Spring Boot process idling at under 150MB of RAM, leaving plenty of room for your database. This is how you host dirt cheap, validate your product and scale your revenue.</description>
+      <pubDate>Sat, 18 Jul 2026 05:46:17 GMT</pubDate>
+      <guid isPermaLink="false">stop-letting-spring-boot-devour-your-cheap-vps-ram-1784353577</guid>
+    </item>
+
+<item>
       <title>Stop Over-allocating HikariCP Connections on Cheap Servers</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-over-allocating-hikaricp-connections-on-cheap-servers</link>
       <description>If you&apos;re hosting a full-stack Java app on a cheap ₹100/month VPS, default configurations will kill your server. Spring Boot defaults to a HikariCP pool size of 10. If you run your app, Postgres and Redis on the same small machine, you&apos;ll run out of RAM fast.
@@ -225,24 +245,6 @@ public ResponseEntity&lt;User&gt; createUser(@RequestBody User newUser) {
 This not only cleans up your code but also improves performance slightly by avoiding manual deserialization overhead. Don&apos;t reinvent the wheel.</description>
       <pubDate>Sat, 11 Jul 2026 05:58:20 GMT</pubDate>
       <guid isPermaLink="false">stop-manual-json-parsing-in-spring-boot-1783749500</guid>
-    </item>
-
-<item>
-      <title>Spring Boot Database Connection Pooling</title>
-      <link>https://shubhambhati.is-a.dev/posts/spring-boot-database-connection-pooling</link>
-      <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a huge difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. Spring Boot makes this easy with the HikariCP library. We just need to add the dependency to our pom.xml file and configure the connection pool properties. For example, we can set the minimum and maximum pool size like this: 
-@Bean 
-public DataSource dataSource() { 
-    return DataSourceBuilder.create() 
-        .driverClassName(&quot;org.postgresql.Driver&quot;) 
-        .url(&quot;jdbc:postgresql://localhost:5432/mydb&quot;) 
-        .username(&quot;myuser&quot;) 
-        .password(&quot;mypassword&quot;) 
-        .build(); 
-} 
-Then we can configure the pool size in our application.properties file: spring.datasource.hikari.minimumPoolSize=5 and spring.datasource.hikari.maximumPoolSize=15. This way, our application doesn&apos;t run out of connections when handling a large number of requests.</description>
-      <pubDate>Fri, 10 Jul 2026 07:02:56 GMT</pubDate>
-      <guid isPermaLink="false">spring-boot-database-connection-pooling-1783666976</guid>
     </item>
   </channel>
 </rss>
