@@ -248,53 +248,65 @@ def main():
         print("[WARN] No articles found.")
         return
 
-    engaged_count = 0
-    max_engagement = 1  # 1 high-quality interaction per run (100% human-safe)
-
+    # Pick first valid uncached article — call LLM only ONCE (eliminates TPM issue)
+    target_article = None
     for article in articles:
-        if engaged_count >= max_engagement:
-            break
-
         article_id = article.get("id")
-        title = article.get("title", "")
         author_username = article.get("user", {}).get("username", "").lower()
 
-        # Skip self or already commented articles
-        if not article_id or article_id in commented_ids or author_username in ["shubham_bhati", "shubh2-0"]:
+        if not article_id:
+            continue
+        if article_id in commented_ids:
+            print(f"  [SKIP] Article {article_id} already engaged.")
+            continue
+        if author_username in ["shubham_bhati", "shubh2-0"]:
             continue
 
-        print(f"\nTarget Article ID: {article_id} | Title: '{title}' by @{author_username}")
+        target_article = article
+        break  # Found a valid article — stop scanning
 
-        snippet = article.get("description", "") or title
-        comment = generate_comment(title, snippet)
+    if not target_article:
+        print("[INFO] No new articles to engage with today.")
+        print(f"\nCycle finished. Total engaged: 0")
+        return
 
-        if not comment:
-            print("  [SKIP] Could not generate comment.")
-            continue
+    article_id = target_article.get("id")
+    title = target_article.get("title", "")
+    author_username = target_article.get("user", {}).get("username", "").lower()
 
-        # Enforce word filter safety
-        has_forbidden = any(word in comment.lower() for word in FORBIDDEN_WORDS)
-        if has_forbidden:
-            print("  [WARN] Comment contained forbidden word. Regenerating or skipping.")
-            continue
+    print(f"\nTarget Article ID: {article_id} | Title: '{title}' by @{author_username}")
 
-        print(f"  Generated Comment:\n  \"{comment}\"\n")
+    snippet = target_article.get("description", "") or title
+    comment = generate_comment(title, snippet)
 
-        # 1. React to article
-        react_to_article(devto_key, article_id)
+    if not comment:
+        print("  [SKIP] Could not generate comment from any LLM provider.")
+        print(f"\nCycle finished. Total engaged: 0")
+        return
 
-        time.sleep(random.uniform(5, 12))  # Human delay
+    # Enforce forbidden word filter
+    has_forbidden = any(word in comment.lower() for word in FORBIDDEN_WORDS)
+    if has_forbidden:
+        print("  [WARN] Comment contained forbidden word. Skipping.")
+        print(f"\nCycle finished. Total engaged: 0")
+        return
 
-        # 2. Post comment
-        success = post_comment(devto_key, article_id, comment)
-        if success:
-            commented_ids.add(article_id)
-            cache["commented_articles"] = list(commented_ids)
-            save_cache(cache)
-            engaged_count += 1
-            print("  State updated and cached.")
+    print(f"  Generated Comment:\n  \"{comment}\"\n")
 
-    print(f"\nCycle finished. Total engaged: {engaged_count}")
+    # 1. React to article
+    react_to_article(devto_key, article_id)
+
+    time.sleep(random.uniform(5, 12))  # Human delay
+
+    # 2. Post comment
+    success = post_comment(devto_key, article_id, comment)
+    if success:
+        commented_ids.add(article_id)
+        cache["commented_articles"] = list(commented_ids)
+        save_cache(cache)
+        print("  State updated and cached.")
+
+    print(f"\nCycle finished. Total engaged: {1 if success else 0}")
 
 
 if __name__ == "__main__":
