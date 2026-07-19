@@ -194,10 +194,15 @@ def fetch_trending_articles():
 
 
 def react_to_article(api_key, article_id):
+    url = "https://dev.to/api/reactions/toggle"
     category = random.choice(["like", "unicorn", "readinglist"])
-    url = f"https://dev.to/api/reactions/toggle?category={category}&reactable_id={article_id}&reactable_type=Article"
+    payload = {
+        "category": category,
+        "reactable_id": article_id,
+        "reactable_type": "Article"
+    }
     try:
-        r = requests.post(url, headers={"api-key": api_key}, timeout=15)
+        r = requests.post(url, headers={"api-key": api_key, "Content-Type": "application/json"}, json=payload, timeout=15)
         if r.status_code in (200, 201):
             print(f"  [Reaction] Reacted to article {article_id} with category '{category}'")
             return True
