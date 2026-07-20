@@ -189,14 +189,13 @@ def generate_article_content(prompt: str) -> str:
         except Exception as e:
             print(f"[WARN] Groq failed: {e}. Trying Gemini...")
 
-    gemini_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEYS")
-    if gemini_key:
-        keys = [k.strip() for k in gemini_key.split(",") if k.strip()]
-        for k in keys:
-            try:
-                return call_gemini(k, prompt)
-            except Exception as e:
-                print(f"[WARN] Gemini key failed: {e}")
+    raw_keys = f"{os.environ.get('GEMINI_API_KEY', '')},{os.environ.get('GEMINI_API_KEYS', '')}"
+    keys = list(dict.fromkeys([k.strip() for k in raw_keys.split(",") if k.strip()]))
+    for k in keys:
+        try:
+            return call_gemini(k, prompt)
+        except Exception as e:
+            print(f"[WARN] Gemini key ending in ...{k[-4:]} failed: {e}")
 
     openai_key = os.environ.get("OPENAI_API_KEY")
     if openai_key:
