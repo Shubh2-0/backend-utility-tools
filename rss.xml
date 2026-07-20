@@ -5,9 +5,34 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Jul 2026 06:13:59 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 06:33:43 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Blaming Hibernate for Slow APIs: Tune Your Connection Pool Instead</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead</link>
+      <description>Most developers blame Hibernate when response times spike. Usually, the real bottleneck is database connection pool starvation. By default, Spring Boot HikariCP allocates connections eagerly, even when your API is just waiting on a slow third-party HTTP call. 
+
+If you don&apos;t configure this right, your $2 VPS will crash under minimal load.
+
+To fix this, keep network hops outside your `@Transactional` blocks. Run your external API calls first, then open the transaction, write to the database and close it immediately. 
+
+Also, enforce read-only transactions for fetch queries:
+
+```java
+@Transactional(readOnly = true)
+public ProductDto getProduct(Long id) {
+    return repository.findById(id)
+        .map(ProductDto::new)
+        .orElseThrow();
+}
+```
+
+This simple annotation prevents Hibernate from dirty checking, optimizes connection routing and helps your app scale on cheap hardware.</description>
+      <pubDate>Mon, 20 Jul 2026 06:33:43 GMT</pubDate>
+      <guid isPermaLink="false">stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead-1784529223</guid>
+    </item>
+
+<item>
       <title>Scale Your ₹100/Month VPS with Virtual Threads</title>
       <link>https://shubhambhati.is-a.dev/posts/scale-your-100-month-vps-with-virtual-threads</link>
       <description>If you host your app on a cheap ₹100/month VPS, you can&apos;t afford heavy OS threads. Standard Spring Boot configuration maps each request to a platform thread. These take up to 1MB of RAM each. With just 100 concurrent requests, your memory spikes and the OS kills your Java process.
@@ -204,44 +229,6 @@ spring.datasource.hikari.max-lifetime=30000
 This simple change keeps your memory footprint low. We scaled a production app to ₹1 Lakh revenue using just 3 connections on a cheap VPS. Stop overpaying for cloud databases when a tiny VPS can do the job.</description>
       <pubDate>Sat, 11 Jul 2026 21:24:07 GMT</pubDate>
       <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1783805047</guid>
-    </item>
-
-<item>
-      <title>Spring Boot Validation: Don't Reinvent the Wheel</title>
-      <link>https://shubhambhati.is-a.dev/posts/spring-boot-validation-don-t-reinvent-the-wheel</link>
-      <description>You&apos;re building a new API endpoint and need to validate incoming request data. Most of us grab a bunch of `if` statements. Stop right there. Spring Boot&apos;s got your back with JSR 380 (Jakarta Bean Validation).
-
-Just add the `spring-boot-starter-validation` dependency. Then, annotate your DTO with `@Valid` and your fields with constraints like `@NotNull` `@Size(min=2 max=10)` or `@Email`. Spring Boot automatically handles validation errors, returning a `400 Bad Request` with details. It&apos;s way cleaner and more maintainable.
-
-```java
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-public class UserRequest {
-    @NotBlank
-    @Size(min = 2 max = 50)
-    private String name;
-
-    @NotBlank
-    @Email
-    private String email;
-
-    // Getters and Setters
-}
-```
-
-Then in your controller:
-
-```java
-@PostMapping(&quot;/users&quot;)
-public ResponseEntity&lt;?&gt; createUser(@Valid @RequestBody UserRequest request) {
-    // ... your logic
-    return ResponseEntity.ok(&quot;User created&quot;);
-}
-```</description>
-      <pubDate>Sat, 11 Jul 2026 20:29:27 GMT</pubDate>
-      <guid isPermaLink="false">spring-boot-validation-don-t-reinvent-the-wheel-1783801767</guid>
     </item>
   </channel>
 </rss>
