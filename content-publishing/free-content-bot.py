@@ -118,7 +118,7 @@ CONTENT RULES:
 
 
 def call_gemini(api_key: str, prompt: str) -> str:
-    models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-pro"]
+    models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
     payload = {
         "contents": [{"parts": [{"text": prompt}]}]
     }
@@ -131,10 +131,12 @@ def call_gemini(api_key: str, prompt: str) -> str:
                 text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
                 print(f"[SUCCESS] Generated content via Gemini ({model})!")
                 return text
-            if r.status_code == 429:
-                print(f"[WARN] Gemini model {model} rate limited (429). Trying next model in 10s...")
-                time.sleep(10)
+            elif r.status_code == 429:
+                print(f"[WARN] Gemini model {model} rate limited (429). Retrying next model in 15s...")
+                time.sleep(15)
                 continue
+            else:
+                print(f"[WARN] Gemini model {model} returned HTTP {r.status_code}: {r.text[:150]}")
         except Exception as e:
             print(f"[WARN] Model {model} failed: {e}")
             time.sleep(3)
