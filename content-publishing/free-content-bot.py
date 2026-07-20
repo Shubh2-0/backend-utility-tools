@@ -118,28 +118,27 @@ CONTENT RULES:
 
 
 def call_gemini(api_key: str, prompt: str) -> str:
-    models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
+    models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-pro"]
     payload = {
         "contents": [{"parts": [{"text": prompt}]}]
     }
     for model in models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-        for attempt in range(2):
-            try:
-                r = requests.post(url, json=payload, timeout=120)
-                if r.status_code == 200:
-                    res_data = r.json()
-                    text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
-                    print(f"[SUCCESS] Generated content via Gemini ({model})!")
-                    return text
-                if r.status_code == 429:
-                    print(f"[WARN] Gemini model {model} rate limited (429). Retrying in 12s...")
-                    time.sleep(12)
-                    continue
-            except Exception as e:
-                print(f"[WARN] Model {model} attempt {attempt+1} failed: {e}")
-                time.sleep(5)
+        try:
+            r = requests.post(url, json=payload, timeout=120)
+            if r.status_code == 200:
+                res_data = r.json()
+                text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                print(f"[SUCCESS] Generated content via Gemini ({model})!")
+                return text
+            if r.status_code == 429:
+                print(f"[WARN] Gemini model {model} rate limited (429). Trying next model in 10s...")
+                time.sleep(10)
                 continue
+        except Exception as e:
+            print(f"[WARN] Model {model} failed: {e}")
+            time.sleep(3)
+            continue
     raise Exception(f"All Gemini models failed for key ending in ...{api_key[-4:]}")
 
 def call_openai(api_key: str, prompt: str) -> str:
