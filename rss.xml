@@ -5,9 +5,29 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Jul 2026 06:33:43 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 06:12:40 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Overpaying for Spring Boot Hosting</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-overpaying-for-spring-boot-hosting</link>
+      <description>Most developers think you need a 2GB RAM server to run a Spring Boot app. That is why they spend thousands on cloud providers. You can easily host your Spring Boot API, PostgreSQL and Redis on a $1/month VPS if you tune the JVM.
+
+By default, the JVM is greedy. It grabs memory it doesn&apos;t need. 
+
+Add these JVM flags to your Dockerfile to cap memory and force aggressive garbage collection:
+
+```bash
+java -XX:MaxRAMPercentage=50.0 -XX:+UseSerialGC -Xss256k -jar app.jar
+```
+
+Using `SerialGC` instead of `G1GC` reduces memory overhead significantly for small applications. Capping the thread stack size (`-Xss256k`) saves precious memory. This lets your container run on a 512MB RAM instance, leaving room for your database and cache. 
+
+I used this exact setup to scale a side project to ₹1 Lakh in revenue while paying just ₹80/month for hosting.</description>
+      <pubDate>Tue, 21 Jul 2026 06:12:40 GMT</pubDate>
+      <guid isPermaLink="false">stop-overpaying-for-spring-boot-hosting-1784614360</guid>
+    </item>
+
+<item>
       <title>Stop Blaming Hibernate for Slow APIs: Tune Your Connection Pool Instead</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead</link>
       <description>Most developers blame Hibernate when response times spike. Usually, the real bottleneck is database connection pool starvation. By default, Spring Boot HikariCP allocates connections eagerly, even when your API is just waiting on a slow third-party HTTP call. 
@@ -208,27 +228,6 @@ public class YourAppApplication {
 That&apos;s it. Spring Boot will automatically use Redis for session storage. Your users will thank you for the snappier experience and you&apos;ll save on server resources.</description>
       <pubDate>Sun, 12 Jul 2026 06:18:45 GMT</pubDate>
       <guid isPermaLink="false">redis-as-a-spring-boot-session-store-speed-up-your-apps-1783837125</guid>
-    </item>
-
-<item>
-      <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
-      <description>If you are running Spring Boot, PostgreSQL and Redis on a 512MB RAM VPS to keep costs under ₹100/month, the default HikariCP connection pool will crash your system. Spring Boot defaults to 10 connections. Add database memory overhead and your tiny server instantly runs out of memory.
-
-For early-stage apps making money, you don&apos;t need 10 active connections. A pool size of 2 or 3 can easily handle dozens of concurrent users because database operations finish in milliseconds.
-
-Limit your pool size in `application.properties`:
-
-```properties
-spring.datasource.hikari.maximum-pool-size=3
-spring.datasource.hikari.minimum-idle=1
-spring.datasource.hikari.idle-timeout=10000
-spring.datasource.hikari.max-lifetime=30000
-```
-
-This simple change keeps your memory footprint low. We scaled a production app to ₹1 Lakh revenue using just 3 connections on a cheap VPS. Stop overpaying for cloud databases when a tiny VPS can do the job.</description>
-      <pubDate>Sat, 11 Jul 2026 21:24:07 GMT</pubDate>
-      <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1783805047</guid>
     </item>
   </channel>
 </rss>
