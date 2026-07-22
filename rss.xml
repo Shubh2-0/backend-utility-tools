@@ -5,9 +5,36 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Jul 2026 06:12:40 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2026 06:11:56 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Wasting CPU Cycles on Read-Only Spring Boot Queries</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-wasting-cpu-cycles-on-read-only-spring-boot-queries</link>
+      <description>Most developers default to standard `@Transactional` annotations across their service layer. But if you&apos;re fetching data without modifying it, you&apos;re wasting memory and CPU cycles.
+
+When you mark a method as `@Transactional(readOnly = true)`, Hibernate turns off dirty checking for managed entities. It skips taking snapshot copies of your domain objects, which lowers memory overhead during high-throughput reads. If you&apos;re using PostgreSQL, it also lets your driver optimize database-level transactions and route queries to read replicas.
+
+Here&apos;s how it looks:
+
+```java
+@Service
+public class UserService {
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserDetails(Long id) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -&gt; new NotFoundException(&quot;User missing&quot;));
+        return new UserResponse(user.getId(), user.getName(), user.getEmail());
+    }
+}
+```
+
+Small tweaks like this keep your heap footprint tiny. That&apos;s how we run Spring Boot, PostgreSQL and Redis workloads on cheap $1 VPS instances without crashing under peak load.</description>
+      <pubDate>Wed, 22 Jul 2026 06:11:56 GMT</pubDate>
+      <guid isPermaLink="false">stop-wasting-cpu-cycles-on-read-only-spring-boot-queries-1784700716</guid>
+    </item>
+
+<item>
       <title>Stop Overpaying for Spring Boot Hosting</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-overpaying-for-spring-boot-hosting</link>
       <description>Most developers think you need a 2GB RAM server to run a Spring Boot app. That is why they spend thousands on cloud providers. You can easily host your Spring Boot API, PostgreSQL and Redis on a $1/month VPS if you tune the JVM.
@@ -198,36 +225,6 @@ public void updateStatus(Long id) {
 ```</description>
       <pubDate>Mon, 13 Jul 2026 06:39:12 GMT</pubDate>
       <guid isPermaLink="false">stop-holding-db-connections-hostage-1783924752</guid>
-    </item>
-
-<item>
-      <title>Redis as a Spring Boot Session Store: Speed Up Your Apps</title>
-      <link>https://shubhambhati.is-a.dev/posts/redis-as-a-spring-boot-session-store-speed-up-your-apps</link>
-      <description>You&apos;re building a Spring Boot app and notice session management is a bit sluggish. Why not offload that to Redis? It&apos;s incredibly fast and way cheaper than keeping it in-memory or on a relational DB. Here&apos;s the quick setup:
-
-First, add the Spring Data Redis dependency:
-```xml
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-&lt;/dependency&gt;
-```
-Then, configure your `application.properties` or `application.yml`:
-```properties
-spring.redis.host=localhost
-spring.redis.port=6379
-```
-Now, enable RedisHttpSession in your main application class:
-```java
-@SpringBootApplication
-@EnableRedisHttpSession
-public class YourAppApplication {
-    // ...
-}
-```
-That&apos;s it. Spring Boot will automatically use Redis for session storage. Your users will thank you for the snappier experience and you&apos;ll save on server resources.</description>
-      <pubDate>Sun, 12 Jul 2026 06:18:45 GMT</pubDate>
-      <guid isPermaLink="false">redis-as-a-spring-boot-session-store-speed-up-your-apps-1783837125</guid>
     </item>
   </channel>
 </rss>
