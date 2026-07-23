@@ -5,9 +5,26 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Jul 2026 06:11:56 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2026 06:16:47 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Spring Boot App Performance</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
+      <description>We&apos;ve all been there - our Spring Boot app is running slow and we can&apos;t figure out why. One thing that can help is caching. We can use Redis to cache frequently accessed data. Here&apos;s a simple example of how to do it:
+```java
+@Bean
+public RedisTemplate&lt;String, String&gt; redisTemplate(RedisConnectionFactory cf) {
+    RedisTemplate&lt;String, String&gt; redisTemplate = new RedisTemplate&lt;String, String&gt;();
+    redisTemplate.setConnectionFactory(cf);
+    return redisTemplate;
+}
+```
+This sets up a Redis template that we can use to cache data. We can then use this template to cache the results of expensive database queries. This can greatly improve our app&apos;s performance. Spring Boot also provides a number of other tools to help with performance optimization, including built-in support for caching and profiling tools. By using these tools we can identify performance bottlenecks and fix them.</description>
+      <pubDate>Thu, 23 Jul 2026 06:16:47 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-spring-boot-app-performance-1784787407</guid>
+    </item>
+
+<item>
       <title>Stop Wasting CPU Cycles on Read-Only Spring Boot Queries</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-wasting-cpu-cycles-on-read-only-spring-boot-queries</link>
       <description>Most developers default to standard `@Transactional` annotations across their service layer. But if you&apos;re fetching data without modifying it, you&apos;re wasting memory and CPU cycles.
@@ -192,39 +209,6 @@ app.external.api.key=${EXTERNAL_API_KEY:default_fallback_key}
 This way, your code is clean, your repo is safe and you can manage your secrets per environment (dev staging prod) without touching the codebase.</description>
       <pubDate>Tue, 14 Jul 2026 05:53:48 GMT</pubDate>
       <guid isPermaLink="false">spring-boot-security-don-t-expose-that-sensitive-property-1784008428</guid>
-    </item>
-
-<item>
-      <title>Stop Holding DB Connections Hostage</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-holding-db-connections-hostage</link>
-      <description>We often throw `@Transactional` on Spring Boot service methods without thinking. If your method queries PostgreSQL, calls an external API and updates Redis, you hold that HikariCP database connection for the entire API call duration. On cheap servers, this kills performance fast.
-
-HikariCP defaults to 10 connections. If 10 users hit a slow external API, your app freezes. Keep transactions tight.
-
-```java
-// Bad: Connection held during slow API call
-@Transactional
-public void checkout(OrderDto dto) {
-    Order order = repo.findById(dto.id());
-    paymentService.charge(order); // Slow
-    order.setStatus(PAID);
-    repo.save(order);
-}
-
-// Good: Connection held only for DB write
-public void checkout(OrderDto dto) {
-    Order order = repo.findById(dto.id());
-    paymentService.charge(order);
-    updateStatus(order.getId());
-}
-
-@Transactional
-public void updateStatus(Long id) {
-    repo.updateStatus(id, PAID);
-}
-```</description>
-      <pubDate>Mon, 13 Jul 2026 06:39:12 GMT</pubDate>
-      <guid isPermaLink="false">stop-holding-db-connections-hostage-1783924752</guid>
     </item>
   </channel>
 </rss>
