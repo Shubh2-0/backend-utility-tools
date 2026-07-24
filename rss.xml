@@ -5,9 +5,26 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2026 06:16:47 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 24 Jul 2026 06:10:25 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Spring Boot API Performance</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-api-performance</link>
+      <description>When building high-performance APIs with Spring Boot, we&apos;ve found that caching can make a huge difference. We can use Redis to cache frequently accessed data. For example, if we&apos;re building a REST API that fetches user data from a PostgreSQL database, we can cache the user data in Redis to avoid hitting the database on every request. 
+
+We can use the @Cacheable annotation in Spring Boot to achieve this. Here&apos;s an example: 
+```java
+@Cacheable(&quot;users&quot;)
+public User getUser(String id) {
+    return userRepository.findById(id);
+}
+```
+This way, when we call the getUser method, Spring Boot will first check the Redis cache for the user data. If it&apos;s not found, it will fetch the data from the PostgreSQL database and cache it in Redis for future requests. This can significantly improve the performance of our API. We don&apos;t need to write any extra code to handle the caching logic, Spring Boot takes care of it for us.</description>
+      <pubDate>Fri, 24 Jul 2026 06:10:25 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-spring-boot-api-performance-1784873425</guid>
+    </item>
+
+<item>
       <title>Optimizing Spring Boot App Performance</title>
       <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
       <description>We&apos;ve all been there - our Spring Boot app is running slow and we can&apos;t figure out why. One thing that can help is caching. We can use Redis to cache frequently accessed data. Here&apos;s a simple example of how to do it:
@@ -191,24 +208,6 @@ spring.datasource.hikari.leak-detection-threshold=2000
 This tweak prevents PostgreSQL from choking on idle connections, keeps your total memory footprint under 300MB and saves you from paying for expensive server upgrades.</description>
       <pubDate>Wed, 15 Jul 2026 05:54:27 GMT</pubDate>
       <guid isPermaLink="false">stop-using-spring-boot-defaults-on-cheap-100-vms-1784094867</guid>
-    </item>
-
-<item>
-      <title>Spring Boot Security: Don't Expose That Sensitive Property</title>
-      <link>https://shubhambhati.is-a.dev/posts/spring-boot-security-don-t-expose-that-sensitive-property</link>
-      <description>Ever found yourself accidentally committing sensitive keys or passwords to your Git repo? It&apos;s a common slip-up. In Spring Boot, the easiest way to avoid this for things like API keys or database credentials is to keep them out of your main `application.properties` or `application.yml`.
-
-Instead, use environment variables. Spring Boot automatically picks them up. For example, if you have a property `app.external.api.key`, you can set an environment variable named `APP_EXTERNAL_API_KEY`.
-
-Your `application.properties` would still declare it:
-
-```properties
-app.external.api.key=${EXTERNAL_API_KEY:default_fallback_key}
-```
-
-This way, your code is clean, your repo is safe and you can manage your secrets per environment (dev staging prod) without touching the codebase.</description>
-      <pubDate>Tue, 14 Jul 2026 05:53:48 GMT</pubDate>
-      <guid isPermaLink="false">spring-boot-security-don-t-expose-that-sensitive-property-1784008428</guid>
     </item>
   </channel>
 </rss>
