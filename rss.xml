@@ -5,9 +5,29 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 Jul 2026 06:10:25 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 06:01:36 GMT</lastBuildDate>
 
     <item>
+      <title>Squeezing Spring Boot into a 1GB RAM VPS</title>
+      <link>https://shubhambhati.is-a.dev/posts/squeezing-spring-boot-into-a-1gb-ram-vps</link>
+      <description>Host your Spring Boot app, PostgreSQL and Redis on a cheap $1.5/month VPS without getting killed by the Linux OOM reaper. By default, the JVM allocates memory aggressively, which leads to crashes on low-spec servers.
+
+You can restrict the memory footprint using specific JVM flags in your startup script. This keeps the entire Spring Boot process under 350MB. 
+
+Run your jar like this:
+
+```bash
+java -XX:ActiveProcessorCount=1 -Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m -jar app.jar
+```
+
+Setting `ActiveProcessorCount=1` forces the JVM to size its internal thread pools for a single core. `Xms` and `Xmx` cap the heap memory. 
+
+Combine this with PostgreSQL memory tuning by lowering `shared_buffers` to 128MB and you can easily run your full stack on a micro VM. It keeps your hosting bill under ₹150 while you scale your MVP.</description>
+      <pubDate>Sat, 25 Jul 2026 06:01:36 GMT</pubDate>
+      <guid isPermaLink="false">squeezing-spring-boot-into-a-1gb-ram-vps-1784959296</guid>
+    </item>
+
+<item>
       <title>Optimizing Spring Boot API Performance</title>
       <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-api-performance</link>
       <description>When building high-performance APIs with Spring Boot, we&apos;ve found that caching can make a huge difference. We can use Redis to cache frequently accessed data. For example, if we&apos;re building a REST API that fetches user data from a PostgreSQL database, we can cache the user data in Redis to avoid hitting the database on every request. 
@@ -187,27 +207,6 @@ public List&lt;User&gt; getUsers() {
 This way, we don&apos;t need to query the database every time we need to fetch the list of users. We can&apos;t stress enough how much of a performance boost this can give our app. By implementing caching, we can significantly improve our app&apos;s response time and reduce the load on our database.</description>
       <pubDate>Thu, 16 Jul 2026 06:00:24 GMT</pubDate>
       <guid isPermaLink="false">optimizing-spring-boot-app-performance-1784181624</guid>
-    </item>
-
-<item>
-      <title>Stop Using Spring Boot Defaults on Cheap ₹100 VMs</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-using-spring-boot-defaults-on-cheap-100-vms</link>
-      <description>When you run Spring Boot on a cheap 1GB RAM virtual machine, default configurations will crash your app. By default, HikariCP sets the maximum connection pool size to 10. If you don&apos;t change this, multiple microservices running on the same cheap machine will quickly exhaust PostgreSQL connections and memory.
-
-For a tiny VPS, a pool size of 2 or 3 is plenty to handle hundreds of concurrent requests. 
-
-Update your `application.properties`:
-
-```properties
-spring.datasource.hikari.maximum-pool-size=3
-spring.datasource.hikari.minimum-idle=1
-spring.datasource.hikari.idle-timeout=10000
-spring.datasource.hikari.leak-detection-threshold=2000
-```
-
-This tweak prevents PostgreSQL from choking on idle connections, keeps your total memory footprint under 300MB and saves you from paying for expensive server upgrades.</description>
-      <pubDate>Wed, 15 Jul 2026 05:54:27 GMT</pubDate>
-      <guid isPermaLink="false">stop-using-spring-boot-defaults-on-cheap-100-vms-1784094867</guid>
     </item>
   </channel>
 </rss>
