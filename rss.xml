@@ -5,9 +5,32 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Jul 2026 06:22:06 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 06:49:53 GMT</lastBuildDate>
 
     <item>
+      <title>Stop over-allocating your HikariCP connection pool</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-over-allocating-your-hikaricp-connection-pool</link>
+      <description>If you&apos;re hosting a Spring Boot app on a ₹100/month VPS, your default database pool configuration is probably killing your server.
+
+By default, HikariCP grabs 10 connections. Each connection consumes database memory, socket buffers and thread overhead. On a tiny PostgreSQL instance, this drains resources fast.
+
+To scale without crashing, reduce your pool size. For low-traffic apps running on cheap hardware, a pool of 3 connections is more than enough. You can handle hundreds of concurrent users if your queries are fast and non-blocking.
+
+Update your `application.properties`:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=2
+spring.datasource.hikari.idle-timeout=30000
+spring.datasource.hikari.connection-timeout=5000
+```
+
+This simple tweak slashes RAM usage, keeps your database healthy and lets you run your entire stack on a shoestring budget.</description>
+      <pubDate>Mon, 27 Jul 2026 06:49:53 GMT</pubDate>
+      <guid isPermaLink="false">stop-over-allocating-your-hikaricp-connection-pool-1785134993</guid>
+    </item>
+
+<item>
       <title>Catch Hidden Database Connection Leaks in Spring Boot</title>
       <link>https://shubhambhati.is-a.dev/posts/catch-hidden-database-connection-leaks-in-spring-boot</link>
       <description>If your API randomly hangs under load, you&apos;re likely leaking database connections. An unclosed resource or a slow network call inside a transaction can starve your HikariCP pool instantly.
@@ -192,27 +215,6 @@ Using `SerialGC` instead of `G1GC` drastically reduces memory overhead for singl
 This simple configuration keeps your Spring Boot process idling at under 150MB of RAM, leaving plenty of room for your database. This is how you host dirt cheap, validate your product and scale your revenue.</description>
       <pubDate>Sat, 18 Jul 2026 05:46:17 GMT</pubDate>
       <guid isPermaLink="false">stop-letting-spring-boot-devour-your-cheap-vps-ram-1784353577</guid>
-    </item>
-
-<item>
-      <title>Stop Over-allocating HikariCP Connections on Cheap Servers</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-over-allocating-hikaricp-connections-on-cheap-servers</link>
-      <description>If you&apos;re hosting a full-stack Java app on a cheap ₹100/month VPS, default configurations will kill your server. Spring Boot defaults to a HikariCP pool size of 10. If you run your app, Postgres and Redis on the same small machine, you&apos;ll run out of RAM fast.
-
-Most APIs don&apos;t need 10 active database connections sitting idle. You can easily handle high traffic by shrinking the pool size and reducing the idle timeout. This forces your code to release connections quickly.
-
-Add this to your `application.properties`:
-
-```properties
-spring.datasource.hikari.maximum-pool-size=4
-spring.datasource.hikari.minimum-idle=2
-spring.datasource.hikari.idle-timeout=30000
-spring.datasource.hikari.connection-timeout=5000
-```
-
-A smaller pool combined with a tight connection timeout keeps your memory footprint low. We&apos;ve used this exact setup to handle thousands of requests daily on a single-core VPS without spending a fortune. It keeps your app lightweight, fast and cheap to run.</description>
-      <pubDate>Fri, 17 Jul 2026 06:00:38 GMT</pubDate>
-      <guid isPermaLink="false">stop-over-allocating-hikaricp-connections-on-cheap-servers-1784268038</guid>
     </item>
   </channel>
 </rss>
