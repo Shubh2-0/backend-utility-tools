@@ -5,9 +5,36 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Jul 2026 06:49:53 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jul 2026 06:09:51 GMT</lastBuildDate>
 
     <item>
+      <title>Run Spring Boot on a $1 VPS with GraalVM</title>
+      <link>https://shubhambhati.is-a.dev/posts/run-spring-boot-on-a-1-vps-with-graalvm</link>
+      <description>If you&apos;re hosting Spring Boot on cheap VPS plans, memory is your biggest bottleneck. A standard JVM app easily consumes 300MB to 500MB of RAM just sitting idle. That kills your budget if you want to run multiple services on a single cheap server.
+
+The fix is compiling your application to a native binary using GraalVM. This drops startup time to milliseconds and cuts RAM usage to under 50MB.
+
+You don&apos;t need complex configurations. Just add the GraalVM native buildtools plugin to your `pom.xml`:
+
+```xml
+&lt;plugin&gt;
+    &lt;groupId&gt;org.graalvm.buildtools&lt;/groupId&gt;
+    &lt;artifactId&gt;native-maven-plugin&lt;/artifactId&gt;
+&lt;/plugin&gt;
+```
+
+Then build your native image:
+
+```bash
+mvn -Pnative native:compile
+```
+
+The compiler analyzes your code statically and removes unused classes, reflection overhead and heavy JVM startup processes. Your app now runs lightning fast on a tiny VPS, saving you hosting costs while handling traffic.</description>
+      <pubDate>Tue, 28 Jul 2026 06:09:51 GMT</pubDate>
+      <guid isPermaLink="false">run-spring-boot-on-a-1-vps-with-graalvm-1785218991</guid>
+    </item>
+
+<item>
       <title>Stop over-allocating your HikariCP connection pool</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-over-allocating-your-hikaricp-connection-pool</link>
       <description>If you&apos;re hosting a Spring Boot app on a ₹100/month VPS, your default database pool configuration is probably killing your server.
@@ -195,26 +222,6 @@ spring.threads.virtual.enabled=true
 This single line instructs Tomcat, TaskExecutor and task schedulers to run on virtual threads. Your backend can now handle thousands of concurrent API calls, database queries and network requests on tiny hardware without breaking a sweat.</description>
       <pubDate>Sun, 19 Jul 2026 06:13:59 GMT</pubDate>
       <guid isPermaLink="false">scale-your-100-month-vps-with-virtual-threads-1784441639</guid>
-    </item>
-
-<item>
-      <title>Stop Letting Spring Boot Devour Your Cheap VPS RAM</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-letting-spring-boot-devour-your-cheap-vps-ram</link>
-      <description>Running Spring Boot on a $1 VPS (around ₹80/month) seems impossible because the JVM is notoriously memory-hungry. By default, it will happily eat up all your RAM and trigger the OS out-of-memory killer.
-
-You don&apos;t need a heavy instance to run your MVP. You can easily squeeze Spring Boot, PostgreSQL and Redis into a single 512MB RAM machine by tuning your JVM garbage collector and thread limits.
-
-Stop using default settings. Pass these flags when starting your jar:
-
-```bash
-java -XX:+UseSerialGC -Xss256k -XX:MaxRAMPercentage=50.0 -jar app.jar
-```
-
-Using `SerialGC` instead of `G1GC` drastically reduces memory overhead for single-core VPS hosting. Lowering the thread stack size (`-Xss`) to 256k saves massive amounts of RAM because you don&apos;t need the default 1MB per thread for typical web apps. 
-
-This simple configuration keeps your Spring Boot process idling at under 150MB of RAM, leaving plenty of room for your database. This is how you host dirt cheap, validate your product and scale your revenue.</description>
-      <pubDate>Sat, 18 Jul 2026 05:46:17 GMT</pubDate>
-      <guid isPermaLink="false">stop-letting-spring-boot-devour-your-cheap-vps-ram-1784353577</guid>
     </item>
   </channel>
 </rss>
