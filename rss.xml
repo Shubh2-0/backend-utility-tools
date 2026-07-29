@@ -5,9 +5,32 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Jul 2026 06:09:51 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 06:14:53 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
+      <description>Most developers launch Spring Boot on a cheap ₹100/month VPS and wonder why it crashes. The silent killer is often the default HikariCP connection pool. 
+
+By default, Hikari sets the maximum pool size to 10. Each active database connection consumes precious memory on both your app and database. If you run PostgreSQL, Redis and Spring Boot on a single 1GB RAM instance, this default setup quickly triggers the Linux OOM killer. 
+
+If your app doesn&apos;t handle massive concurrent writes, scale down. Limit the pool size to 2 or 3. 
+
+Update your `application.properties`:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
+spring.datasource.hikari.idle-timeout=10000
+spring.datasource.hikari.max-lifetime=30000
+```
+
+This small tweak keeps your database footprint tiny, prevents crashes and lets you host full-stack apps on dirt-cheap hardware while scaling your initial revenue.</description>
+      <pubDate>Wed, 29 Jul 2026 06:14:53 GMT</pubDate>
+      <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1785305693</guid>
+    </item>
+
+<item>
       <title>Run Spring Boot on a $1 VPS with GraalVM</title>
       <link>https://shubhambhati.is-a.dev/posts/run-spring-boot-on-a-1-vps-with-graalvm</link>
       <description>If you&apos;re hosting Spring Boot on cheap VPS plans, memory is your biggest bottleneck. A standard JVM app easily consumes 300MB to 500MB of RAM just sitting idle. That kills your budget if you want to run multiple services on a single cheap server.
@@ -204,24 +227,6 @@ public ProductDto getProduct(Long id) {
 This simple annotation prevents Hibernate from dirty checking, optimizes connection routing and helps your app scale on cheap hardware.</description>
       <pubDate>Mon, 20 Jul 2026 06:33:43 GMT</pubDate>
       <guid isPermaLink="false">stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead-1784529223</guid>
-    </item>
-
-<item>
-      <title>Scale Your ₹100/Month VPS with Virtual Threads</title>
-      <link>https://shubhambhati.is-a.dev/posts/scale-your-100-month-vps-with-virtual-threads</link>
-      <description>If you host your app on a cheap ₹100/month VPS, you can&apos;t afford heavy OS threads. Standard Spring Boot configuration maps each request to a platform thread. These take up to 1MB of RAM each. With just 100 concurrent requests, your memory spikes and the OS kills your Java process.
-
-Spring Boot 3.2 changes this with Java 21 virtual threads. They run in user space and cost almost nothing in memory. 
-
-Switching to them takes exactly one line in `application.properties`:
-
-```properties
-spring.threads.virtual.enabled=true
-```
-
-This single line instructs Tomcat, TaskExecutor and task schedulers to run on virtual threads. Your backend can now handle thousands of concurrent API calls, database queries and network requests on tiny hardware without breaking a sweat.</description>
-      <pubDate>Sun, 19 Jul 2026 06:13:59 GMT</pubDate>
-      <guid isPermaLink="false">scale-your-100-month-vps-with-virtual-threads-1784441639</guid>
     </item>
   </channel>
 </rss>
