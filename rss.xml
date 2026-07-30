@@ -5,9 +5,38 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Jul 2026 06:14:53 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 30 Jul 2026 06:08:14 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Using Identity Generation for Batch Inserts in Spring Boot</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-using-identity-generation-for-batch-inserts-in-spring-boot</link>
+      <description>Using `GenerationType.IDENTITY` in PostgreSQL kills your batch insert performance. Hibernate doesn&apos;t batch inserts with identity because it has to execute an INSERT for every single row just to get the generated ID back. This wastes database connections, increases CPU usage and inflates your server bills.
+
+Switch to `GenerationType.SEQUENCE`. It lets Hibernate fetch a block of IDs upfront and run a single batch insert.
+
+```java
+@Entity
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = &quot;pay_seq&quot;)
+    @SequenceGenerator(name = &quot;pay_seq&quot;, sequenceName = &quot;payment_id_seq&quot;, allocationSize = 50)
+    private Long id;
+}
+```
+
+Now configure your application properties to enable batching:
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+spring.jpa.properties.hibernate.order_inserts=true
+```
+
+This simple configuration change reduces your network roundtrips from 50 to 1, saving memory and keeping your database hosting costs under control.</description>
+      <pubDate>Thu, 30 Jul 2026 06:08:14 GMT</pubDate>
+      <guid isPermaLink="false">stop-using-identity-generation-for-batch-inserts-in-spring-boot-1785391694</guid>
+    </item>
+
+<item>
       <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
       <description>Most developers launch Spring Boot on a cheap ₹100/month VPS and wonder why it crashes. The silent killer is often the default HikariCP connection pool. 
@@ -202,31 +231,6 @@ Using `SerialGC` instead of `G1GC` reduces memory overhead significantly for sma
 I used this exact setup to scale a side project to ₹1 Lakh in revenue while paying just ₹80/month for hosting.</description>
       <pubDate>Tue, 21 Jul 2026 06:12:40 GMT</pubDate>
       <guid isPermaLink="false">stop-overpaying-for-spring-boot-hosting-1784614360</guid>
-    </item>
-
-<item>
-      <title>Stop Blaming Hibernate for Slow APIs: Tune Your Connection Pool Instead</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead</link>
-      <description>Most developers blame Hibernate when response times spike. Usually, the real bottleneck is database connection pool starvation. By default, Spring Boot HikariCP allocates connections eagerly, even when your API is just waiting on a slow third-party HTTP call. 
-
-If you don&apos;t configure this right, your $2 VPS will crash under minimal load.
-
-To fix this, keep network hops outside your `@Transactional` blocks. Run your external API calls first, then open the transaction, write to the database and close it immediately. 
-
-Also, enforce read-only transactions for fetch queries:
-
-```java
-@Transactional(readOnly = true)
-public ProductDto getProduct(Long id) {
-    return repository.findById(id)
-        .map(ProductDto::new)
-        .orElseThrow();
-}
-```
-
-This simple annotation prevents Hibernate from dirty checking, optimizes connection routing and helps your app scale on cheap hardware.</description>
-      <pubDate>Mon, 20 Jul 2026 06:33:43 GMT</pubDate>
-      <guid isPermaLink="false">stop-blaming-hibernate-for-slow-apis-tune-your-connection-pool-instead-1784529223</guid>
     </item>
   </channel>
 </rss>
