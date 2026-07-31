@@ -5,9 +5,32 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Jul 2026 06:08:14 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2026 06:31:05 GMT</lastBuildDate>
 
     <item>
+      <title>Stop letting HikariCP kill your cheap database</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-database</link>
+      <description>When you host a Spring Boot app on a ₹100/month tiny server, the default HikariCP settings will crash your database.
+
+By default, Hikari sets the maximum pool size to 10. If you run three microservices, that is 30 active connections. PostgreSQL allocates a separate process for each connection, eating up precious RAM on your small VM.
+
+You don&apos;t need 10 connections for low-to-medium traffic. Shrink your pool size and decrease the timeout so threads don&apos;t wait forever.
+
+Update your `application.properties`:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=3
+spring.datasource.hikari.minimum-idle=1
+spring.datasource.hikari.connection-timeout=5000
+spring.datasource.hikari.idle-timeout=120000
+```
+
+This setup handles hundreds of API requests per second by quickly reusing connections. It keeps your database RAM usage low and prevents PostgreSQL from running out of memory.</description>
+      <pubDate>Fri, 31 Jul 2026 06:31:05 GMT</pubDate>
+      <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-database-1785479465</guid>
+    </item>
+
+<item>
       <title>Stop Using Identity Generation for Batch Inserts in Spring Boot</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-using-identity-generation-for-batch-inserts-in-spring-boot</link>
       <description>Using `GenerationType.IDENTITY` in PostgreSQL kills your batch insert performance. Hibernate doesn&apos;t batch inserts with identity because it has to execute an INSERT for every single row just to get the generated ID back. This wastes database connections, increases CPU usage and inflates your server bills.
@@ -211,26 +234,6 @@ public class UserService {
 Small tweaks like this keep your heap footprint tiny. That&apos;s how we run Spring Boot, PostgreSQL and Redis workloads on cheap $1 VPS instances without crashing under peak load.</description>
       <pubDate>Wed, 22 Jul 2026 06:11:56 GMT</pubDate>
       <guid isPermaLink="false">stop-wasting-cpu-cycles-on-read-only-spring-boot-queries-1784700716</guid>
-    </item>
-
-<item>
-      <title>Stop Overpaying for Spring Boot Hosting</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-overpaying-for-spring-boot-hosting</link>
-      <description>Most developers think you need a 2GB RAM server to run a Spring Boot app. That is why they spend thousands on cloud providers. You can easily host your Spring Boot API, PostgreSQL and Redis on a $1/month VPS if you tune the JVM.
-
-By default, the JVM is greedy. It grabs memory it doesn&apos;t need. 
-
-Add these JVM flags to your Dockerfile to cap memory and force aggressive garbage collection:
-
-```bash
-java -XX:MaxRAMPercentage=50.0 -XX:+UseSerialGC -Xss256k -jar app.jar
-```
-
-Using `SerialGC` instead of `G1GC` reduces memory overhead significantly for small applications. Capping the thread stack size (`-Xss256k`) saves precious memory. This lets your container run on a 512MB RAM instance, leaving room for your database and cache. 
-
-I used this exact setup to scale a side project to ₹1 Lakh in revenue while paying just ₹80/month for hosting.</description>
-      <pubDate>Tue, 21 Jul 2026 06:12:40 GMT</pubDate>
-      <guid isPermaLink="false">stop-overpaying-for-spring-boot-hosting-1784614360</guid>
     </item>
   </channel>
 </rss>
