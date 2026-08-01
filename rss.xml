@@ -5,9 +5,24 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Jul 2026 06:31:05 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2026 06:15:05 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Database Queries in Spring Boot</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-database-queries-in-spring-boot</link>
+      <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that optimizing database queries can make a huge difference in performance. One simple way to do this is by using the @Query annotation in your repository interfaces. For example, if you have a User entity and you want to fetch all users with a specific role, you can use the following code:
+```java
+public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    @Query(&quot;SELECT u FROM User u WHERE u.role = :role&quot;)
+    List&lt;User&gt; findByRole(@Param(&quot;role&quot;) String role);
+}
+```
+This allows you to specify the exact query you want to execute, which can help reduce the amount of data being transferred and improve performance. We&apos;ve seen significant improvements in our application&apos;s performance by using this approach. It&apos;s also a good idea to use pagination and sorting to limit the amount of data being fetched.</description>
+      <pubDate>Sat, 01 Aug 2026 06:15:05 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-database-queries-in-spring-boot-1785564905</guid>
+    </item>
+
+<item>
       <title>Stop letting HikariCP kill your cheap database</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-database</link>
       <description>When you host a Spring Boot app on a ₹100/month tiny server, the default HikariCP settings will crash your database.
@@ -207,33 +222,6 @@ public RedisTemplate&lt;String, String&gt; redisTemplate(RedisConnectionFactory 
 This sets up a Redis template that we can use to cache data. We can then use this template to cache the results of expensive database queries. This can greatly improve our app&apos;s performance. Spring Boot also provides a number of other tools to help with performance optimization, including built-in support for caching and profiling tools. By using these tools we can identify performance bottlenecks and fix them.</description>
       <pubDate>Thu, 23 Jul 2026 06:16:47 GMT</pubDate>
       <guid isPermaLink="false">optimizing-spring-boot-app-performance-1784787407</guid>
-    </item>
-
-<item>
-      <title>Stop Wasting CPU Cycles on Read-Only Spring Boot Queries</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-wasting-cpu-cycles-on-read-only-spring-boot-queries</link>
-      <description>Most developers default to standard `@Transactional` annotations across their service layer. But if you&apos;re fetching data without modifying it, you&apos;re wasting memory and CPU cycles.
-
-When you mark a method as `@Transactional(readOnly = true)`, Hibernate turns off dirty checking for managed entities. It skips taking snapshot copies of your domain objects, which lowers memory overhead during high-throughput reads. If you&apos;re using PostgreSQL, it also lets your driver optimize database-level transactions and route queries to read replicas.
-
-Here&apos;s how it looks:
-
-```java
-@Service
-public class UserService {
-
-    @Transactional(readOnly = true)
-    public UserResponse getUserDetails(Long id) {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -&gt; new NotFoundException(&quot;User missing&quot;));
-        return new UserResponse(user.getId(), user.getName(), user.getEmail());
-    }
-}
-```
-
-Small tweaks like this keep your heap footprint tiny. That&apos;s how we run Spring Boot, PostgreSQL and Redis workloads on cheap $1 VPS instances without crashing under peak load.</description>
-      <pubDate>Wed, 22 Jul 2026 06:11:56 GMT</pubDate>
-      <guid isPermaLink="false">stop-wasting-cpu-cycles-on-read-only-spring-boot-queries-1784700716</guid>
     </item>
   </channel>
 </rss>
