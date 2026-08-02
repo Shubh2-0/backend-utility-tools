@@ -5,9 +5,37 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Aug 2026 06:15:05 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2026 06:18:39 GMT</lastBuildDate>
 
     <item>
+      <title>Stop Using Default @Transactional for Read Queries</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-using-default-transactional-for-read-queries</link>
+      <description>Defaulting to standard `@Transactional` for read-only endpoints is a silent performance killer. When you don&apos;t flag a transaction as read-only, Hibernate keeps dirty-checking your entities in memory and spends CPU cycles tracking state changes that never happen.
+
+Adding `readOnly = true` tells Spring Boot to optimize the connection. It bypasses dirty checking, sets the transaction mode to read-only on the JDBC connection and lets PostgreSQL optimize its query plan. If you scale, you can easily route these reads to your replica databases.
+
+Here is how you do it:
+
+```java
+@Service
+public class UserService {
+    private final UserRepository repository;
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserProfile(Long id) {
+        return repository.findById(id)
+            .map(UserResponse::new)
+            .orElseThrow(() -&gt; new UserNotFoundException(id));
+    }
+}
+```
+
+It is a simple change that reduces CPU overhead, saves memory and prevents unexpected write locks on your database.</description>
+      <pubDate>Sun, 02 Aug 2026 06:18:39 GMT</pubDate>
+      <guid isPermaLink="false">stop-using-default-transactional-for-read-queries-1785651519</guid>
+    </item>
+
+<item>
       <title>Optimizing Database Queries in Spring Boot</title>
       <link>https://shubhambhati.is-a.dev/posts/optimizing-database-queries-in-spring-boot</link>
       <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that optimizing database queries can make a huge difference in performance. One simple way to do this is by using the @Query annotation in your repository interfaces. For example, if you have a User entity and you want to fetch all users with a specific role, you can use the following code:
@@ -205,23 +233,6 @@ public User getUser(String id) {
 This way, when we call the getUser method, Spring Boot will first check the Redis cache for the user data. If it&apos;s not found, it will fetch the data from the PostgreSQL database and cache it in Redis for future requests. This can significantly improve the performance of our API. We don&apos;t need to write any extra code to handle the caching logic, Spring Boot takes care of it for us.</description>
       <pubDate>Fri, 24 Jul 2026 06:10:25 GMT</pubDate>
       <guid isPermaLink="false">optimizing-spring-boot-api-performance-1784873425</guid>
-    </item>
-
-<item>
-      <title>Optimizing Spring Boot App Performance</title>
-      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
-      <description>We&apos;ve all been there - our Spring Boot app is running slow and we can&apos;t figure out why. One thing that can help is caching. We can use Redis to cache frequently accessed data. Here&apos;s a simple example of how to do it:
-```java
-@Bean
-public RedisTemplate&lt;String, String&gt; redisTemplate(RedisConnectionFactory cf) {
-    RedisTemplate&lt;String, String&gt; redisTemplate = new RedisTemplate&lt;String, String&gt;();
-    redisTemplate.setConnectionFactory(cf);
-    return redisTemplate;
-}
-```
-This sets up a Redis template that we can use to cache data. We can then use this template to cache the results of expensive database queries. This can greatly improve our app&apos;s performance. Spring Boot also provides a number of other tools to help with performance optimization, including built-in support for caching and profiling tools. By using these tools we can identify performance bottlenecks and fix them.</description>
-      <pubDate>Thu, 23 Jul 2026 06:16:47 GMT</pubDate>
-      <guid isPermaLink="false">optimizing-spring-boot-app-performance-1784787407</guid>
     </item>
   </channel>
 </rss>
