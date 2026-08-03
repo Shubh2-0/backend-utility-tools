@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Aug 2026 06:18:39 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2026 06:45:10 GMT</lastBuildDate>
 
     <item>
+      <title>Scale Spring Boot on a ₹100 VPS with Virtual Threads</title>
+      <link>https://shubhambhati.is-a.dev/posts/scale-spring-boot-on-a-100-vps-with-virtual-threads</link>
+      <description>If you host your Spring Boot app on a cheap ₹100 VPS, standard thread-per-request models will crash your server under load. Platform threads map 1:1 to OS threads and each thread eats up about 1MB of RAM. If you hit 200 concurrent requests, you waste 200MB of memory just on idle threads waiting for Postgres, Redis and external API calls.
+
+Spring Boot 3.2 makes it incredibly easy to fix this. You don&apos;t need complex reactive programming. Just use virtual threads.
+
+Add this to your `application.properties`:
+
+```properties
+spring.threads.virtual.enabled=true
+```
+
+This single flag forces Tomcat to use JVM-managed virtual threads. When a request blocks on a database query, the underlying OS thread is released to do other work. Now, your tiny server can easily scale to thousands of concurrent requests without running out of memory.</description>
+      <pubDate>Mon, 03 Aug 2026 06:45:10 GMT</pubDate>
+      <guid isPermaLink="false">scale-spring-boot-on-a-100-vps-with-virtual-threads-1785739510</guid>
+    </item>
+
+<item>
       <title>Stop Using Default @Transactional for Read Queries</title>
       <link>https://shubhambhati.is-a.dev/posts/stop-using-default-transactional-for-read-queries</link>
       <description>Defaulting to standard `@Transactional` for read-only endpoints is a silent performance killer. When you don&apos;t flag a transaction as read-only, Hibernate keeps dirty-checking your entities in memory and spends CPU cycles tracking state changes that never happen.
@@ -216,23 +234,6 @@ Setting `ActiveProcessorCount=1` forces the JVM to size its internal thread pool
 Combine this with PostgreSQL memory tuning by lowering `shared_buffers` to 128MB and you can easily run your full stack on a micro VM. It keeps your hosting bill under ₹150 while you scale your MVP.</description>
       <pubDate>Sat, 25 Jul 2026 06:01:36 GMT</pubDate>
       <guid isPermaLink="false">squeezing-spring-boot-into-a-1gb-ram-vps-1784959296</guid>
-    </item>
-
-<item>
-      <title>Optimizing Spring Boot API Performance</title>
-      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-api-performance</link>
-      <description>When building high-performance APIs with Spring Boot, we&apos;ve found that caching can make a huge difference. We can use Redis to cache frequently accessed data. For example, if we&apos;re building a REST API that fetches user data from a PostgreSQL database, we can cache the user data in Redis to avoid hitting the database on every request. 
-
-We can use the @Cacheable annotation in Spring Boot to achieve this. Here&apos;s an example: 
-```java
-@Cacheable(&quot;users&quot;)
-public User getUser(String id) {
-    return userRepository.findById(id);
-}
-```
-This way, when we call the getUser method, Spring Boot will first check the Redis cache for the user data. If it&apos;s not found, it will fetch the data from the PostgreSQL database and cache it in Redis for future requests. This can significantly improve the performance of our API. We don&apos;t need to write any extra code to handle the caching logic, Spring Boot takes care of it for us.</description>
-      <pubDate>Fri, 24 Jul 2026 06:10:25 GMT</pubDate>
-      <guid isPermaLink="false">optimizing-spring-boot-api-performance-1784873425</guid>
     </item>
   </channel>
 </rss>
