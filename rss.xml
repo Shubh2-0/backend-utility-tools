@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2026 06:45:10 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 04 Aug 2026 06:11:40 GMT</lastBuildDate>
 
     <item>
+      <title>Hosting Spring Boot on a ₹100 VPS without crashes</title>
+      <link>https://shubhambhati.is-a.dev/posts/hosting-spring-boot-on-a-100-vps-without-crashes</link>
+      <description>Hosting Spring Boot on a cheap 512MB RAM VPS requires aggressive memory management. By default, the JVM acts greedy and grabs as much RAM as possible, which triggers the Linux OOM killer. 
+
+We can fix this by tuning three JVM flags in our startup script. We&apos;ll limit the Metaspace, switch to Serial GC and cap the heap. The Serial collector doesn&apos;t have the heavy memory overhead of G1GC, making it perfect for single-core instances.
+
+Here is the optimized startup command:
+
+```bash
+java -XX:MaxMetaspaceSize=64m -XX:+UseSerialGC -Xms128m -Xmx256m -jar app.jar
+```
+
+This keeps your Spring Boot app running stable on a tiny machine. You can easily run your API, PostgreSQL and a lightweight Redis cache on a single ₹100 VPS without crashes.</description>
+      <pubDate>Tue, 04 Aug 2026 06:11:40 GMT</pubDate>
+      <guid isPermaLink="false">hosting-spring-boot-on-a-100-vps-without-crashes-1785823900</guid>
+    </item>
+
+<item>
       <title>Scale Spring Boot on a ₹100 VPS with Virtual Threads</title>
       <link>https://shubhambhati.is-a.dev/posts/scale-spring-boot-on-a-100-vps-with-virtual-threads</link>
       <description>If you host your Spring Boot app on a cheap ₹100 VPS, standard thread-per-request models will crash your server under load. Platform threads map 1:1 to OS threads and each thread eats up about 1MB of RAM. If you hit 200 concurrent requests, you waste 200MB of memory just on idle threads waiting for Postgres, Redis and external API calls.
@@ -214,26 +232,6 @@ With this setting, if a thread retains a connection for more than 3000ms, Hikari
 We used this on a high-throughput payment worker hitting PostgreSQL, Redis and external gateways. It immediately flagged a third-party HTTP call executing inside an active transaction. Keep this threshold between 2000ms and 5000ms in production to catch bugs early.</description>
       <pubDate>Sun, 26 Jul 2026 06:22:06 GMT</pubDate>
       <guid isPermaLink="false">catch-hidden-database-connection-leaks-in-spring-boot-1785046926</guid>
-    </item>
-
-<item>
-      <title>Squeezing Spring Boot into a 1GB RAM VPS</title>
-      <link>https://shubhambhati.is-a.dev/posts/squeezing-spring-boot-into-a-1gb-ram-vps</link>
-      <description>Host your Spring Boot app, PostgreSQL and Redis on a cheap $1.5/month VPS without getting killed by the Linux OOM reaper. By default, the JVM allocates memory aggressively, which leads to crashes on low-spec servers.
-
-You can restrict the memory footprint using specific JVM flags in your startup script. This keeps the entire Spring Boot process under 350MB. 
-
-Run your jar like this:
-
-```bash
-java -XX:ActiveProcessorCount=1 -Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m -jar app.jar
-```
-
-Setting `ActiveProcessorCount=1` forces the JVM to size its internal thread pools for a single core. `Xms` and `Xmx` cap the heap memory. 
-
-Combine this with PostgreSQL memory tuning by lowering `shared_buffers` to 128MB and you can easily run your full stack on a micro VM. It keeps your hosting bill under ₹150 while you scale your MVP.</description>
-      <pubDate>Sat, 25 Jul 2026 06:01:36 GMT</pubDate>
-      <guid isPermaLink="false">squeezing-spring-boot-into-a-1gb-ram-vps-1784959296</guid>
     </item>
   </channel>
 </rss>
