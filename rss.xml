@@ -5,9 +5,38 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 04 Aug 2026 06:11:40 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2026 06:07:25 GMT</lastBuildDate>
 
     <item>
+      <title>Spring Boot Database Connection Pooling</title>
+      <link>https://shubhambhati.is-a.dev/posts/spring-boot-database-connection-pooling</link>
+      <description>When building a Spring Boot application that interacts with a PostgreSQL database, connection pooling is essential for improving performance. We&apos;ve seen applications grind to a halt due to poor database connection management. To avoid this, we can use the HikariCP connection pooling library. 
+
+In your application.properties file, you can configure the connection pool like this: 
+```java
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=myuser
+spring.datasource.password=mypassword
+spring.datasource.connectionTimeout=30000
+```
+Then, in your configuration class, you can define a bean for the data source:
+```java
+@Bean
+public DataSource dataSource() {
+    return DataSourceBuilder.create()
+            .driverClassName(&quot;org.postgresql.Driver&quot;)
+            .url(&quot;jdbc:postgresql://localhost:5432/mydb&quot;)
+            .username(&quot;myuser&quot;)
+            .password(&quot;mypassword&quot;)
+            .build();
+}
+```
+This way, Spring Boot will manage the database connections for you and your application won&apos;t run out of connections.</description>
+      <pubDate>Wed, 05 Aug 2026 06:07:25 GMT</pubDate>
+      <guid isPermaLink="false">spring-boot-database-connection-pooling-1785910045</guid>
+    </item>
+
+<item>
       <title>Hosting Spring Boot on a ₹100 VPS without crashes</title>
       <link>https://shubhambhati.is-a.dev/posts/hosting-spring-boot-on-a-100-vps-without-crashes</link>
       <description>Hosting Spring Boot on a cheap 512MB RAM VPS requires aggressive memory management. By default, the JVM acts greedy and grabs as much RAM as possible, which triggers the Linux OOM killer. 
@@ -209,29 +238,6 @@ spring.datasource.hikari.connection-timeout=5000
 This simple tweak slashes RAM usage, keeps your database healthy and lets you run your entire stack on a shoestring budget.</description>
       <pubDate>Mon, 27 Jul 2026 06:49:53 GMT</pubDate>
       <guid isPermaLink="false">stop-over-allocating-your-hikaricp-connection-pool-1785134993</guid>
-    </item>
-
-<item>
-      <title>Catch Hidden Database Connection Leaks in Spring Boot</title>
-      <link>https://shubhambhati.is-a.dev/posts/catch-hidden-database-connection-leaks-in-spring-boot</link>
-      <description>If your API randomly hangs under load, you&apos;re likely leaking database connections. An unclosed resource or a slow network call inside a transaction can starve your HikariCP pool instantly.
-
-Instead of hunting through code, make HikariCP point out the exact line holding connections too long.
-
-Add this to your `application.yml`:
-
-```yaml
-spring:
-  datasource:
-    hikari:
-      leak-detection-threshold: 3000
-```
-
-With this setting, if a thread retains a connection for more than 3000ms, HikariCP prints a stack trace showing where it happened.
-
-We used this on a high-throughput payment worker hitting PostgreSQL, Redis and external gateways. It immediately flagged a third-party HTTP call executing inside an active transaction. Keep this threshold between 2000ms and 5000ms in production to catch bugs early.</description>
-      <pubDate>Sun, 26 Jul 2026 06:22:06 GMT</pubDate>
-      <guid isPermaLink="false">catch-hidden-database-connection-leaks-in-spring-boot-1785046926</guid>
     </item>
   </channel>
 </rss>
