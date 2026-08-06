@@ -5,9 +5,32 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Aug 2026 06:07:25 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2026 06:12:14 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Spring Boot App Performance</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
+      <description>When building Spring Boot apps, we&apos;ve found that a simple config change can make a big difference in performance. We can&apos;t stress enough how much of an impact connection pooling has on database queries. By using a connection pool like HikariCP, you can significantly reduce the time it takes to execute queries. 
+
+For example, you can configure HikariCP in your Spring Boot app like this:
+```java
+@Bean
+public DataSource dataSource() {
+    return DataSourceBuilder.create()
+            .driverClassName(&quot;org.postgresql.Driver&quot;)
+            .url(&quot;jdbc:postgresql://localhost:5432/mydb&quot;)
+            .username(&quot;myuser&quot;)
+            .password(&quot;mypassword&quot;)
+            .type(HikariDataSource.class)
+            .build();
+}
+```
+This config sets up a connection pool with the PostgreSQL driver, which can greatly improve performance. We&apos;ve seen significant speedups in our own apps by making this simple change.</description>
+      <pubDate>Thu, 06 Aug 2026 06:12:14 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-spring-boot-app-performance-1785996734</guid>
+    </item>
+
+<item>
       <title>Spring Boot Database Connection Pooling</title>
       <link>https://shubhambhati.is-a.dev/posts/spring-boot-database-connection-pooling</link>
       <description>When building a Spring Boot application that interacts with a PostgreSQL database, connection pooling is essential for improving performance. We&apos;ve seen applications grind to a halt due to poor database connection management. To avoid this, we can use the HikariCP connection pooling library. 
@@ -215,29 +238,6 @@ mvn -Pnative native:compile
 The compiler analyzes your code statically and removes unused classes, reflection overhead and heavy JVM startup processes. Your app now runs lightning fast on a tiny VPS, saving you hosting costs while handling traffic.</description>
       <pubDate>Tue, 28 Jul 2026 06:09:51 GMT</pubDate>
       <guid isPermaLink="false">run-spring-boot-on-a-1-vps-with-graalvm-1785218991</guid>
-    </item>
-
-<item>
-      <title>Stop over-allocating your HikariCP connection pool</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-over-allocating-your-hikaricp-connection-pool</link>
-      <description>If you&apos;re hosting a Spring Boot app on a ₹100/month VPS, your default database pool configuration is probably killing your server.
-
-By default, HikariCP grabs 10 connections. Each connection consumes database memory, socket buffers and thread overhead. On a tiny PostgreSQL instance, this drains resources fast.
-
-To scale without crashing, reduce your pool size. For low-traffic apps running on cheap hardware, a pool of 3 connections is more than enough. You can handle hundreds of concurrent users if your queries are fast and non-blocking.
-
-Update your `application.properties`:
-
-```properties
-spring.datasource.hikari.maximum-pool-size=3
-spring.datasource.hikari.minimum-idle=2
-spring.datasource.hikari.idle-timeout=30000
-spring.datasource.hikari.connection-timeout=5000
-```
-
-This simple tweak slashes RAM usage, keeps your database healthy and lets you run your entire stack on a shoestring budget.</description>
-      <pubDate>Mon, 27 Jul 2026 06:49:53 GMT</pubDate>
-      <guid isPermaLink="false">stop-over-allocating-your-hikaricp-connection-pool-1785134993</guid>
     </item>
   </channel>
 </rss>
