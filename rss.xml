@@ -5,9 +5,27 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Aug 2026 06:12:14 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 07 Aug 2026 05:15:54 GMT</lastBuildDate>
 
     <item>
+      <title>Optimizing Spring Boot Database Connections</title>
+      <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-database-connections</link>
+      <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a big difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. 
+
+In our application.properties file, we set the following properties: 
+spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+spring.datasource.username=myuser
+spring.datasource.password=mypassword
+spring.datasource.max-active=20
+
+By setting max-active to 20, we&apos;re limiting the number of active connections to 20. This prevents our database from getting overwhelmed with too many connections. We&apos;ve seen significant performance improvements with this simple change. 
+
+It&apos;s also worth noting that we can use Spring Boot&apos;s built-in support for HikariCP, a popular connection pooling library, by adding it to our pom.xml file. This gives us more control over connection pooling and can help us optimize our database connections even further.</description>
+      <pubDate>Fri, 07 Aug 2026 05:15:54 GMT</pubDate>
+      <guid isPermaLink="false">optimizing-spring-boot-database-connections-1786079754</guid>
+    </item>
+
+<item>
       <title>Optimizing Spring Boot App Performance</title>
       <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-app-performance</link>
       <description>When building Spring Boot apps, we&apos;ve found that a simple config change can make a big difference in performance. We can&apos;t stress enough how much of an impact connection pooling has on database queries. By using a connection pool like HikariCP, you can significantly reduce the time it takes to execute queries. 
@@ -211,33 +229,6 @@ spring.datasource.hikari.max-lifetime=30000
 This small tweak keeps your database footprint tiny, prevents crashes and lets you host full-stack apps on dirt-cheap hardware while scaling your initial revenue.</description>
       <pubDate>Wed, 29 Jul 2026 06:14:53 GMT</pubDate>
       <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1785305693</guid>
-    </item>
-
-<item>
-      <title>Run Spring Boot on a $1 VPS with GraalVM</title>
-      <link>https://shubhambhati.is-a.dev/posts/run-spring-boot-on-a-1-vps-with-graalvm</link>
-      <description>If you&apos;re hosting Spring Boot on cheap VPS plans, memory is your biggest bottleneck. A standard JVM app easily consumes 300MB to 500MB of RAM just sitting idle. That kills your budget if you want to run multiple services on a single cheap server.
-
-The fix is compiling your application to a native binary using GraalVM. This drops startup time to milliseconds and cuts RAM usage to under 50MB.
-
-You don&apos;t need complex configurations. Just add the GraalVM native buildtools plugin to your `pom.xml`:
-
-```xml
-&lt;plugin&gt;
-    &lt;groupId&gt;org.graalvm.buildtools&lt;/groupId&gt;
-    &lt;artifactId&gt;native-maven-plugin&lt;/artifactId&gt;
-&lt;/plugin&gt;
-```
-
-Then build your native image:
-
-```bash
-mvn -Pnative native:compile
-```
-
-The compiler analyzes your code statically and removes unused classes, reflection overhead and heavy JVM startup processes. Your app now runs lightning fast on a tiny VPS, saving you hosting costs while handling traffic.</description>
-      <pubDate>Tue, 28 Jul 2026 06:09:51 GMT</pubDate>
-      <guid isPermaLink="false">run-spring-boot-on-a-1-vps-with-graalvm-1785218991</guid>
     </item>
   </channel>
 </rss>
