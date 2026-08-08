@@ -5,9 +5,29 @@
     <link>https://shubhambhati.is-a.dev</link>
     <description>Daily micro-articles and technical tips on Spring Boot, Java and Microservices</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Aug 2026 05:15:54 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2026 04:36:09 GMT</lastBuildDate>
 
     <item>
+      <title>Stop over-sizing your database connection pool</title>
+      <link>https://shubhambhati.is-a.dev/posts/stop-over-sizing-your-database-connection-pool</link>
+      <description>Most developers think more database connections mean better performance. They set `maximum-pool-size` to 50 or 100 in their Spring Boot `application.properties`. This doesn&apos;t help performance. It actually slows down your PostgreSQL database due to thread context switching and disk contention.
+
+For most applications running on a cheap VM, a pool size of 5 or 10 is plenty. PostgreSQL prefers a small number of active connections. You can calculate the optimal size using a simple formula: `connections = ((core_count * 2) + effective_spindle_count)`.
+
+If you have a 2-core CPU, configure your pool like this:
+
+```properties
+spring.datasource.hikari.maximum-pool-size=5
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.connection-timeout=20000
+```
+
+By keeping the pool size small, your database spends less time managing overhead and more time running queries. We scaled a microservice to thousands of concurrent users on a tiny instance just by shrinking this number. Try reducing your pool size and watch your CPU usage drop.</description>
+      <pubDate>Sat, 08 Aug 2026 04:36:09 GMT</pubDate>
+      <guid isPermaLink="false">stop-over-sizing-your-database-connection-pool-1786163769</guid>
+    </item>
+
+<item>
       <title>Optimizing Spring Boot Database Connections</title>
       <link>https://shubhambhati.is-a.dev/posts/optimizing-spring-boot-database-connections</link>
       <description>When working with Spring Boot and PostgreSQL, we&apos;ve found that connection pooling can make a big difference in performance. We can&apos;t afford to create a new connection for every request, so we use a connection pool to reuse existing connections. 
@@ -206,29 +226,6 @@ spring.jpa.properties.hibernate.order_inserts=true
 This simple configuration change reduces your network roundtrips from 50 to 1, saving memory and keeping your database hosting costs under control.</description>
       <pubDate>Thu, 30 Jul 2026 06:08:14 GMT</pubDate>
       <guid isPermaLink="false">stop-using-identity-generation-for-batch-inserts-in-spring-boot-1785391694</guid>
-    </item>
-
-<item>
-      <title>Stop Letting HikariCP Kill Your Cheap VPS</title>
-      <link>https://shubhambhati.is-a.dev/posts/stop-letting-hikaricp-kill-your-cheap-vps</link>
-      <description>Most developers launch Spring Boot on a cheap ₹100/month VPS and wonder why it crashes. The silent killer is often the default HikariCP connection pool. 
-
-By default, Hikari sets the maximum pool size to 10. Each active database connection consumes precious memory on both your app and database. If you run PostgreSQL, Redis and Spring Boot on a single 1GB RAM instance, this default setup quickly triggers the Linux OOM killer. 
-
-If your app doesn&apos;t handle massive concurrent writes, scale down. Limit the pool size to 2 or 3. 
-
-Update your `application.properties`:
-
-```properties
-spring.datasource.hikari.maximum-pool-size=3
-spring.datasource.hikari.minimum-idle=1
-spring.datasource.hikari.idle-timeout=10000
-spring.datasource.hikari.max-lifetime=30000
-```
-
-This small tweak keeps your database footprint tiny, prevents crashes and lets you host full-stack apps on dirt-cheap hardware while scaling your initial revenue.</description>
-      <pubDate>Wed, 29 Jul 2026 06:14:53 GMT</pubDate>
-      <guid isPermaLink="false">stop-letting-hikaricp-kill-your-cheap-vps-1785305693</guid>
     </item>
   </channel>
 </rss>
