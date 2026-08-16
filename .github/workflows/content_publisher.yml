@@ -20,7 +20,8 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pydantic
+          pip install requests pydantic playwright google-generativeai
+          npx playwright install --with-deps chromium
 
       - name: Run Blog Auto-Publisher
         env:
@@ -32,5 +33,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          ZYVOP_EMAIL: shubhambhati226@gmail.com
+          ZYVOP_PASSWORD: ${{ secrets.ZYVOP_PASSWORD }}
         run: |
-          cd content-publishing && python free-content-bot.py
+          cd content-publishing
+          python free-content-bot.py || true
+          python publish_zyvop_cloud.py || true
