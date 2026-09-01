@@ -75,7 +75,7 @@ def generate_tip(api_key: str) -> dict:
     topic = random.choice(TOPIC_POOL)
     prompt = f"""Write a short, punchy LinkedIn-style technical post (180-280 words) about: {topic}
 
-Voice: Shubham Bhati — Backend Engineer at AlignBits LLC, 3+ years experience, based in Gurgaon. Specializes in Java 17/21, Spring Boot, microservices, MySQL, AWS, AI integration.
+Voice: Shubham Bhati — Backend Engineer at MobilePe Fintech, 3+ years experience, based in Noida, India. Specializes in Java 17/21, Spring Boot, microservices, MySQL, AWS, AI integration.
 
 Style rules:
 - Strong hook on the FIRST line (a number, a contrarian take, or a specific bug)

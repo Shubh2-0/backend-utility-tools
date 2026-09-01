@@ -125,7 +125,7 @@ If you're a B.Com student staring at a coding bootcamp wondering if it's worth i
 
 ---
 
-*Shubham Bhati is a Backend Engineer at AlignBits LLC, working on iPaaS platform integrations with Java, Spring Boot, and AWS. Based in Gurgaon, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
+*Shubham Bhati is a Backend Engineer at MobilePe Fintech, working on UPI and payment platform integrations with Java, Spring Boot, and AWS. Based in Noida, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
 
 ---
 

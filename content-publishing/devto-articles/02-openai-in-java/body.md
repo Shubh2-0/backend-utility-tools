@@ -184,7 +184,7 @@ If you've shipped any other third-party integration, you know this pattern. Don'
 
 ---
 
-*Shubham Bhati is a Backend Engineer at AlignBits LLC building Java + Spring Boot integration pipelines with OpenAI in production. Based in Gurgaon, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
+*Shubham Bhati is a Backend Engineer at MobilePe Fintech building Java + Spring Boot integration pipelines in production. Based in Noida, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
 
 ---
 

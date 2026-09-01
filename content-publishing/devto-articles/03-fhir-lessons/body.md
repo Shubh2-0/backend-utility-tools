@@ -168,7 +168,7 @@ It's also why I now work on integration platforms at AlignBits — the patterns 
 
 ---
 
-*Shubham Bhati is a Backend Engineer at AlignBits LLC. Previously Associate Software Engineer at IHX Private Limited working on FHIR-standard healthcare backend systems. Based in Gurgaon, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
+*Shubham Bhati is a Backend Engineer at MobilePe Fintech. Based in Noida, India. [Portfolio](https://shubh2-0.github.io) · [GitHub](https://github.com/Shubh2-0) · [LinkedIn](https://linkedin.com/in/bhatishubham)*
 
 ---
 

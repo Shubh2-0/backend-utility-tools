@@ -87,7 +87,7 @@ def call_groq(api_key: str, prompt: str) -> str:
 def tip_prompt(topic: str) -> str:
     return f"""Write a short, punchy LinkedIn-style technical post (180-280 words) about: {topic}
 
-Voice: Shubham Bhati — Backend Engineer at AlignBits LLC, 3+ years experience, based in Gurgaon. Java 17/21, Spring Boot, MySQL, AWS, AI integration.
+Voice: Shubham Bhati — Backend Engineer at MobilePe Fintech, 3+ years experience, based in Noida, India. Java 17/21, Spring Boot, MySQL, AWS, AI integration.
 
 Rules:
 - Strong hook on the FIRST line

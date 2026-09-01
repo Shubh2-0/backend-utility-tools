@@ -141,11 +141,11 @@ footer a{{color:#667eea;text-decoration:none;margin:0 .5rem}}
 </article>
 <aside style="background:#fff;padding:1.4rem 1.6rem;margin:2rem 0;border-radius:12px;border-left:4px solid #667eea;box-shadow:0 2px 8px rgba(0,0,0,.04)">
   <h3 style="font-size:1.05rem;color:#1a1a2e;margin-bottom:.6rem;font-weight:700">About the Author</h3>
-  <p style="color:#444;margin-bottom:.6rem;font-size:.96rem"><strong><a href="{site_url}/about.html" style="color:#667eea;text-decoration:none">Shubham Bhati</a></strong> is a Backend Engineer at AlignBits LLC, based in Gurgaon, India. He has 3+ years of experience building production-grade Java &amp; Spring Boot microservices for healthcare and AI-powered backends.</p>
+  <p style="color:#444;margin-bottom:.6rem;font-size:.96rem"><strong><a href="{site_url}/about.html" style="color:#667eea;text-decoration:none">Shubham Bhati</a></strong> is a Backend Engineer at MobilePe Fintech, based in Noida, India. He has 3+ years of experience building production-grade Java &amp; Spring Boot microservices for healthcare and AI-powered backends.</p>
   <p style="color:#555;font-size:.92rem">See his <a href="{site_url}/experience.html" style="color:#667eea">work experience</a>, <a href="{site_url}/skills.html" style="color:#667eea">full tech stack</a>, or <a href="https://github.com/Shubh2-0" style="color:#667eea">GitHub</a>.</p>
 </aside>
 <footer>
-  <p>Written by <strong>Shubham Bhati</strong> · Java &amp; Spring Boot Backend Engineer · Gurgaon, India</p>
+  <p>Written by <strong>Shubham Bhati</strong> · Java &amp; Spring Boot Backend Engineer · Noida, India</p>
   <p><a href="{site_url}/">Portfolio</a> · <a href="{site_url}/about.html">About</a> · <a href="{site_url}/experience.html">Experience</a> · <a href="{site_url}/skills.html">Skills</a> · <a href="https://github.com/Shubh2-0">GitHub</a> · <a href="https://linkedin.com/in/bhatishubham">LinkedIn</a></p>
 </footer>
 </div>
@@ -212,7 +212,7 @@ footer a{{color:#667eea;text-decoration:none;margin:0 .5rem}}
 </header>
 {posts_html}
 <footer>
-  <p>Written by <strong>Shubham Bhati</strong> · Java &amp; Spring Boot Backend Engineer · Gurgaon, India</p>
+  <p>Written by <strong>Shubham Bhati</strong> · Java &amp; Spring Boot Backend Engineer · Noida, India</p>
   <p><a href="{site_url}/">Portfolio</a> · <a href="{site_url}/about.html">About</a> · <a href="{site_url}/experience.html">Experience</a> · <a href="{site_url}/skills.html">Skills</a> · <a href="{site_url}/blog/rss.xml">RSS</a> · <a href="https://github.com/Shubh2-0">GitHub</a> · <a href="https://linkedin.com/in/bhatishubham">LinkedIn</a></p>
 </footer>
 </div>
