@@ -1,1 +1,2 @@
 Telemetry pipeline architecture optimization step 1
+Telemetry pipeline architecture optimization step 2
