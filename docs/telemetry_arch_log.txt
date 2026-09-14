@@ -19,3 +19,4 @@ Telemetry pipeline architecture optimization step 18
 Telemetry pipeline architecture optimization step 19
 Telemetry pipeline architecture optimization step 20
 Telemetry pipeline architecture optimization step 21
+Telemetry pipeline architecture optimization step 22
